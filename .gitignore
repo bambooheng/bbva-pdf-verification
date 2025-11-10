@@ -1,0 +1,54 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 配置文件（包含敏感信息）
+config/settings.env
+
+# 日志文件
+logs/*.log
+
+# 输出文件
+outputs/*.json
+outputs/*.md
+
+# 输入文件（用户提供）
+inputs/bank_statement.json
+inputs/audit_rules.xlsx
+
+# OS
+.DS_Store
+Thumbs.db
+
+
