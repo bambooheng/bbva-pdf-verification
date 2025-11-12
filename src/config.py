@@ -28,7 +28,7 @@ class Config:
     AUTHORPIC_API_KEY: Optional[str] = os.getenv("AUTHORPIC_API_KEY")
 
     # LLM Provider
-    LLM_PROVIDER: str = os.getenv("LLM_PROVIDER", "openai").lower()
+    LLM_PROVIDER: str = os.getenv("LLM_PROVIDER", "deepseek").lower()
 
     # 文件路径
     INPUT_JSON_PATH: str = os.getenv("INPUT_JSON_PATH", "inputs/bank_statement.json")
@@ -46,6 +46,7 @@ class Config:
     DEEPSEEK_MODEL: str = os.getenv("DEEPSEEK_MODEL", "deepseek-chat")
     AUTHORPIC_MODEL: str = os.getenv("AUTHORPIC_MODEL", "authorpic-model")
     MAX_RETRIES: int = int(os.getenv("MAX_RETRIES", "3"))
+    MAX_PARSE_RETRIES: int = int(os.getenv("MAX_PARSE_RETRIES", "1"))
     REQUEST_TIMEOUT: int = int(os.getenv("REQUEST_TIMEOUT", "60"))
     FAST_FAILOVER: bool = os.getenv("FAST_FAILOVER", "true").lower() == "true"
     FAILOVER_COOLDOWN_SECONDS: int = int(os.getenv("FAILOVER_COOLDOWN_SECONDS", "900"))

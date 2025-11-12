@@ -143,11 +143,11 @@ Excel 文件，字段说明如下：
 
 | 字段名 |	说明   |
 |-------- |------|
-| Rule ID |	规则唯一标识符（如 MSTAR_RULE_BBVA_001）   |
-| Rule Name |	规则名称（如“交易笔数校验_入账笔数”）   |
-| Condition Logic |	判断逻辑（如1.取Comportamiento中Depósitos / Abonos (+)所在行的第一个数为笔数；2.Detalle de Movimientos Realizados部分：交易明细ABONOS列取值不为空的交易总笔数；）   |
+| Rule ID |	规则唯一标识符（如 MSTAR_BBVA_DTL_CNT_ABONOS）   |
+| Rule Name |	规则名称（如“明细交易笔数校验_入账笔数”）   |
+| Condition Logic |	判断逻辑（如1.1、取 Comportamiento 中 Depósitos / Abonos (+) 的笔数；2.Detalle de Movimientos Realizados部分：取交易明细 ABONOS 列的所有交易笔数计数求和）   |
 | 校验规则 |	比较1和2是否相等   |
-| 决策结果 |  如果相等，输出一致；如果不相等，输出不一致；   |
+| 决策结果 |  如果相等，输出一致（无异常）；如果不相等，输出不一致（异常）   |
 
 ## 输出要求
 
@@ -156,17 +156,17 @@ Excel 文件，字段说明如下：
 |-------- |------|
 | Rule ID |	规则ID   |
 | Rule Name |	规则名称|
-| hit	| 是否命中：true / false / null（无法判断）
+| hit	| 是否命中：如果相等，输出"无异常";如果不等，输出"异常";其他输出"无法判断"
 | evidence	| 判断依据（引用具体交易或说明原因）
 | confidence	| 置信度：high / medium / low
 | notes	| 补充说明（可选）
 
 ### 示例输出片段（JSON）
 {
-  "rule_id": "MSTAR_RULE_BBVA_001",
-  "rule_name": "交易笔数校验_入账笔数",
-  "hit": true,
-  "evidence": "1金额为5000，2金额为10000，不相等",
+  "rule_id": "MSTAR_BBVA_DTL_CNT_ABONOS）",
+  "rule_name": "明细交易笔数校验_入账笔数",
+  "hit": 无异常,
+  "evidence": "1.Comportamiento 中 Depósitos / Abonos (+) 的笔数为5；2.交易明细 ABONOS 列不为空的为5;二者相等",
   "confidence": "high"
 }
 

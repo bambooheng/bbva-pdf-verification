@@ -23,6 +23,7 @@ class LLMJudge:
         self.timeout = Config.REQUEST_TIMEOUT
         self.fast_failover = Config.FAST_FAILOVER
         self.failover_cooldown = Config.FAILOVER_COOLDOWN_SECONDS
+        self.max_parse_retries = Config.MAX_PARSE_RETRIES
         self.failed_providers: Dict[str, float] = {}
         
         if not self.api_key:
@@ -211,20 +212,33 @@ class LLMJudge:
                         continue
                     logger.info(f"切换到备用 Provider: {provider}, Model: {self.model}")
                 
-                # 根据 provider 选择对应的 API
-                if provider == "openai":
-                    response_text = self._call_openai(prompt)
-                elif provider == "deepseek":
-                    response_text = self._call_deepseek(prompt)
-                elif provider == "authorpic":
-                    response_text = self._call_authorpic(prompt)
-                else:
-                    raise ValueError(f"不支持的 LLM Provider: {provider}")
-                
-                logger.debug(f"LLM 原始响应: {response_text[:200]}...")
-                
-                # 尝试解析 JSON 响应
-                result = self._parse_response(response_text)
+                parse_attempts = 0
+                while True:
+                    # 根据 provider 选择对应的 API
+                    if provider == "openai":
+                        response_text = self._call_openai(prompt)
+                    elif provider == "deepseek":
+                        response_text = self._call_deepseek(prompt)
+                    elif provider == "authorpic":
+                        response_text = self._call_authorpic(prompt)
+                    else:
+                        raise ValueError(f"不支持的 LLM Provider: {provider}")
+                    
+                    logger.debug(f"LLM 原始响应: {response_text[:200]}...")
+                    
+                    try:
+                        # 尝试解析 JSON 响应
+                        result = self._parse_response(response_text)
+                    except ValueError as parse_err:
+                        error_msg = str(parse_err)
+                        if "PARSE_ERROR" in error_msg and parse_attempts < self.max_parse_retries:
+                            parse_attempts += 1
+                            logger.warning(
+                                f"Provider {provider} 响应解析失败（尝试 {parse_attempts}/{self.max_parse_retries}），准备重新请求..."
+                            )
+                            continue
+                        raise
+                    break
                 
                 # 恢复原始 provider（如果使用了备用）
                 if provider != original_provider:
@@ -437,18 +451,8 @@ class LLMJudge:
         
         except json.JSONDecodeError as e:
             logger.error(f"JSON 解析失败: {e}, 响应文本: {response_text[:500]}")
-            return {
-                "hit": None,
-                "evidence": f"LLM 响应格式错误，无法解析 JSON: {str(e)}",
-                "confidence": "low",
-                "notes": f"原始响应: {response_text[:200]}"
-            }
+            raise ValueError(f"PARSE_ERROR: JSON decode failed: {e}")
         except Exception as e:
             logger.error(f"解析响应时发生错误: {e}")
-            return {
-                "hit": None,
-                "evidence": f"解析错误: {str(e)}",
-                "confidence": "low",
-                "notes": f"原始响应: {response_text[:200]}"
-            }
+            raise ValueError(f"PARSE_ERROR: {type(e).__name__}: {e}")
 

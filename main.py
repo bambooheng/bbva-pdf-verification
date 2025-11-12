@@ -2,11 +2,35 @@
 BBVA 银行流水审计系统 - 主入口
 """
 import sys
+import os
 import logging
 from pathlib import Path
 from src.config import Config
 from src.audit_engine import AuditEngine
 from src.report_generator import ReportGenerator
+
+# 确保控制台能够正确输出 UTF-8（尤其是 Windows 控制台中文）
+def configure_console_encoding():
+    if os.name != "nt":
+        return
+    os.environ.setdefault("PYTHONIOENCODING", "utf-8")
+    stdout_reconfig = getattr(sys.stdout, "reconfigure", None)
+    stderr_reconfig = getattr(sys.stderr, "reconfigure", None)
+    try:
+        if callable(stdout_reconfig):
+            sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        if callable(stderr_reconfig):
+            sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+        if not callable(stdout_reconfig) or not callable(stderr_reconfig):
+            import codecs  # noqa: WPS433
+            if not callable(stdout_reconfig) and hasattr(sys.stdout, "buffer"):
+                sys.stdout = codecs.getwriter("utf-8")(sys.stdout.buffer, errors="replace")
+            if not callable(stderr_reconfig) and hasattr(sys.stderr, "buffer"):
+                sys.stderr = codecs.getwriter("utf-8")(sys.stderr.buffer, errors="replace")
+    except Exception:
+        # 若编码设置失败，不影响主流程
+        pass
+
 
 # 配置日志
 def setup_logging():
@@ -26,6 +50,7 @@ def setup_logging():
 
 def main():
     """主函数"""
+    configure_console_encoding()
     # 设置日志
     setup_logging()
     logger = logging.getLogger(__name__)

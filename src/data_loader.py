@@ -65,13 +65,14 @@ class DataLoader:
             FileNotFoundError: 文件不存在
             json.JSONDecodeError: JSON 格式错误
         """
-        if not self.json_path.exists():
-            raise FileNotFoundError(f"银行流水文件不存在: {self.json_path}")
+        json_path = self._resolve_json_path()
+        if not json_path.exists():
+            raise FileNotFoundError(f"银行流水文件不存在: {json_path}")
         
-        logger.info(f"正在加载银行流水: {self.json_path}")
+        logger.info(f"正在加载银行流水: {json_path}")
         
         try:
-            with open(self.json_path, 'r', encoding='utf-8') as f:
+            with open(json_path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
             
             logger.info(f"成功加载银行流水，账户号: {data.get('metadata', {}).get('account_number', 'N/A')}")
@@ -214,6 +215,11 @@ class DataLoader:
                     text_parts.append("=== Detalle de Movimientos Realizados（结构化明细，已按原始顺序列出） ===")
                     text_parts.append(formatted_detalle)
                     text_parts.append("")
+                
+                if enforce_detalle_only:
+                    subset_sections = self._build_detalle_subsets(rule_id, detalle_transactions)
+                    if subset_sections:
+                        text_parts.extend(subset_sections)
         
         # 提取 pages 中的文本
         pages = data.get('pages', [])
@@ -258,7 +264,7 @@ class DataLoader:
                             continue
                     page_texts.append(cleaned_text)
             
-            if page_texts:
+            if page_texts and not enforce_detalle_only:
                 text_parts.append(f"=== 页面 {page_num} ===")
                 text_parts.append("\n".join(page_texts))
                 text_parts.append("")
@@ -272,6 +278,70 @@ class DataLoader:
         
         return "\n".join(text_parts)
     
+    def _resolve_json_path(self) -> Path:
+        """
+        根据配置路径解析实际使用的 JSON 文件。
+        支持以下几种配置形式：
+        - 指定具体文件（若存在则直接使用）
+        - 指定目录（自动选取该目录中最新的 .json 文件）
+        - 使用通配符（如 inputs/*.json，自动选取匹配到的最新文件）
+        - 指定的具体文件不存在时，会在同目录中自动选取最新的 .json 文件
+        """
+        path_str = str(self.json_path)
+        has_wildcard = any(ch in path_str for ch in ["*", "?", "["])
+        
+        # 处理通配符
+        if has_wildcard:
+            pattern_path = Path(path_str)
+            base_dir = pattern_path.parent if pattern_path.parent.as_posix() not in ("", ".") else Path(".")
+            matches = sorted(
+                base_dir.glob(pattern_path.name),
+                key=lambda p: p.stat().st_mtime,
+                reverse=True
+            )
+            if matches:
+                selected = matches[0]
+                logger.info(f"使用通配符匹配到最新的 JSON 文件: {selected}")
+                self.json_path = selected
+                return selected
+            logger.error(f"通配符 {path_str} 未匹配到任何 JSON 文件")
+            return self.json_path
+        
+        # 若路径存在且为文件，直接使用
+        if self.json_path.exists() and self.json_path.is_file():
+            return self.json_path
+        
+        # 若路径是目录，则在目录中查找最新文件
+        if self.json_path.exists() and self.json_path.is_dir():
+            candidate_dir = self.json_path
+        else:
+            candidate_dir = self.json_path.parent
+        
+        if not candidate_dir.exists():
+            logger.error(f"银行流水目录不存在: {candidate_dir}")
+            return self.json_path
+        
+        json_files = sorted(
+            candidate_dir.glob("*.json"),
+            key=lambda p: p.stat().st_mtime,
+            reverse=True
+        )
+        
+        if not json_files:
+            logger.error(f"未在目录 {candidate_dir} 中找到任何 JSON 文件")
+            return self.json_path
+        
+        latest = json_files[0]
+        if not self.json_path.exists() or not self.json_path.is_file():
+            logger.warning(
+                "配置的银行流水文件不可用，自动切换到最新的 JSON 文件: %s",
+                latest.name
+            )
+        else:
+            logger.info(f"使用目录中最新的 JSON 文件: {latest.name}")
+        self.json_path = latest
+        return latest
+
     def extract_detalle_transactions(self, data: Dict[str, Any]) -> List[Dict[str, Any]]:
         """
         提取“Detalle de Movimientos Realizados”中的交易明细，保持原始顺序
@@ -340,11 +410,13 @@ class DataLoader:
                     if stop_y is not None and ly >= stop_y:
                         continue
                     
-                    lx = line['bbox'][0]
+                    x0, _, x1, _ = line['bbox']
+                    center_x = (x0 + x1) / 2 if x1 is not None else x0
                     line_entries.append({
                         "page": page.get('page_number'),
                         "y": ly,
-                        "x": lx,
+                        "x": x0,
+                        "x_center": center_x,
                         "text": text
                     })
             
@@ -356,6 +428,8 @@ class DataLoader:
             for entry in line_entries:
                 text = entry['text']
                 x = entry['x']
+                
+                x_center = entry.get("x_center")
                 
                 if self._is_detalle_row_start(text, x):
                     if orphan_lines and transactions:
@@ -387,7 +461,7 @@ class DataLoader:
                 if self._is_detalle_liq_date(text, x) and current_txn.get("liq") is None:
                     current_txn["liq"] = text
                 elif self._is_amount(text):
-                    column = self._categorize_numeric_column(x, column_ranges)
+                    column = self._categorize_numeric_column(x, column_ranges, x_center)
                     if column == "cargo":
                         current_txn["cargo"] = text
                     elif column == "abono":
@@ -427,32 +501,85 @@ class DataLoader:
         lines: List[str] = [f"总笔数: {len(transactions)}"]
         
         for idx, txn in enumerate(transactions, 1):
-            parts = [
-                f"{idx}. 页面: {txn.get('page', 'N/A')}",
-                f"Oper: {txn.get('oper', 'N/A')}"
-            ]
+            base = f"{idx}. 页面:{txn.get('page', 'N/A')} | Oper:{txn.get('oper', 'N/A')}"
             if txn.get("liq"):
-                parts.append(f"Liq: {txn['liq']}")
+                base += f" | Liq:{txn['liq']}"
             if txn.get("description"):
-                parts.append(f"描述: {txn['description']}")
-            if txn.get("cargo"):
-                parts.append(f"Cargo: {txn['cargo']}")
-            if txn.get("abono"):
-                parts.append(f"Abono: {txn['abono']}")
-            if txn.get("operacion"):
-                parts.append(f"Operacion: {txn['operacion']}")
-            if txn.get("saldo"):
-                parts.append(f"Saldo: {txn['saldo']}")
+                base += f" | 描述:{txn['description']}"
+            cargo = txn.get("cargo") or "无"
+            abono = txn.get("abono") or "无"
+            operacion = txn.get("operacion") or "无"
+            saldo = txn.get("saldo") or "无"
+            base += f" | Cargo:{cargo} | Abono:{abono} | Operacion:{operacion} | Saldo:{saldo}"
+            referencias = [ref.strip() for ref in txn.get("referencias", []) if ref.strip()]
+            if referencias:
+                base += f" | Referencia:{'; '.join(referencias)}"
+            lines.append(base)
             
-            lines.append(" | ".join(parts))
-            
-            for referencia in txn.get("referencias", []):
-                lines.append(f"   {referencia.strip()}")
-            
-            for extra in txn.get("extras", []):
-                if extra.strip():
-                    lines.append(f"   详情: {extra.strip()}")
-            
+        return "\n".join(lines)
+
+    @staticmethod
+    def _has_effective_amount(value: Optional[str]) -> bool:
+        if not value:
+            return False
+        cleaned = value.replace(",", "").replace(" ", "")
+        if cleaned in {"", "0", "0.0", "0.00"}:
+            return False
+        try:
+            numeric = float(cleaned)
+        except ValueError:
+            return True
+        return abs(numeric) > 0
+
+    def _build_detalle_subsets(self, rule_id: str, transactions: List[Dict[str, Any]]) -> List[str]:
+        sections: List[str] = []
+        upper_rule = rule_id.upper()
+        needs_abono = "ABONO" in upper_rule
+        needs_cargo = "CARGO" in upper_rule
+
+        if needs_abono:
+            abono_entries = [
+                txn for txn in transactions
+                if self._has_effective_amount(txn.get("abono"))
+            ]
+            sections.append("=== Detalle 专用视图：ABONOS 列非空交易（已按原始顺序） ===")
+            if abono_entries:
+                sections.append(self._format_subset_transactions(abono_entries, focus_column="abono"))
+            else:
+                sections.append("无 ABONOS 列非空的交易记录")
+            sections.append("")
+
+        if needs_cargo:
+            cargo_entries = [
+                txn for txn in transactions
+                if self._has_effective_amount(txn.get("cargo"))
+            ]
+            sections.append("=== Detalle 专用视图：CARGOS 列非空交易（已按原始顺序） ===")
+            if cargo_entries:
+                sections.append(self._format_subset_transactions(cargo_entries, focus_column="cargo"))
+            else:
+                sections.append("无 CARGOS 列非空的交易记录")
+            sections.append("")
+
+        return sections
+
+    def _format_subset_transactions(self, transactions: List[Dict[str, Any]], focus_column: str) -> str:
+        total_label = "总笔数"
+        lines = [f"{total_label}: {len(transactions)}"]
+        for idx, txn in enumerate(transactions, 1):
+            # 保持原始顺序，突出重点列
+            oper = txn.get("oper") or "N/A"
+            description = txn.get("description") or "无描述"
+            amount = txn.get(focus_column) or "无"
+            page = txn.get("page", "N/A")
+            base = f"{idx}. 页面:{page} | Oper:{oper} | 描述:{description} | {focus_column.upper()}:{amount}"
+            saldo = txn.get("saldo")
+            if saldo:
+                base += f" | Saldo:{saldo}"
+            referencias = [ref.strip() for ref in txn.get("referencias", []) if ref.strip()]
+            if referencias:
+                base += f" | Referencia:{'; '.join(referencias)}"
+            lines.append(base)
         return "\n".join(lines)
     
     def _is_detalle_row_start(self, text: str, x: float) -> bool:
@@ -567,16 +694,20 @@ class DataLoader:
         
         return column_ranges
     
-    def _categorize_numeric_column(self, x: float, column_ranges: Dict[str, tuple]) -> Optional[str]:
+    def _categorize_numeric_column(self, x: float, column_ranges: Dict[str, tuple], x_center: Optional[float] = None) -> Optional[str]:
         """
         根据横坐标判断金额属于哪个列
         """
-        if x is None:
+        if x_center is not None:
+            x_value = x_center
+        else:
+            x_value = x
+        if x_value is None:
             return None
         
         matches = []
         for name, (start, end) in column_ranges.items():
-            if start <= x <= end:
+            if start <= x_value <= end:
                 matches.append(name)
         
         if matches:
@@ -587,7 +718,7 @@ class DataLoader:
             for name in matches:
                 start, end = column_ranges[name]
                 center = (start + end) / 2
-                distance = abs(x - center)
+                distance = abs(x_value - center)
                 if distance < min_distance:
                     min_distance = distance
                     nearest_column = name
@@ -598,7 +729,7 @@ class DataLoader:
         min_distance = float("inf")
         for name, (start, end) in column_ranges.items():
             center = (start + end) / 2
-            distance = abs(x - center)
+            distance = abs(x_value - center)
             if distance < min_distance:
                 min_distance = distance
                 nearest_column = name
