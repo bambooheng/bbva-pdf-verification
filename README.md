@@ -1,4 +1,4 @@
-# BBVA 银行流水审计系统
+# BBVA 银行流水审计系统 (BBVA Audit Engine)
 
 基于 Python 的自动化审计程序，接收已 OCR 解析并结构化的 BBVA 银行流水 JSON 数据，结合用户提供的 Excel 格式的"审计规则清单"，逐条执行合规性检查，并输出每条规则的审核结果及判断依据。
 
@@ -8,205 +8,83 @@
 - **详细部署文档**：查看 [DEPLOYMENT.md](DEPLOYMENT.md)（完整部署指南）
 - **项目说明**：本文档
 
-## 功能特性
+## ✨ 核心特性
 
-- ✅ **文件读取**：支持加载 JSON 流水和 Excel 审计规则
-- ✅ **规则解析**：将 Excel 中的规则转换为内部可执行对象
-- ✅ **智能判断**：调用大模型（DeepSeek / OpenAI / Authorpic）进行语义级匹配与推理
-- ✅ **全覆盖审计**：确保所有规则都被执行，不允许遗漏
-- ✅ **不确定处理**：若信息不足导致无法判断，返回 hit: null 并注明原因
-- ✅ **日志记录**：记录关键流程、LLM 请求/响应、异常信息
-- ✅ **错误处理**：对文件缺失、格式错误等情况有容错机制
-- ✅ **结果导出**：支持导出为 JSON 和 Markdown 报告
+- **🚀 零代码规则适配**：完全由 Excel 定义规则逻辑，支持 Rolling Balance、跨表数据比对、时间序列分析等复杂场景。
+- **🧠 智能 LLM 判决**：内置 DeepSeek / OpenAI / Authorpic 多模型支持，具备“最后匹配原则”智能修正机制，精准识别 LLM 的自然语言结论。
+- **🔍 深度数据挖掘**：
+    - **通用数据加载**：自动识别 JSON 中的任意 Section 数据，无需硬编码白名单。
+    - **高精度余额提取**：自动区分 `Saldo Operación` (账面余额) 与 `Saldo Liquidación` (起息日余额)，确保算术逻辑严谨。
+    - **严谨的 Rolling Balance**：针对滚动余额校验规则，强制执行“逐行计算、绝不省略”策略。
+- **🛡️ 健壮性设计**：
+    - **自动容错**：自动处理缺失字段、格式错误的日期/金额。
+    - **结果自修正**：自动检测 LLM 文本结论与 JSON 字段的不一致并进行修正。
+    - **全覆盖审计**：确保所有规则都被执行，不允许遗漏。
 
-## 项目结构
+## 📂 项目结构
 
 ```
 bbva-pdf-verification/
 │
-├── main.py                     # 主入口
+├── main.py                     # 🚀 启动入口
 ├── config/
-│   └── settings.env.example    # 配置文件示例
-├── src/
-│   ├── __init__.py
-│   ├── config.py               # 配置管理
-│   ├── data_loader.py          # 加载 JSON 和 Excel
-│   ├── rule_parser.py          # 解析审计规则
-│   ├── llm_judge.py            # 调用大模型判断是否命中
-│   ├── audit_engine.py         # 控制整体审计流程
-│   └── report_generator.py     # 生成最终报告
-├── inputs/
-│   ├── bank_statement.json     # 示例流水（需用户提供）
-│   └── audit_rules.xlsx        # 示例规则表（需用户提供）
-├── outputs/
-│   ├── audit_report.json       # JSON 格式报告
-│   └── audit_report.md         # Markdown 格式报告
-├── logs/
-│   └── app.log                 # 日志文件
-├── requirements.txt            # 依赖包
-└── README.md                   # 使用说明
+│   └── settings.env.example    # 配置文件模板
+├── src/                        # 🧠 核心源码
+│   ├── data_loader.py          # 通用数据加载 (支持任意 Section)
+│   ├── rule_parser.py          # 规则解析 & Prompt 构建 (含强制 Rolling Logic)
+│   ├── llm_judge.py            # LLM 判决引擎 (含自修正机制)
+│   ├── audit_engine.py         # 流程编排
+│   └── report_generator.py     # 报告生成 (Excel/JSON/Markdown)
+├── inputs/                     # 📥 输入目录
+│   ├── *.json                  # 银行流水数据 (支持通配符自动加载最新文件)
+│   └── *.xlsx                  # 审计规则表
+├── outputs/                    # 📤 输出目录
+│   └── *_audit_report.xlsx     # 最终 Excel 审计报告
+├── logs/                       # 📝 日志目录
+│   └── app.log                 # 详细运行日志
+└── requirements.txt            # 依赖清单
 ```
 
-## 安装步骤
+## 🛠️ 快速开始
 
-1. **克隆或下载项目**
-
-```bash
-cd bbva-pdf-verification
-```
-
-2. **安装依赖**
+### 1. 安装依赖
 
 ```bash
 pip install -r requirements.txt
 ```
 
-3. **配置环境变量**
+### 2. 配置环境
 
-复制配置文件模板并填入真实的 API Key：
+复制 `config/settings.env.example` 为 `config/settings.env`，并填入 API Key：
 
-```bash
-cp config/settings.env.example config/settings.env
+```ini
+LLM_PROVIDER=deepseek
+DEEPSEEK_API_KEY=sk-xxxxxxxx
+# 可选: INPUT_JSON_PATH=inputs/*.json (自动处理 inputs 目录下最新的 json)
 ```
 
-编辑 `config/settings.env`，填入以下信息：
-
-```env
-# API Keys
-OPENAI_API_KEY=sk-your-openai-key-here
-DEEPSEEK_API_KEY=ds-your-deepseek-key-here
-AUTHORPIC_API_KEY=ap-your-authorpic-key-here
-
-# LLM Provider 选择: openai, deepseek, authorpic
-LLM_PROVIDER=openai
-
-# 文件路径配置（根据需要修改）
-INPUT_JSON_PATH=inputs/bank_statement.json
-RULES_XLSX_PATH=inputs/audit_rules.xlsx
-OUTPUT_REPORT_PATH=outputs/audit_report.json
-OUTPUT_MARKDOWN_PATH=outputs/audit_report.md
-```
-
-## 使用方法
-
-1. **准备输入文件**
-
-   - 将银行流水 JSON 文件放置在 `inputs/bank_statement.json`
-   - 将审计规则 Excel 文件放置在 `inputs/audit_rules.xlsx`
-
-2. **Excel 规则表格式**
-
-   Excel 文件必须包含以下列：
-
-   | 字段名 | 说明 |
-   |--------|------|
-   | Rule ID | 规则唯一标识符（如 MSTAR_RULE_BBVA_001） |
-   | Rule Name | 规则名称（如"交易笔数校验_入账笔数"） |
-   | Condition Logic | 判断逻辑（详细的检查步骤说明） |
-   | 校验规则 | 比较规则（如"比较1和2是否相等"） |
-   | 决策结果 | 预期结果（如"如果相等，输出一致；如果不相等，输出不一致"） |
-
-3. **运行审计程序**
+### 3. 运行审计
 
 ```bash
 python main.py
 ```
 
-4. **查看结果**
+### 4. 查看报告
 
-   - JSON 报告：`outputs/audit_report.json`
-   - Markdown 报告：`outputs/audit_report.md`
-   - 日志文件：`logs/app.log`
+运行完成后，请在 `outputs/` 目录下查看生成的 Excel 报告。报告中详细记录了：
+- **Hit**: 是否违规 (True=违规/不一致, False=合规/一致)
+- **Evidence**: 详细的判断依据 (包含计算过程)
+- **Confidence**: 置信度
 
-## 输出格式
+## 🧩 关键逻辑说明
 
-每条规则的审计结果包含以下字段：
+### 1. Rolling Balance (滚动余额) 校验
+针对 `MSTAR_BBVA_DTL_AMT_SINGLE` 等规则，系统会自动识别 `Rolling` 或 `Balance` 关键词，并强制 Prompt 指令：**“严禁省略任何一行交易，必须展示每一步的计算结果”**。这杜绝了 LLM 偷懒只做首尾校验的问题。
 
-| 字段名 | 说明 | 示例值 |
-|--------|------|--------|
-| Rule ID | 规则ID | MSTAR_RULE_BBVA_001 |
-| Rule Name | 规则名称 | 交易笔数校验_入账笔数 |
-| hit | 是否命中 | true / false / null |
-| evidence | 判断依据 | "1金额为5000，2金额为10000，不相等" |
-| confidence | 置信度 | high / medium / low |
-| notes | 补充说明 | （可选） |
+### 2. Hit 状态智能修正
+系统采用**“最后匹配原则” (Last Match Wins)**。即使 LLM 输出的 JSON 字段有误，只要其文本 Evidence 中明确写了“输出：不一致”或“hit=true”，系统会自动将状态修正为 **True (违规)**，确保人工阅读结论与系统判定一致。
 
-### JSON 报告示例
-
-```json
-{
-  "metadata": {
-    "generated_at": "2024-01-01T12:00:00",
-    "total_rules": 10
-  },
-  "summary": {
-    "total_rules": 10,
-    "hit_count": 2,
-    "not_hit_count": 7,
-    "unknown_count": 1
-  },
-  "results": [
-    {
-      "rule_id": "MSTAR_RULE_BBVA_001",
-      "rule_name": "交易笔数校验_入账笔数",
-      "hit": true,
-      "evidence": "1金额为5000，2金额为10000，不相等",
-      "confidence": "high"
-    }
-  ]
-}
-```
-
-## 支持的 LLM 提供商
-
-- **OpenAI**: GPT-4 Turbo, GPT-3.5 Turbo 等
-- **DeepSeek**: DeepSeek Chat 模型
-- **Authorpic**: 自定义模型（需根据实际 API 文档调整）
-
-## 设计原则
-
-- **模块化**：各功能独立封装，便于维护与测试
-- **可配置化**：路径、模型、参数均可外部配置
-- **可追溯性**：保留 LLM 的 prompt 与 response 快照，用于审计回溯
-- **扩展性强**：未来可接入其他银行、国际反洗钱标准（如 FATF）
-- **零猜测原则**：绝不凭空推断结果，信息不足必须标记为"无法判断"
-
-## 注意事项
-
-- ⚠️ **所有判断必须提供明确证据**
-- ⚠️ **不允许跳过任何一条规则**
-- ⚠️ **若某条规则因数据缺失无法评估，必须标注原因**
-- ⚠️ **确保 API Key 安全，不要将 settings.env 提交到版本控制系统**
-
-## 故障排除
-
-### 问题：API Key 未配置
-
-**解决方案**：检查 `config/settings.env` 文件是否存在，并确保 API Key 已正确填写。
-
-### 问题：文件未找到
-
-**解决方案**：检查 `inputs/` 目录下是否存在 `bank_statement.json` 和 `audit_rules.xlsx` 文件。
-
-### 问题：Excel 格式错误
-
-**解决方案**：确保 Excel 文件包含所有必需的列：Rule ID, Rule Name, Condition Logic, 校验规则, 决策结果。
-
-### 问题：LLM API 调用失败
-
-**解决方案**：
-- 检查网络连接
-- 验证 API Key 是否有效
-- 查看 `logs/app.log` 获取详细错误信息
-- 系统会自动重试最多 3 次
-
-## 许可证
-
-本项目仅供内部使用。
-
-## 联系方式
-
-如有问题或建议，请联系开发团队。
-
+### 3. 通用数据加载
+不再限制 JSON 的 Section 类型。无论是 `account_summary`, `client_info` 还是未来新增的 `risk_analysis` 模块，都会直接进入 LLM 的上下文，彻底解决“Periodo 信息找不到”等问题。
 
 
