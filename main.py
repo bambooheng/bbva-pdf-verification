@@ -4,6 +4,7 @@ BBVA 银行流水审计系统 - 主入口
 import sys
 import os
 import logging
+import glob
 from pathlib import Path
 from src.config import Config
 from src.audit_engine import AuditEngine
@@ -96,12 +97,35 @@ def main():
         logger.info(f"审计完成: 共处理 {summary['total_rules']} 条规则")
         logger.info(f"命中: {summary['hit_count']}, 未命中: {summary['not_hit_count']}, 无法判断: {summary['unknown_count']}")
         
+        # 从输入 JSON 文件路径提取文件名前缀
+        input_json_path = Path(Config.INPUT_JSON_PATH)
+        # 处理通配符路径（如 inputs/*.json）
+        if '*' in str(input_json_path):
+            json_files = glob.glob(str(input_json_path))
+            if json_files:
+                input_json_path = Path(json_files[0])
+            else:
+                logger.warning(f"未找到匹配的 JSON 文件: {Config.INPUT_JSON_PATH}")
+                input_json_path = Path(Config.INPUT_JSON_PATH)
+        
+        # 获取文件名（不含扩展名）
+        input_filename = input_json_path.stem
+        # 去掉 _structured 后缀（如果存在）
+        if input_filename.endswith('_structured'):
+            input_filename = input_filename[:-11]  # 去掉 '_structured'
+        
+        # 构建输出文件路径
+        output_dir = Path(Config.OUTPUT_REPORT_PATH).parent
+        output_json_path = output_dir / f"{input_filename}_audit_report.json"
+        output_markdown_path = output_dir / f"{input_filename}_audit_report.md"
+        output_excel_path = output_dir / f"{input_filename}_audit_report.xlsx"
+        
         # 生成报告
         logger.info("正在生成报告...")
         report_generator = ReportGenerator(
-            output_json_path=Config.OUTPUT_REPORT_PATH,
-            output_markdown_path=Config.OUTPUT_MARKDOWN_PATH,
-            output_excel_path=Config.OUTPUT_EXCEL_PATH
+            output_json_path=str(output_json_path),
+            output_markdown_path=str(output_markdown_path),
+            output_excel_path=str(output_excel_path)
         )
         
         # 添加元数据

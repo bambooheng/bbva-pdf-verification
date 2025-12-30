@@ -1,0 +1,6 @@
+{
+  "hit": false,
+  "evidence": "**执行步骤说明**：\n\n**步骤 1**：从 'Comportamiento' 表格中提取 'Depósitos / Abonos (+)'（入账）对应的总金额。\n- 在数据中找到 'TOTAL IMPORTE ABONOS: 9,391.41'。\n- 提取数值：**9391.41**。\n\n**步骤 2**：遍历 'Detalle de Movimientos Realizados' 部分。\n- 遍历所有交易行。\n- 总共遍历了 10 行。\n\n**步骤 3**：[关键过滤] 累加所有 'Abonos' 列的数值。忽略 'Cargo' 列的数值。\n- 过滤条件描述：仅统计 'Abono' 列非空行（即值不为“无”的行）。\n  - 符合条件的交易明细如下（按原始顺序列出）：\n    1. 第5行：描述：PAGO DE NOMINA BRUDIFARMA SA DE CV | Abono: 4,707.70\n    2. 第10行：描述：PAGO DE NOMINA BRUDIFARMA SA DE CV | Abono: 4,683.71\n- 其他计算细节：将金额字符串转换为数字（移除千分位逗号）。\n\n**步骤 4**：确保金额格式转换正确（处理千分位逗号）。\n- 统计结果为：**4707.70 + 4683.71 = 9391.41**。\n\n**校验规则**：比较步骤1和步骤4的结果。\n- 数值1（来源 Comportamiento）：9391.41\n- 数值2（来源 Detalle 累加）：9391.41\n- 比较结果：**相等**。\n\n**决策结果**：根据比较结果的判定。\n- 输出：**一致**。\n\n**hit值判断**：\n- 一致 = hit=false，不一致 = hit=true。\n- 因此，**hit=false**。",
+  "confidence": "high",
+  "notes": "审计规则 MSTAR_BBVA_DTL_AMT_ABONOS 执行完毕。入账总金额与明细交易中Abonos列累加金额完全一致，无异常。"
+}

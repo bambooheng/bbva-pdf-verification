@@ -54,6 +54,14 @@ class Config:
     # 性能优化配置
     PARALLEL_PROCESSING: bool = os.getenv("PARALLEL_PROCESSING", "true").lower() == "true"
     MAX_WORKERS: int = int(os.getenv("MAX_WORKERS", "4"))
+    
+    # 缓存配置（用于确保结果一致性）
+    ENABLE_CACHE: bool = os.getenv("ENABLE_CACHE", "true").lower() == "true"
+    CACHE_DIR: str = os.getenv("CACHE_DIR", "cache")
+    LLM_TEMPERATURE: float = float(os.getenv("LLM_TEMPERATURE", "0.0"))  # 设置为0以提高确定性
+    
+    # Fallback配置（是否启用备用provider）
+    ENABLE_FALLBACK: bool = os.getenv("ENABLE_FALLBACK", "false").lower() == "true"  # 默认禁用fallback，只使用配置的provider
 
     @classmethod
     def get_api_key(cls) -> Optional[str]:

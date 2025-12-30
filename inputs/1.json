@@ -1,0 +1,681 @@
+{
+  "metadata": {
+    "filename": "1.pdf",
+    "source_file": "D:\\Mstar\\1.pdf",
+    "processed_at": "2025-12-29T12:27:55.267330",
+    "model_used": "gemini-api",
+    "total_pages": 7
+  },
+  "document_type": "bank_statement",
+  "page_metadata": [
+    {
+      "page": 2,
+      "No. de Cuenta": "2983184307",
+      "No. de Cliente": "J6931550",
+      "PAGINA": "2 / 7"
+    },
+    {
+      "page": 3,
+      "No. de Cuenta": "2983184307",
+      "No. de Cliente": "J6931550",
+      "PAGINA": "3 / 7"
+    },
+    {
+      "page": 3,
+      "No. de Cuenta": "2983184307",
+      "No. de Cliente": "J6931550",
+      "PAGINA": "4 / 7"
+    },
+    {
+      "page": 5,
+      "No. de Cuenta": "2998384307",
+      "No. de Cliente": "J60935560",
+      "PAGINA": "5 / 7"
+    },
+    {
+      "page": 6,
+      "PAGINA": "6 / 7",
+      "document_id": "D8BB7F39-A0CA-452A-8C84-267C47F3DA70"
+    },
+    {
+      "page": 7,
+      "No. de Cuenta": "2983184307",
+      "No. de Cliente": "J6931550",
+      "Pagina": "7 / 7"
+    }
+  ],
+  "content": {
+    "sections": [
+      {
+        "section_type": "header",
+        "data": {
+          "Bank": "BBVA",
+          "Document Name": "Estado de Cuenta",
+          "Product": "TARJETA NOMINA BASICA BBVA",
+          "Customer Name": "IVETTE GEORGINA AGUILAR MARTINEZ",
+          "Address": "IGLESIA 2 0 TIZAPAN SAN ANGEL ALVARO OBREGON MEXICO CP 01090 CIUDAD DE MEXICO"
+        }
+      },
+      {
+        "section_type": "account_summary",
+        "data": {
+          "Periodo": "DEL 01/04/2025 AL 30/04/2025",
+          "Fecha de Corte": "30/04/2025",
+          "No. de Cuenta": "2983184307",
+          "No. de Cliente": "J6931550",
+          "R.F.C": "AUMI8404239T5",
+          "No. Cuenta CLABE": "012 180 02983184307 9"
+        }
+      },
+      {
+        "section_type": "branch_info",
+        "data": {
+          "SUCURSAL:": "CDMX LAS AGUILAS",
+          "0283 DIRECCION:": "CALZ. DE LAS AGUILAS 1300 COL. PUENTE COLORADO MEX DF",
+          "PLAZA:": "ALVARO OBREGON",
+          "TELEFONO:": "(5)5567944"
+        }
+      },
+      {
+        "section_type": "summary",
+        "title": "Información Financiera MONEDA NACIONAL",
+        "data": {
+          "Saldo Promedio": "",
+          "Días del Periodo": "",
+          "Tasa Bruta Anual": "%",
+          "Saldo Promedio Gravable": "",
+          "Intereses a Favor (+)": "",
+          "ISR Retenido (-)": "",
+          "Saldo Anterior": "11,748.52",
+          "Depósitos / Abonos (+)": "2 9,391.41",
+          "Retiros / Cargos (-)": "8 13,473.00",
+          "Saldo Final": "7,666.93",
+          "Saldo Promedio Mínimo Mensual:": "0.00",
+          "Cheques pagados": "0",
+          "Manejo de Cuenta": "",
+          "Total Comisiones": "",
+          "Cargos Objetados": "0",
+          "Abonos Objetados": "0"
+        }
+      },
+      {
+        "section_type": "table_data",
+        "title": "Otros productos incluidos en el estado de cuenta (inversiones)",
+        "data": {
+          "Contrato": "N/A",
+          "Producto": "N/A",
+          "Tasa de Interes anual": "N/A",
+          "GAT Nominal ANTES DE IMPUESTOS": "N/A",
+          "GAT Real ANTES DE IMPUESTOS": "N/A",
+          "Total de comisiones": "N/A"
+        }
+      },
+      {
+        "section_type": "transactions",
+        "title": "Detalle de Movimientos Realizados",
+        "data": [
+          {
+            "OPER": "04/ABR",
+            "LIQ": "04/ABR",
+            "DESCRIPCIÓN": "RETIRO SIN TARJETA QR",
+            "REFERENCIA": "Referencia ******0118",
+            "CARGOS": "2,500.00",
+            "ABONOS": "",
+            "OPERACIÓN": "",
+            "LIQUIDACIÓN": ""
+          },
+          {
+            "OPER": "04/ABR",
+            "LIQ": "04/ABR",
+            "DESCRIPCIÓN": "SPEI ENVIADO INBURSA 0903250pago Abril 00005264980104795714",
+            "REFERENCIA": "Referencia 0093137139 036",
+            "CARGOS": "254.00",
+            "ABONOS": "",
+            "OPERACIÓN": "8,994.52",
+            "LIQUIDACIÓN": "8,994.52"
+          }
+        ]
+      },
+      {
+        "section_type": "footer",
+        "data": {
+          "Legal": "BBVA MEXICO, S.A., INSTITUCION DE BANCA MULTIPLE, GRUPO FINANCIERO BBVA MEXICO Av. Paseo de la Reforma 510, Col. Juárez, Alcaldía Cuauhtémoc; C.P. 06600, Ciudad de México, Mé"
+        }
+      },
+      {
+        "section_type": "header",
+        "data": {
+          "Bank": "BBVA",
+          "Identifier": "MBAN01002504070093137139",
+          "Name": "Georgina",
+          "Note": "La GAT Real es el rendimiento que obtendría después de descontar la inflación estimada",
+          "RFC": "xico R.F.C. BBA830831LJ2",
+          "Document Title": "Estado de Cuenta TARJETA NOMINA BASICA BBVA"
+        }
+      },
+      {
+        "section_type": "account_info",
+        "data": {
+          "No. de Cuenta": "2983184307",
+          "No. de Cliente": "J6931550"
+        }
+      },
+      {
+        "section_type": "transactions",
+        "data": [
+          {
+            "OPER": "05/ABR",
+            "LIQ": "07/ABR",
+            "DESCRIPCIÓN": "RETIRO SIN TARJETA",
+            "REFERENCIA": "Referencia ******0118",
+            "CARGOS": "1,000.00",
+            "ABONOS": "",
+            "OPERACIÓN": "7,994.52",
+            "LIQUIDACIÓN": "8,994.52"
+          },
+          {
+            "OPER": "07/ABR",
+            "LIQ": "07/ABR",
+            "DESCRIPCIÓN": "RECARGAS Y PAQUETES BMOV 07/ABR 13:31 AUT:362116",
+            "REFERENCIA": "Referencia ******8479",
+            "CARGOS": "230.00",
+            "ABONOS": "",
+            "OPERACIÓN": "7,764.52",
+            "LIQUIDACIÓN": "7,764.52"
+          },
+          {
+            "OPER": "14/ABR",
+            "LIQ": "14/ABR",
+            "DESCRIPCIÓN": "PAGO DE NOMINA BRUDIFARMA SA DE CV",
+            "REFERENCIA": "Referencia BC 4200590088",
+            "CARGOS": "",
+            "ABONOS": "4,707.70",
+            "OPERACIÓN": "12,472.22",
+            "LIQUIDACIÓN": "12,472.22"
+          },
+          {
+            "OPER": "15/ABR",
+            "LIQ": "15/ABR",
+            "DESCRIPCIÓN": "SPEI ENVIADO AZTECA 2203250medicamento 00004027660012594166 MBAN01002504150087989570 Karla Fernanda Diaz Ruiz",
+            "REFERENCIA": "Referencia 0087989570 127",
+            "CARGOS": "250.00",
+            "ABONOS": "",
+            "OPERACIÓN": "12,222.22",
+            "LIQUIDACIÓN": "12,222.22"
+          },
+          {
+            "OPER": "17/ABR",
+            "LIQ": "21/ABR",
+            "DESCRIPCIÓN": "RETIRO SIN TARJETA",
+            "REFERENCIA": "Referencia ******0118",
+            "CARGOS": "4,000.00",
+            "ABONOS": "",
+            "OPERACIÓN": "8,222.22",
+            "LIQUIDACIÓN": "12,222.22"
+          },
+          {
+            "OPER": "27/ABR",
+            "LIQ": "28/ABR",
+            "DESCRIPCIÓN": "SPEI ENVIADO HSBC 1204250complemento abril 00021180065553570167 MBAN01002504280086952757 ibi Aguilar",
+            "REFERENCIA": "Referencia 0086952757 021",
+            "CARGOS": "1,739.00",
+            "ABONOS": "",
+            "OPERACIÓN": "6,483.22",
+            "LIQUIDACIÓN": "8,222.22"
+          },
+          {
+            "OPER": "28/ABR",
+            "LIQ": "28/ABR",
+            "DESCRIPCIÓN": "RETIRO SIN TARJETA",
+            "REFERENCIA": "Referencia ******0118",
+            "CARGOS": "3,500.00",
+            "ABONOS": "",
+            "OPERACIÓN": "2,983.22",
+            "LIQUIDACIÓN": "2,983.22"
+          },
+          {
+            "OPER": "30/ABR",
+            "LIQ": "30/ABR",
+            "DESCRIPCIÓN": "PAGO DE NOMINA BRUDIFARMA SA DE CV",
+            "REFERENCIA": "Referencia BC 4200590088",
+            "CARGOS": "",
+            "ABONOS": "4,683.71",
+            "OPERACIÓN": "7,666.93",
+            "LIQUIDACIÓN": "7,666.93"
+          }
+        ]
+      },
+      {
+        "section_type": "summary",
+        "title": "Total de Movimientos",
+        "data": {
+          "TOTAL IMPORTE CARGOS": "13,473.00",
+          "TOTAL MOVIMIENTOS CARGOS": "8",
+          "TOTAL IMPORTE ABONOS": "9,391.41",
+          "TOTAL MOVIMIENTOS ABONOS": "2"
+        }
+      },
+      {
+        "section_type": "footer",
+        "data": {
+          "Address": "BBVA MEXICO, S.A., INSTITUCION DE BANCA MULTIPLE, GRUPO FINANCIERO BBVA MEXICO Av. Paseo de la Reforma 510, Col. Juárez, Alcaldía Cuauhtémoc; C.P. 06600, Ciudad de México, México, R.F.C. BBA830831LJ2"
+        }
+      },
+      {
+        "section_type": "header",
+        "data": {
+          "Bank": "BBVA",
+          "Document": "Estado de Cuenta",
+          "Product": "TARJETA NOMINA BASICA BBVA",
+          "PAGINA": "4 / 7",
+          "Notice": "Le informamos que puede consultar, en cualquier momento, el contrato correspondiente a esta cuenta en nuetra página de internet https://www.bbva.mx, en el apartado del producto contratado."
+        }
+      },
+      {
+        "section_type": "account_info",
+        "data": {
+          "No. de Cuenta": "2983184307",
+          "No. de Cliente": "J6931550"
+        }
+      },
+      {
+        "section_type": "summary",
+        "title": "Cuadro resumen y gráfico de movimientos del período",
+        "data": [
+          {
+            "Concepto": "Saldo Inicial",
+            "Cantidad": "11,748.52",
+            "Porcentaje": "87.20%",
+            "Columna": "A"
+          },
+          {
+            "Concepto": "Depósitos / Abonos (+)",
+            "Cantidad": "9,391.41",
+            "Porcentaje": "69.70%",
+            "Columna": "B"
+          },
+          {
+            "Concepto": "Comisiones (-)",
+            "Cantidad": "0.00",
+            "Porcentaje": "0.00%",
+            "Columna": "C"
+          },
+          {
+            "Concepto": "Intereses a favor (+)",
+            "Cantidad": "0.00",
+            "Porcentaje": "0.00%",
+            "Columna": "D"
+          },
+          {
+            "Concepto": "Retiros efectivo (-)",
+            "Cantidad": "0.00",
+            "Porcentaje": "0.00%",
+            "Columna": "E"
+          },
+          {
+            "Concepto": "Otros cargos (-)",
+            "Cantidad": "-13,473.00",
+            "Porcentaje": "-100.00%",
+            "Columna": "F"
+          },
+          {
+            "Concepto": "Saldo Final",
+            "Cantidad": "7,666.93",
+            "Porcentaje": "56.90%",
+            "Columna": "G"
+          }
+        ]
+      },
+      {
+        "section_type": "footer_notes",
+        "data": {
+          "Interpretación del gráfico de barras": "Eje Y: Porcentaje (100%, (+), (-)) - Columna A (Saldo Inicial): Barra positiva alta (87.20%) - Columna B (Depósitos / Abonos (+)): Barra positiva media-alta (69.70%) - Columna C (Comisiones (-)): Sin barra (0.00%) - Columna D (Intereses a favor (+)): Sin barra (0.00%) - Columna E (Retiros efectivo (-)): Sin barra (0.00%) - Columna F (Otros cargos (-)): Barra negativa máxima (-100.00%) - Columna G (Saldo Final): Barra positiva media (56.90%)",
+          "Nota": "En la columna \"porcentaje\" se señala con el 100% a la cantidad más alta, permitiéndole relacionarse porcentualmente con las demás.",
+          "Otros cargos": "Ver detalle de movimientos",
+          "Bank Info": "BBVA MEXICO, S.A., INSTITUCION DE BANCA MULTIPLE, GRUPO FINANCIERO BBVA MEXICO Av. Paseo de la Reforma 510, Col. Juárez, Alcaldía Cuauhtémoc; C.P. 06600, Ciudad de México, México, R.F.C. BBA830831LJ2"
+        }
+      },
+      {
+        "section_type": "header",
+        "title": "BBVA Estado de Cuenta",
+        "data": {
+          "Producto": "TARJETA NOMINA BASICA BBVA",
+          "PAGINA": "5 / 7",
+          "No. de Cuenta": "2998384307",
+          "No. de Cliente": "J60935560"
+        }
+      },
+      {
+        "section_type": "text_block",
+        "title": "Información de Transferencias",
+        "data": {
+          "Aviso": "Si desea recibir pagos a través de transferencias electrónicas de fondos interbancarias, deberá hacer del conocimiento de la persona que le enviará el o los pagos respectivos, el número de Cuenta que a continuación se indica: 012 180 02983184307 9 Clave Bancaria Estándar (CLABE), así como el nombre de este Banco."
+        }
+      },
+      {
+        "section_type": "table_data",
+        "title": "Glosario de Abreviaturas",
+        "data": [
+          {
+            "Abreviatura_1": "ADMON",
+            "Significado_1": "ADMINISTRACION",
+            "Abreviatura_2": "DEVU",
+            "Significado_2": "DEVUELTO",
+            "Abreviatura_3": "MDB",
+            "Significado_3": "MULTIDEPOSITO"
+          },
+          {
+            "Abreviatura_1": "ADIC",
+            "Significado_1": "ADICIONAL",
+            "Abreviatura_2": "DIF",
+            "Significado_2": "DIFERENCIA",
+            "Abreviatura_3": "N/A",
+            "Significado_3": "NO APLICA"
+          },
+          {
+            "Abreviatura_1": "ADMIN",
+            "Significado_1": "ADMINISTRACION",
+            "Abreviatura_2": "DIN",
+            "Significado_2": "DINERO",
+            "Abreviatura_3": "OPER",
+            "Significado_3": "OPERACION"
+          },
+          {
+            "Abreviatura_1": "ANT",
+            "Significado_1": "ANTERIOR",
+            "Abreviatura_2": "DISP",
+            "Significado_2": "DISPOSICION",
+            "Abreviatura_3": "OPS",
+            "Significado_3": "OPERACIONES"
+          },
+          {
+            "Abreviatura_1": "ANTIC",
+            "Significado_1": "ANTICIPADA",
+            "Abreviatura_2": "DLLS",
+            "Significado_2": "DOLARES",
+            "Abreviatura_3": "ORD",
+            "Significado_3": "ORDEN"
+          },
+          {
+            "Abreviatura_1": "ANUL",
+            "Significado_1": "ANULACION",
+            "Abreviatura_2": "DOC/DOCTO",
+            "Significado_2": "DOCUMENTO",
+            "Abreviatura_3": "P/ PAG",
+            "Significado_3": "PAGO"
+          },
+          {
+            "Abreviatura_1": "APORT",
+            "Significado_1": "APORTACION",
+            "Abreviatura_2": "EDO",
+            "Significado_2": "ESTADO",
+            "Abreviatura_3": "PAT",
+            "Significado_3": "PATRIMONIAL"
+          },
+          {
+            "Abreviatura_1": "AUT",
+            "Significado_1": "AUTOMATICO",
+            "Abreviatura_2": "ELECT",
+            "Significado_2": "ELECTRONICA EMISION",
+            "Abreviatura_3": "PENALIZ/PEN",
+            "Significado_3": "PENALIZACION"
+          },
+          {
+            "Abreviatura_1": "BCA",
+            "Significado_1": "BANCA",
+            "Abreviatura_2": "EMI",
+            "Significado_2": "EMPRESARIAL",
+            "Abreviatura_3": "PROM",
+            "Significado_3": "PROMEDIO"
+          },
+          {
+            "Abreviatura_1": "BCOS",
+            "Significado_1": "BANCOS",
+            "Abreviatura_2": "EMP",
+            "Significado_2": "EXTEMPORANEA",
+            "Abreviatura_3": "REDESC",
+            "Significado_3": "REDESCUENTO"
+          },
+          {
+            "Abreviatura_1": "BMOV",
+            "Significado_1": "BBVA MÉXICO",
+            "Abreviatura_2": "EXTEM",
+            "Significado_2": "EXTRANJERO",
+            "Abreviatura_3": "RFC",
+            "Significado_3": "REGISTRO FEDERAL DE"
+          },
+          {
+            "Abreviatura_1": "BONI",
+            "Significado_1": "BONIFICACION",
+            "Abreviatura_2": "EXT",
+            "Significado_2": "FALLECIMIENTO",
+            "Abreviatura_3": "",
+            "Significado_3": "CONTRIBUYENTES"
+          },
+          {
+            "Abreviatura_1": "BONIF",
+            "Significado_1": "BONIFICACION",
+            "Abreviatura_2": "FALLEC",
+            "Significado_2": "FALTANTE",
+            "Abreviatura_3": "REF.",
+            "Significado_3": "REFERENCIA"
+          },
+          {
+            "Abreviatura_1": "COD. CAJ",
+            "Significado_1": "CODIGO DE LEYENDA",
+            "Abreviatura_2": "FALT",
+            "Significado_2": "GANANCIA ANUAL TOTAL",
+            "Abreviatura_3": "REP",
+            "Significado_3": "REPOSICION"
+          },
+          {
+            "Abreviatura_1": "CANC",
+            "Significado_1": "CAJERO",
+            "Abreviatura_2": "GAT",
+            "Significado_2": "GARANTIA",
+            "Abreviatura_3": "RESP",
+            "Significado_3": "RESPONSABILIDAD"
+          },
+          {
+            "Abreviatura_1": "CGO",
+            "Significado_1": "CANCELACION",
+            "Abreviatura_2": "GAR/GTIA",
+            "Significado_2": "GRUPO",
+            "Abreviatura_3": "RET",
+            "Significado_3": "RETIRO"
+          },
+          {
+            "Abreviatura_1": "CW",
+            "Significado_1": "CARGO",
+            "Abreviatura_2": "GPO",
+            "Significado_2": "HONORARIOS",
+            "Abreviatura_3": "REV",
+            "Significado_3": "REVERSO"
+          },
+          {
+            "Abreviatura_1": "CH/CHQ",
+            "Significado_1": "CASH WINDOWS",
+            "Abreviatura_2": "HONOR",
+            "Significado_2": "IMPUESTO AL VALOR AGREGADO",
+            "Abreviatura_3": "ROB-EXT/ROB",
+            "Significado_3": "ROBO O EXTRAVIO"
+          }
+        ]
+      },
+      {
+        "section_type": "footer",
+        "data": {
+          "Entidad": "BBVA MEXICO, S.A., INSTITUCION DE BANCA MULTIPLE, GRUPO FINANCIERO BBVA MEXICO",
+          "Dirección": "Av. Paseo de la Reforma 510, Col. Juárez, Alcaldía Cuauhtémoc; C.P. 06600, Ciudad de México, México",
+          "R.F.C.": "BBA830831LJ2"
+        }
+      },
+      {
+        "section_type": "header",
+        "data": {
+          "Bank": "BBVA",
+          "Document_Title": "Estado de Cuenta",
+          "Product": "TARJETA NOMINA BASICA BBVA"
+        }
+      },
+      {
+        "section_type": "abbreviations_table",
+        "title": "Abreviaturas",
+        "data": [
+          {
+            "CI": "CHEQUE",
+            "IVA": "IMPUESTO SOBRE LA RENTA",
+            "SBC": "SALVO BUEN COBRO"
+          },
+          {
+            "COMER": "COBRO INMEDIATO",
+            "ISR": "INDEMNIZACION",
+            "SEG": "SEGURO"
+          },
+          {
+            "COM": "COMERCIO",
+            "INDEMN": "INFORMACION",
+            "SERV": "SERVICIO"
+          },
+          {
+            "CIE": "COMISION",
+            "INF": "INSPECCION",
+            "SDO": "SALDO"
+          },
+          {
+            "CONF CONS": "CONCENTRACION INMEDIATO EMPRESARIAL",
+            "INSP": "INTERESES",
+            "SOBR": "SOBREGIRO"
+          },
+          {
+            "CONV": "CONFIRMACION",
+            "INT": "INTERESES",
+            "SOC": "SOCIEDADES"
+          },
+          {
+            "CORREC": "CONSULTA",
+            "INTS": "INTERNACIONAL",
+            "TARJ": "TARJETA"
+          },
+          {
+            "CRED": "CONVENIO",
+            "INT/ INTNAL": "INVERSION",
+            "TDC": "TARJETA DE CREDITO"
+          },
+          {
+            "CTA": "CORRECCION",
+            "INV": "LIBRAMIENTO",
+            "TDE": "TARJETA DE DEBITO EMPRESARIAL"
+          },
+          {
+            "CED": "CREDITO",
+            "LIBRAMIE": "LIQUIDACION",
+            "TPV": "TERMINAL PUNTO DE VENTA"
+          },
+          {
+            "DCD": "CUENTA",
+            "LIQ": "MARCA PROPIA",
+            "TIB": "TESORERIA INTEGRAL BANCARIA"
+          },
+          {
+            "DEP": "CUENTA EN DOLARES DINAMICA DE CONVERSION DE DIVISAS DEPOSITO",
+            "MP": "MERCADO",
+            "TIT": "TITULAR"
+          },
+          {
+            "": "",
+            "MDO": "MINIMO",
+            "TRANS": "TRANSFERENCIA"
+          },
+          {
+            "": "",
+            "MIN": "MONEDA NACIONAL",
+            "TRASP": "TRASPASO"
+          },
+          {
+            "DESC/ DESCTO": "DESCUENTO",
+            "MN": "MOVIMIENTO",
+            "VTAS": "VENTAS"
+          },
+          {
+            "DEV/ DEVOL": "DEVOLUCION",
+            "MOV": "MOVIMIENTOS",
+            "TC": "TIPO DE CAMBIO"
+          },
+          {
+            "": "",
+            "MOVS": "MOVIMIENTOS"
+          },
+          {
+            "": "",
+            "MOVMTOS": ""
+          }
+        ]
+      },
+      {
+        "section_type": "environmental_notice",
+        "data": {
+          "text": "Cuida el medio ambiente consultando tu estado de cuenta en www.bbva.mx recuerda que el medio ambiente es responsabilidad de todos"
+        }
+      },
+      {
+        "section_type": "fiscal_data",
+        "data": {
+          "Nombre del Receptor": "IVETTE GEORGINA AGUILAR MARTINEZ",
+          "Código Postal de Domicilio Fiscal": "06600",
+          "Régimen Fiscal": "616 - Sin obligaciones fiscales",
+          "Uso de CFDI": "S01 - Sin efectos fiscales.",
+          "Exportación": "01 - No aplica"
+        }
+      },
+      {
+        "section_type": "digital_stamp_info",
+        "data": {
+          "Folio Fiscal": "D8BB7F39-A0CA-452A-8C84-267C47F3DA70",
+          "Certificado": "00001000000509478830",
+          "Sello Digital": "doSTJvfePuH5jSa9fMEvRivbJxn4LhDNJtfNZNHqcg9xkJTIRbGytJKStG8Dxz6Mdl/dnkwiHyvfRh/C5/+3yS9xDFB0qm2i2Zc 0RrLK8KaNyw7M26NCIAAeMZUyUhfQr//Fuk7TAKhXwu8n9+2/EydnK9VxwMXDpcn uPiPwV9RP9NoxjNmVBNLo9RtOzuf Y5qED+mxBzwAN8FallRtWrc7IkWtXaSE9aW0wyqe1CgxVM1Pje1pHkb60gut3MHEI8eypDna2Ysg5c9zmHJgAZwILThh1 AiFeWuKCfS8zNgvtoPfOysulcB47de6S9wBSFyy0QBEjWrNSBIGFFFiz2g=="
+        }
+      },
+      {
+        "section_type": "footer",
+        "data": {
+          "Entity": "BBVA MEXICO, S.A., INSTITUCION DE BANCA MULTIPLE, GRUPO FINANCIERO BBVA MEXICO",
+          "Address": "Av. Paseo de la Reforma 510, Col. Juárez, Alcaldía Cuauhtémoc; C.P. 06600, Ciudad de México, México",
+          "RFC": "BBA830831LJ2"
+        }
+      },
+      {
+        "section_type": "header",
+        "data": {
+          "Bank": "BBVA",
+          "Document_Title": "Estado de Cuenta TARJETA NOMINA BASICA BBVA PAGINA 7 / 7",
+          "No. de Cuenta": "2983184307",
+          "No. de Cliente": "J6931550"
+        }
+      },
+      {
+        "section_type": "digital_signature_data",
+        "data": {
+          "Sello_Digital": "UDxnso2BGq1PG1RgvefkmGvkbNtrP1um7X/p8XHGHBE/Z0gKVFkWov7xhiEffq9iGjlL6j9nJhIdL8TXvNRWyY+t8jBBlcn0uCl7eX9cUAuMn0AWwVInkv7Q3EZf7a8msQ9XNwY1nlvPYVF93WyaqGhi/HzDnuqFK3u94CM9UP1+JTkjTBGv/t1G8Psqp++YM45eTpiZrxAADwPaWaN30vO27NpItio2ot0sLZnrV3XDvohdKdPTDLIdS341SAWD1L3eHMV61BLELq8K1E1/iy5uTx+R0aGihygL6B5SLm+JKciarsRtnzSKv1ELvsMN0y+keMZn4LiHBcADS3MVag==",
+          "No. de Serie del Certificado del SAT": "00001000000710052019",
+          "Fecha y hora de certificación": "2025-05-02T16:55:17",
+          "Cadena_Original": "||1.1|D8BB7F39-A0CA-452A-8C84-267C47F3DA70|2025-05-02T16:55:17|doSTJvfePuH5jSa9fMEvRivbJxn4LhDNJtfNZNHqcg9xKJTIRbGytJKStG8Dxz6Mdl/dnkwiHyvfRh/C5/+3yS9xDFB0qm2i2Zc0RrLK8KaNyw7M26NCIAAeMZUyUhfQr//Fuk7TAKhXwu8n9+2/EydnK9VxwMXDpcn uPiPwV9RP9NoxjNmVBNLo9RtOzufY5qED+mxBzwAN8FallRtWrc7IkWtXaSE9aW0wyqe1CgxVM1Pje1pHkb60gut3MHEI8eypDna2Ysg5c9zmHJgAZwILThh1AiFeWuKCfS8zNgvtoPFoysulcB47de6S9wBSFyy0QBEjWrNSBIGFFFiz2g==|00001000000710052019||"
+        }
+      },
+      {
+        "section_type": "footer_legal",
+        "data": {
+          "CFDI_Note": "Este documento es una representación impresa de un CFDI.",
+          "QR_Code_Area": "☐B^^^B☐,W\\Of;>%)@5>58qr=Vk8ISIMS9r☐B^^^B☐ >12-/+31j1RM[_ekrkits2;;k *4P\"[V};{qI<+xS'W\"8FK%x#yHrzu,6.G[Zv ;4v☐S+d...U3TYe,sK}Xs☐#K$@VF][5S=_A+5?ck#☐XI? /KDh(VA2) f|S+M8U☐sW|Wm !/a)_Ru||Vf.v'ElXsZ '! +;\"9WvSR*U☐qhc_HSE-6m]NI8@Z;S,☐S0m ☐B^^^B☐ '-Fv7USkWaOuVy#/#(US}F6{_{V*\\",
+          "MrIEWD4VC(C6S9.": "MrIEWD4VC(C6S9.",
+          "Emitido en": "Emitido en",
+          "Fecha_Emision": "Ciudad de México, México a 02 de Mayo de 2025 a las 16:03:47",
+          "Aviso_Transferencias": "Estimado Cliente, le informamos que por Disposición Oficial a partir del 11 de enero de 2018, si realiza transferencias de fondos nacionales en moneda extranjera y transferencias de fondos internacionales, BBVA está obligado a compartir con otras Entidades Financieras la información correspondiente a esa operación con fines de consulta, por lo que si efectúa dichas operaciones se entenderá que otorga su consentimiento para ello.",
+          "Estimado cliente": "Ponemos a su disposición la última versión del Aviso de Privacidad en www.bbva.mx o en cualquiera de nuestras sucursales.",
+          "Régimen Fiscal": "Régimen General de la Ley Personas Morales",
+          "Emisor_Info": "BBVA MEXICO, S.A., INSTITUCION DE BANCA MULTIPLE, GRUPO FINANCIERO BBVA MEXICO Av. Paseo de la Reforma 510, Col. Juárez, Alcaldía Cuauhtémoc; C.P. 06600, Ciudad de México, México, R.F.C. BBA830831LJ2"
+        }
+      }
+    ]
+  }
+}

@@ -105,15 +105,42 @@ class RuleParser:
 """
         
         prompt_data_section = bank_statement_text
+        
+        # 构建详细的审核逻辑说明
+        condition_logic = rule.get('condition_logic', '').strip()
+        validation_rule = rule.get('validation_rule', '').strip()
+        decision_result = rule.get('decision_result', '').strip()
+        
+        # 强调必须严格按照审核逻辑执行
+        audit_logic_emphasis = ""
+        if condition_logic or validation_rule:
+            audit_logic_emphasis = f"""
+## ⚠️ 重要：必须严格按照以下审核逻辑执行
+
+**判断逻辑（必须严格执行）**：
+{condition_logic if condition_logic else "（未提供）"}
+
+**校验规则（必须严格执行）**：
+{validation_rule if validation_rule else "（未提供）"}
+
+**决策结果（必须严格执行）**：
+{decision_result if decision_result else "（未提供）"}
+
+**执行要求**：
+- 必须严格按照上述"判断逻辑"中的步骤执行，不得跳过任何步骤
+- 必须严格按照"校验规则"进行比较和判断
+- 必须严格按照"决策结果"的逻辑输出结果
+- 如果上述逻辑中有明确的步骤说明，必须逐条执行，不得自行简化或修改
+"""
+        
         prompt = f"""你是一个严格遵守审计规范的银行审计系统，必须准确、可追溯、零猜测地完成任务。
 
 ## 审计规则
 
 规则ID: {rule['rule_id']}
 规则名称: {rule['rule_name']}
-判断逻辑: {rule['condition_logic']}
-校验规则: {rule['validation_rule']}
-预期决策结果: {rule['decision_result']}
+
+{audit_logic_emphasis}
 
 {hit_logic_explanation}
 
@@ -124,16 +151,22 @@ class RuleParser:
 
 ## 必须完成的任务
 
-1. 仅依赖上述数据核对 Comportamiento 与 Detalle de Movimientos Realizados 的相关数值和交易。
-2. 若为笔数校验：逐条列出所有 ABONOS/CARGOS 列不为空的交易，顺序必须与原文一致。
-3. 若为金额校验：逐条列出所有相关交易金额，并展示完整求和过程。
-4. “列不为空”指任意非零、非空数值（包括 0.01 等小额），不得遗漏。
-5. 写清楚数值1（来自 Comportamiento）与数值2（来自 Detalle），说明比较结果，并依据决策规则推导输出。
-6. 输出“一致”→ hit=False；输出“不一致”→ hit=True；若数据不足→ hit=null，并在 evidence 说明原因。
-7. evidence 必须包含：数据来源、逐笔明细（按原始顺序）、计算过程、比较结论以及 hit 判定理由。
-8. 禁止调整顺序或猜测；如信息缺失影响判断，必须写明并返回 hit=null。
+1. **严格按照"判断逻辑"执行**：必须按照上述"判断逻辑"中的步骤逐条执行，不得跳过或修改任何步骤。
+2. **严格按照"校验规则"执行**：必须按照上述"校验规则"进行比较和判断，不得自行简化。
+3. **严格按照"决策结果"执行**：必须按照上述"决策结果"的逻辑输出结果。
+4. 仅依赖上述数据核对 Comportamiento 与 Detalle de Movimientos Realizados 的相关数值和交易。
+5. 若为笔数校验：逐条列出所有 ABONOS/CARGOS 列不为空的交易，顺序必须与原文一致。
+6. 若为金额校验：逐条列出所有相关交易金额，并展示完整求和过程。
+7. "列不为空"指任意非零、非空数值（包括 0.01 等小额），不得遗漏。
+8. 写清楚数值1（来自 Comportamiento）与数值2（来自 Detalle），说明比较结果，并依据决策规则推导输出。
+9. 输出"一致"→ hit=False；输出"不一致"→ hit=True；若数据不足→ hit=null，并在 evidence 说明原因。
+10. evidence 必须包含：数据来源、逐笔明细（按原始顺序）、计算过程、比较结论以及 hit 判定理由。
+11. 禁止调整顺序或猜测；如信息缺失影响判断，必须写明并返回 hit=null。
+12. **在evidence中必须明确说明：你是如何按照"判断逻辑"和"校验规则"执行的，每一步的执行结果是什么。**
 
-## 输出格式（只允许以下 JSON）
+## 输出格式（⚠️ 严格要求：只允许以下 JSON 格式）
+
+**你必须严格按照以下格式输出，不要添加任何其他内容：**
 
 {{
   "hit": true/false/null,
@@ -142,20 +175,102 @@ class RuleParser:
   "notes": "..."
 }}
 
-要求：
-- 不能输出 JSON 以外的任何内容（无说明、无 Markdown、无 ```）。
-- evidence 可使用 \n 换行，但禁止 Markdown/HTML 列表。
-- 如果 evidence 表示“相等/一致/合规”，则 hit 必须为 false；表示“不相等/不一致/违规”，则 hit 必须为 true。
-- 若证据不足，请返回 hit=null，并在 evidence 中写明原因。
+**⚠️ 重要要求（必须严格遵守）：**
+1. **只能输出JSON格式**：不能输出任何JSON以外的内容（无说明、无Markdown、无代码块标记、无```json```、无```等）。
+2. **直接输出JSON对象**：直接输出 `{{"hit": ..., "evidence": ..., "confidence": ..., "notes": ...}}`，不要用代码块包裹。
+3. **不要添加任何前缀或后缀**：不要在JSON前后添加任何文字说明、解释或标记。
+4. **evidence字段**：可使用 `\\n` 表示换行，但禁止使用Markdown/HTML列表格式。
+5. **hit值逻辑**：如果evidence表示"相等/一致/合规"，则hit必须为false；表示"不相等/不一致/违规"，则hit必须为true。
+6. **数据不足处理**：若证据不足，请返回hit=null，并在evidence中写明原因。
+
+**错误示例（禁止）：**
+```
+根据分析，结果如下：
+```json
+{{"hit": true, ...}}
+```
+```
+
+**正确示例（必须）：**
+```
+{{"hit": true, "evidence": "...", "confidence": "high", "notes": ""}}
+```
 
 ## 输出前自检
 
+- 是否严格按照"判断逻辑"中的步骤执行？
+- 是否严格按照"校验规则"进行比较和判断？
+- 是否严格按照"决策结果"的逻辑输出结果？
 - 是否列出全部相关交易且顺序与原文一致？
 - 是否展示所有计算步骤与比较结果？
 - hit 是否与 evidence 描述完全一致？
 - 若无法判断，是否给出 hit=null 并说明原因？
+- **是否在evidence中明确说明了如何按照"判断逻辑"和"校验规则"执行的？**
 
 请现在开始分析并输出 JSON："""
         
+        # 检查是否为简单的金额汇总规则（允许省略）
+        is_iterative_rule = any(kw in condition_logic for kw in ["Saldo Anterior", "Balance", "余额", "Rolling", "迭代", "逐行", "Balance_1"])
+        
+        evidence_template_list_instruction = ""
+        if is_iterative_rule:
+             evidence_template_list_instruction = "     - 符合条件的交易明细如下（**必须按原始顺序逐条列出，严禁省略任何一行，否则视为违规**）："
+        else:
+             evidence_template_list_instruction = "     - 符合条件的交易明细如下（按原始顺序列出，通过 ... 省略过长列表）："
+
+        # 补充：强制中文输出和详细步骤的要求
+        prompt += f"""
+        
+## ⚠️ 特别指令（优先级最高）
+
+1. **强制中文输出**：JSON中的 `evidence` 和 `notes` 字段内容必须完全使用**简体中文**撰写。
+4. **强制对 evidence 字段使用以下格式模板（严格遵守）**：
+   `evidence` 字段的字符串内容必须严格遵循以下 Markdown 结构（注意换行符 usage）：
+
+   **执行步骤说明**：
+
+   **步骤 1**：[动作描述，如：从 'Comportamiento' 表格中提取...]
+   - [细节1，如：在数据中找到 'TOTAL...']
+   - 提取数值：**[数值]**。
+
+   **步骤 2**：[动作描述，如：遍历 'Detalle...' 所有交易行]
+   - [细节1]
+   - [细节2，如：总共遍历了 73 行]
+
+   **步骤 3**：[关键过滤/核心计算逻辑]
+   - [过滤条件描述，如：仅统计 'Abono' 列非空行]
+{evidence_template_list_instruction}
+     1. 第X行：描述：[DESC] | [Column]: [Value] | [如果有余额计算，必须显示结果]
+     2. ...
+   - [其他计算细节]
+
+   **步骤 4**：[最终统计/计算结果]
+   - 统计结果为：**[数值]**。
+
+   **校验规则**：比较步骤1和步骤2（或步骤4）的结果。
+   - 数值1（来源A）：[Value]
+   - 数值2（来源B）：[Value]
+   - 比较结果：**[相等/不相等]**（允许 0.05 误差）。
+
+   **决策结果**：[根据比较结果的判定]
+   - 输出：**[一致/不一致]**。
+
+   **hit值判断**：
+   - 一致 = hit=false，不一致 = hit=true。
+   - 因此，**hit=[true/false]**。
+
+5. **置信度判断标准（High Confidence Override）**：
+   - 如果你成功完成了所有迭代计算，且最终差异（Result）非常接近 0.00。
+   - **你必须将 confidence 设为 "high"**。
+   - 不要因为步骤繁琐或交易量大而降低置信度。只有在数据缺失导致无法计算时才使用 "low"。
+"""
+        # 如果是迭代规则，额外追加禁止简化的警告
+        if is_iterative_rule:
+            prompt += """
+6. **严禁简化计算过程**：
+   - 对于涉及 Rolling Balance / 逐行余额计算的规则，**绝对禁止**使用"总和相减"的简化方法。
+   - 必须展示每一步的 Balance 变化（或至少列出所有参与计算的交易）。
+   - 如果省略了中间行，将被视为 Zero Confidence。
+"""
         return prompt
 

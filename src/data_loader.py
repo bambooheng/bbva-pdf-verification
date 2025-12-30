@@ -76,6 +76,21 @@ class DataLoader:
                 data = json.load(f)
             
             logger.info(f"成功加载银行流水，账户号: {data.get('metadata', {}).get('account_number', 'N/A')}")
+            
+            # 自动修复结构：如果 pages 嵌套在 document 下，将其移动到顶层
+            if 'pages' not in data and 'document' in data and 'pages' in data['document']:
+                logger.info("检测到嵌套的 JSON 结构 (document -> pages)，正在将 pages 移动到顶层...")
+                data['pages'] = data['document']['pages']
+                
+                # 同时尝试提取 document 级的 metadata 合并到顶层 metadata
+                if 'metadata' not in data:
+                    data['metadata'] = {}
+                
+                # 保留其他 potential keys in document
+                for k, v in data['document'].items():
+                   if k != 'pages' and k not in data:
+                       data[k] = v
+            
             return data
         
         except json.JSONDecodeError as e:
@@ -165,11 +180,20 @@ class DataLoader:
         Returns:
             是否有效
         """
-        required_keys = ['metadata', 'pages']
+        required_keys = ['metadata']
         if not all(key in data for key in required_keys):
-            logger.error(f"银行流水数据结构不完整，缺少: {set(required_keys) - set(data.keys())}")
-            return False
+             logger.error(f"银行流水数据结构不完整，缺少: {set(required_keys) - set(data.keys())}")
+             return False
         
+        # 兼容性检查：支持顶层 pages，或嵌套 document -> pages，或 content
+        has_pages = 'pages' in data
+        has_doc_pages = 'document' in data and 'pages' in data['document']
+        has_content = 'content' in data
+        
+        if not (has_pages or has_doc_pages or has_content):
+            logger.error("银行流水数据结构不完整，必须包含 'pages' (root or within document) 或 'content' 字段")
+            return False
+
         logger.info("银行流水数据结构验证通过")
         return True
     
@@ -186,25 +210,70 @@ class DataLoader:
         """
         if rule is None:
             # 如果没有提供规则，返回全部内容
+            # 优先尝试从结构化 content 重建文本上下文
+            if 'pages' not in data and 'content' in data:
+                return self._reconstruct_text_from_content(data)
             return self.get_all_text_content(data)
         
         text_parts = []
         
+        # 尝试从结构化数据重建基础上下文（如果缺少 pages）
+        if 'pages' not in data and 'content' in data:
+             # 如果是结构化数据，我们构建一个代替的全文档上下文
+             # 注意：由于缺少 layout 坐标，这里无法精确按 Y 坐标排序，
+             # 但结构化数据通常已经是逻辑顺序。
+             reconstructed_text = self._reconstruct_text_from_content(data, rule)
+             if reconstructed_text:
+                 return reconstructed_text
+             # 如果重建失败（虽然不太可能），后续逻辑会因为 missing pages 而提取不到内容，
+             # 但 metadata 至少会保留。
+
         # 提取 metadata
         metadata = data.get('metadata', {})
         text_parts.append(f"账户号: {metadata.get('account_number', 'N/A')}")
         text_parts.append(f"总页数: {metadata.get('total_pages', 'N/A')}")
         text_parts.append("")
+
+        # [新增] 即使有 pages，也尝试从 structure content 中提取 account_details (Header info like Periodo)
+        if 'content' in data and 'sections' in data['content']:
+            for section in data['content']['sections']:
+                 if section.get('section_type') == 'account_details':
+                     section_data = section.get('data', {})
+                     if section_data:
+                         text_parts.append("=== Account Details (Periodo Info) ===")
+                         for k, v in section_data.items():
+                             text_parts.append(f"{k}: {v}")
+                         text_parts.append("")
+        
+        # [新增] 尝试从 page_metadata 中提取 Periodo (如果 content 中没有)
+        if 'page_metadata' in data:
+            periodo_found = False
+            for pm in data['page_metadata']:
+                if 'Periodo' in pm:
+                    text_parts.append(f"Periodo (from page {pm.get('page')}): {pm['Periodo']}")
+                    periodo_found = True
+            if periodo_found:
+                 text_parts.append("")
         
         # 根据规则类型提取相关数据
         rule_id = (rule.get('rule_id') or '').strip().upper()
         rule_name = rule.get('rule_name', '').lower()
         condition_logic = rule.get('condition_logic', '').lower()
+        validation_rule = rule.get('validation_rule', '').lower()
         
         # 判断需要提取哪些部分
         need_comportamiento = 'comportamiento' in condition_logic or 'depósitos' in condition_logic or 'abonos' in condition_logic or 'retiros' in condition_logic or 'cargos' in condition_logic
         need_detalle = 'detalle' in condition_logic or 'movimientos' in condition_logic or 'abonos' in condition_logic or 'cargos' in condition_logic
         enforce_detalle_only = rule_id in self.DETALLE_STRICT_RULE_IDS
+        
+        # 判断是否需要页面1和页面2的完整内容（用于提取Periodo等信息）
+        need_page1_page2 = (
+            'periodo' in condition_logic or 'periodo' in validation_rule or
+            '页面1' in condition_logic or '页面2' in condition_logic or
+            'page 1' in condition_logic or 'page 2' in condition_logic or
+            '日期区间' in condition_logic or '日期区间' in validation_rule or
+            '日期一致性' in rule_name or '交易日期校验' in rule_name
+        )
         
         # 如果需要 Detalle 数据，先提取结构化的交易明细，确保为后续规则提供原始顺序的明细列表
         if need_detalle:
@@ -221,11 +290,62 @@ class DataLoader:
                     if subset_sections:
                         text_parts.extend(subset_sections)
         
+        # 如果需要页面1和页面2的完整内容，先提取这些页面
+        if need_page1_page2:
+            pages = data.get('pages', [])
+            for page in pages:
+                page_num = page.get('page_number')
+                if page_num in [1, 2]:
+                    layout_elements = page.get('layout_elements', [])
+                    text_parts.append(f"=== 页面 {page_num} 完整内容（包含layout_elements的raw_text和content） ===")
+                    
+                    # 按照 bbox 的 y 坐标排序
+                    def get_y_position(element):
+                        bbox = element.get('bbox', {})
+                        if isinstance(bbox, dict):
+                            return bbox.get('y', 0)
+                        return 0
+                    
+                    sorted_elements = sorted(layout_elements, key=lambda e: (get_y_position(e), id(e)))
+                    
+                    for idx, element in enumerate(sorted_elements, 1):
+                        element_info = []
+                        
+                        # 提取raw_text
+                        raw_text = element.get('raw_text', '')
+                        if raw_text and raw_text.strip():
+                            element_info.append(f"raw_text: {raw_text.strip()}")
+                        
+                        # 提取content字段（如果存在）
+                        content = element.get('content', {})
+                        if content:
+                            if isinstance(content, dict):
+                                # 格式化content字典
+                                content_str = ", ".join([f"{k}: {v}" for k, v in content.items() if v is not None])
+                                if content_str:
+                                    element_info.append(f"content: {{{content_str}}}")
+                            elif isinstance(content, str):
+                                element_info.append(f"content: {content}")
+                        
+                        # 提取type字段
+                        element_type = element.get('type', '')
+                        if element_type:
+                            element_info.append(f"type: {element_type}")
+                        
+                        if element_info:
+                            text_parts.append(f"元素 {idx}: {' | '.join(element_info)}")
+                    
+                    text_parts.append("")
+        
         # 提取 pages 中的文本
         pages = data.get('pages', [])
         for page in pages:
             page_num = page.get('page_number', 'N/A')
             layout_elements = page.get('layout_elements', [])
+            
+            # 如果需要页面1和页面2的完整内容，已经提取过了，跳过
+            if need_page1_page2 and page_num in [1, 2]:
+                continue
             
             # ⚠️ 关键：按照 bbox 的 y 坐标排序，确保按照原始文档的行顺序（从上到下）
             # 这样可以保持原始文档中交易的出现顺序
@@ -236,7 +356,8 @@ class DataLoader:
                 return 0
             
             # 按照 y 坐标从上到下排序（y 值越小，位置越靠上）
-            sorted_elements = sorted(layout_elements, key=get_y_position)
+            # 使用稳定的排序算法，确保相同y坐标的元素保持原始顺序
+            sorted_elements = sorted(layout_elements, key=lambda e: (get_y_position(e), id(e)))
             
             page_texts = []
             for element in sorted_elements:
@@ -353,6 +474,45 @@ class DataLoader:
             交易明细列表
         """
         transactions: List[Dict[str, Any]] = []
+        
+        # 优先尝试从结构化 content 中提取
+        if 'content' in data and 'sections' in data['content']:
+            for section in data['content']['sections']:
+                if section.get('section_type') == 'transactions':
+                    # 兼容 data 或 table_data 字段
+                    section_data = section.get('data') or section.get('table_data') or []
+                    if isinstance(section_data, list):
+                        for item in section_data:
+                            # 映射结构化字段到标准字段
+                            txn = {
+                                "page": "N/A", # 结构化数据通常没有明确页码，或需从上下文获取
+                                "oper": item.get("OPER"),
+                                "liq": item.get("LIQ"),
+                                "description": item.get("DESCRIPCIÓN"),
+                                "cargo": item.get("CARGOS"),
+                                "abono": item.get("ABONOS"),
+                                "operacion": item.get("OPERACIÓN"),
+                                # 提取所有原始余额字段，不做合并，由LLM自行判断
+                                "saldo_operacion": item.get("SALDO OPERACIÓN") or item.get("OPERACIÓN"),
+                                "saldo_liquidacion": item.get("SALDO LIQUIDACIÓN") or item.get("LIQUIDACIÓN"),
+                                "referencias": [item.get("REFERENCIA")] if item.get("REFERENCIA") else [],
+                                "extras": []
+                            }
+                            # 清理空值
+                            for k, v in txn.items():
+                                if v == "":
+                                    txn[k] = None
+                            
+                            # 处理特殊格式
+                            if txn['cargo']: txn['cargo'] = str(txn['cargo'])
+                            if txn['abono']: txn['abono'] = str(txn['abono'])
+                            
+                            transactions.append(txn)
+            
+            # 如果从 structure 中提取到了数据，直接返回
+            if transactions:
+                 return transactions
+
         pages = data.get('pages', [])
         
         detalle_active = False
@@ -420,7 +580,8 @@ class DataLoader:
                         "text": text
                     })
             
-            line_entries.sort(key=lambda entry: (entry['y'], entry['x']))
+            # 使用稳定的排序，确保相同坐标的元素保持原始顺序
+            line_entries.sort(key=lambda entry: (entry['y'], entry['x'], id(entry)))
             
             current_txn: Optional[Dict[str, Any]] = None
             orphan_lines: List[str] = []
@@ -488,7 +649,8 @@ class DataLoader:
                 detalle_active = False
                 column_ranges = {}
         
-        transactions.sort(key=lambda txn: (txn.get("page", 0) or 0, txn.get("y", 0) or 0))
+        # 使用稳定的排序，确保相同坐标的交易保持原始顺序
+        transactions.sort(key=lambda txn: (txn.get("page", 0) or 0, txn.get("y", 0) or 0, id(txn)))
         return transactions
     
     def format_detalle_transactions(self, transactions: List[Dict[str, Any]]) -> str:
@@ -509,8 +671,26 @@ class DataLoader:
             cargo = txn.get("cargo") or "无"
             abono = txn.get("abono") or "无"
             operacion = txn.get("operacion") or "无"
-            saldo = txn.get("saldo") or "无"
-            base += f" | Cargo:{cargo} | Abono:{abono} | Operacion:{operacion} | Saldo:{saldo}"
+            
+            # 显示所有余额字段
+            saldo_op = txn.get("saldo_operacion")
+            saldo_liq = txn.get("saldo_liquidacion")
+            
+            tail = f" | Cargo:{cargo} | Abono:{abono} | Operacion:{operacion}"
+            
+            if saldo_op:
+                tail += f" | Saldo Operación:{saldo_op}"
+            if saldo_liq:
+                tail += f" | Saldo Liquidación:{saldo_liq}"
+            
+            # 兼容旧逻辑：如果都没有，尝试读取 'saldo'
+            if not saldo_op and not saldo_liq:
+                 old_saldo = txn.get("saldo")
+                 if old_saldo:
+                     tail += f" | Saldo:{old_saldo}"
+            
+            base += tail
+            
             referencias = [ref.strip() for ref in txn.get("referencias", []) if ref.strip()]
             if referencias:
                 base += f" | Referencia:{'; '.join(referencias)}"
@@ -573,9 +753,20 @@ class DataLoader:
             amount = txn.get(focus_column) or "无"
             page = txn.get("page", "N/A")
             base = f"{idx}. 页面:{page} | Oper:{oper} | 描述:{description} | {focus_column.upper()}:{amount}"
-            saldo = txn.get("saldo")
-            if saldo:
-                base += f" | Saldo:{saldo}"
+            base = f"{idx}. 页面:{page} | Oper:{oper} | 描述:{description} | {focus_column.upper()}:{amount}"
+            
+            # 显示所有可用的余额字段，不做合并
+            saldo_op = txn.get("saldo_operacion")
+            saldo_liq = txn.get("saldo_liquidacion")
+            
+            if saldo_op:
+                base += f" | Saldo Operación:{saldo_op}"
+            if saldo_liq:
+                base += f" | Saldo Liquidación:{saldo_liq}"
+            
+            # 兼容旧代码或OCR提取的单一 saldo
+            if not saldo_op and not saldo_liq and txn.get("saldo"):
+                base += f" | Saldo:{txn.get('saldo')}"
             referencias = [ref.strip() for ref in txn.get("referencias", []) if ref.strip()]
             if referencias:
                 base += f" | Referencia:{'; '.join(referencias)}"
@@ -642,6 +833,87 @@ class DataLoader:
         
         return has_header, header_y, column_ranges
     
+    def _reconstruct_text_from_content(self, data: Dict[str, Any], rule: Dict[str, Any] = None) -> str:
+        """
+        从结构化 content 中重建文本上下文
+        """
+        text_parts = []
+        
+        # 提取 metadata
+        metadata = data.get('metadata', {})
+        text_parts.append(f"账户号: {metadata.get('account_number', 'N/A')}")
+        text_parts.append(f"总页数: {metadata.get('total_pages', 'N/A')}")
+        text_parts.append("")
+        
+        content = data.get('content', {})
+        sections = content.get('sections', [])
+        
+        # 标记是否已包含交易明细，避免对于多段 transaction 结构重复插入完整的聚合列表
+        transactions_included = False
+        
+        for section in sections:
+            section_type = section.get('section_type')
+            section_data = section.get('data')
+            
+            # 部分 section (如 table_data 类型的交易) 可能没有 data 只有 table_data，
+            # 但 extract_detalle_transactions 会统一处理，这里我们主要用 section_type 判断是否是交易占位符
+            
+            if section_type == 'transactions':
+                # 只有当规则需要 Detalle 时才包含交易明细，或者没有指定规则时
+                need_detalle = True
+                if rule:
+                    condition_logic = rule.get('condition_logic', '').lower()
+                    need_detalle = 'detalle' in condition_logic or 'movimientos' in condition_logic or 'abonos' in condition_logic or 'cargos' in condition_logic
+                
+                if need_detalle and not transactions_included:
+                    # 复用 extract_detalle_transactions 的逻辑（它已经适配了结构化数据）
+                    txns = self.extract_detalle_transactions(data)
+                    formatted = self.format_detalle_transactions(txns)
+                    if formatted:
+                        # 使用首个 transaction section 的标题，或默认为 Detalle de Movimientos
+                        title = section.get('title', 'Detalle de Movimientos')
+                        text_parts.append(f"=== {title} ===")
+                        text_parts.append(formatted)
+                        text_parts.append("")
+                    transactions_included = True
+            
+            else:
+                # 通用处理所有非 transaction 的 section，避免硬编码白名单导致新类型数据丢失
+                # (如: account_summary, client_info 等)
+                if not section_type:
+                    continue
+                # 包含其他重要信息
+                title = section.get('title', section_type.capitalize())
+                # 明确标记 Summary 为 Comportamiento，帮助 LLM 识别
+                if section_type == 'summary' and 'Comportamiento' not in title:
+                    title = f"{title} (Comportamiento)"
+                elif section_type == 'account_details':
+                    title = "Account Details (Periodo Info)"
+                
+                text_parts.append(f"=== {title} ===")
+                if isinstance(section_data, dict):
+                    for k, v in section_data.items():
+                        # 规范化 Key 名称 (去除 (+) (-) 等后缀，如 "Saldo Final (+)" -> "Saldo Final")
+                        clean_k = k.split("(")[0].strip()
+                        
+                        # 简单的过滤：如果是复杂的嵌套字典（如 summary 中的其他产品），展开或简化
+                        if isinstance(v, dict):
+                            v_str = ", ".join([f"{sub_k}: {sub_v}" for sub_k, sub_v in v.items()])
+                            text_parts.append(f"{clean_k}: {v_str}")
+                        else:
+                            text_parts.append(f"{clean_k}: {v}")
+                elif isinstance(section_data, list):
+                    # 处理列表类型的数据 (如 investments)
+                    for item in section_data:
+                        if isinstance(item, dict):
+                            item_str = ", ".join([f"{k}: {v}" for k, v in item.items()])
+                            text_parts.append(f"- {item_str}")
+                        else:
+                            text_parts.append(f"- {str(item)}")
+                text_parts.append("")
+        
+        return "\n".join(text_parts)
+
     def _compute_detalle_column_ranges(self, layout_elements: List[Dict[str, Any]]) -> Dict[str, tuple]:
         """
         基于表头自动推断 CARGO / ABONO / OPERACION / LIQUIDACION 列的横向范围
@@ -768,7 +1040,8 @@ class DataLoader:
                 return 0
             
             # 按照 y 坐标从上到下排序（y 值越小，位置越靠上）
-            sorted_elements = sorted(layout_elements, key=get_y_position)
+            # 使用稳定的排序算法，确保相同y坐标的元素保持原始顺序
+            sorted_elements = sorted(layout_elements, key=lambda e: (get_y_position(e), id(e)))
             
             page_texts = []
             for element in sorted_elements:

@@ -290,6 +290,9 @@ class ReportGenerator:
                 
                 # 判断依据
                 evidence = result.get('evidence', '')
+                if evidence:
+                    # 修复：将字面量 '\n' 转换为实际换行符，确保 Excel 内换行正确
+                    evidence = evidence.replace('\\n', '\n')
                 ws.cell(row=row, column=5).value = evidence
                 ws.cell(row=row, column=5).border = border
                 ws.cell(row=row, column=5).alignment = left_alignment
@@ -310,7 +313,7 @@ class ReportGenerator:
             ws.column_dimensions['E'].width = 60  # 判断依据
             ws.column_dimensions['F'].width = 40  # 补充说明
             
-            # 设置行高
+            # 设置行高 (使用默认固定高度)
             for r in range(1, row):
                 ws.row_dimensions[r].height = 20
             
