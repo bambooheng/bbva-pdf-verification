@@ -1,6 +1,0 @@
-{
-  "hit": false,
-  "evidence": "规则ID: MSTAR_BBVA_DTL_ANAL_ABN_REM\n规则名称: 交易明细分析_异常备注\n\n执行步骤（严格按照判断逻辑）：\n步骤1：获取解析后Detalle de Movimientos Realizados部分的description对应的所有的值。\n执行结果：已从提供的20笔交易明细中提取所有‘描述’字段的值，共20个。\n\n校验规则（严格按照校验规则）：\n判断DESCRIPCION对应的所有的值是否包含以下任意关键词：Apuesta，médico / médic，juego。\n执行过程：\n1. 逐条检查20笔交易的描述字段。\n2. 未发现任何描述包含关键词“Apuesta”。\n3. 未发现任何描述包含关键词“médico”或“médic”。\n4. 未发现任何描述包含关键词“juego”。\n\n决策结果（严格按照决策结果）：\n命中任意一个关键词，输出异常；全部都没命中，输出正常。\n执行结果：所有20条描述均未命中指定的任意一个关键词。\n\n结论：根据规则逻辑，未发现异常备注。\n判定理由：所有交易描述均不包含规则指定的关键词（Apuesta, médico / médic, juego），因此规则未命中（hit=false）。",
-  "confidence": "high",
-  "notes": "已完整检查所有20笔交易的描述字段，未发现违规关键词。"
-}

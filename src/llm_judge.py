@@ -335,6 +335,18 @@ class LLMJudge:
         Returns:
             判断结果字典，包含 hit, evidence, confidence, notes
         """
+        # --- DEBUG INSTRUMENTATION ---
+        # try:
+        #     with open("prompt_debug.txt", "a", encoding="utf-8") as f:
+        #         f.write("\n" + "="*80 + "\n")
+        #         f.write(f"TIMESTAMP: {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}\n")
+        #         f.write("PROMPT START\n")
+        #         f.write(prompt)
+        #         f.write("\nPROMPT END\n")
+        # except Exception as e:
+        #     logger.warning(f"Failed to write prompt debug log: {e}")
+        # -----------------------------
+
         # 只使用 DeepSeek provider
         provider = "deepseek"
         

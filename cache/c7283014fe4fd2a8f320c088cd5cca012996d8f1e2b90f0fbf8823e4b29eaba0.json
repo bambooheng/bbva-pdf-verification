@@ -1,6 +1,0 @@
-{
-  "hit": true,
-  "evidence": "规则ID: MSTAR_BBVA_DTL_AMT_SINGLE\n规则名称: 明细交易金额校验_单笔金额\n\n执行步骤与结果：\n\nStep 1: 保持交易列表的原始顺序。已按提供的34笔交易原始顺序处理。\n\nStep 2: 确定初始锚点(Balance_1)。\n- 检查第一行交易（索引1）：有 'Operacion' 值 160868.01。\n- 因此，初始锚点 Balance_1 = 160868.01。计算起点从下一行（索引2）开始。\n\nStep 3 & 4: 寻找下一个锚点(Balance_2)并进行区间核算。\n\n轮次1:\n- Balance_1 = 160868.01 (来自索引1的Operacion)。\n- 向下遍历，找到下一个有 'Operacion' 或 'SALDO OPERACIÓN' 的行：索引4，Operacion = 134586.73。此为 Balance_2。\n- 区间：索引2到索引4（含）。\n- 累加 Cargos: 索引2 (16182.0) + 索引3 (1373.54) = 17555.54\n- 累加 Abonos: 无。\n- 计算: result = Balance_1 - Sum(Cargos) + Sum(Abonos) - Balance_2 = 160868.01 - 17555.54 + 0 - 134586.73 = 8725.74\n- 结果: result = 8725.74 (不为0)。\n\n由于在第一个轮次就发现 result 不为 0，根据校验规则（任意一个轮次中result值不为0，输出不一致），判定为不一致。\n\n为提供完整证据，列出导致第一个轮次异常的具体交易明细：\n1. 索引2: Cargo: 16182.0\n2. 索引3: Cargo: 1373.54\n区间内Cargos总和: 17555.54\n\n计算过程：\n160868.01 (Balance_1) - 17555.54 (Sum(Cargos)) = 143312.47\n143312.47 - 134586.73 (Balance_2) = 8725.74 (result)\n\n结论：\n根据判断逻辑，在第一个核算区间（从索引1的Operacion到索引4的Operacion）内，计算出的result值不为0（=8725.74）。\n根据校验规则，只要任意一个轮次的result值不为0，即判定为不一致。\n因此，规则被命中（hit=true）。",
-  "confidence": "high",
-  "notes": "在第一个核算区间即发现金额不平衡，导致规则命中。后续轮次无需继续计算。"
-}

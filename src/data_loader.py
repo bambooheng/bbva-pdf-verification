@@ -757,11 +757,15 @@ class DataLoader:
                 base += f" | Liq:{txn['liq']}"
             if txn.get("description"):
                 base += f" | 描述:{txn['description']}"
-            cargo = txn.get("cargo") or "无"
-            abono = txn.get("abono") or "无"
-            operacion = txn.get("operacion") or "无"
-            saldo = txn.get("saldo") or "无"
-            base += f" | Cargo:{cargo} | Abono:{abono} | Operacion:{operacion} | Saldo:{saldo}"
+            
+            # 移除逗号以确保 LLM 稳定识别数值
+            cargo = str(txn.get("cargo") or "").replace(",", "") or "无"
+            abono = str(txn.get("abono") or "").replace(",", "") or "无"
+            operacion = str(txn.get("operacion") or "").replace(",", "") or "无"
+            saldo = str(txn.get("saldo") or "").replace(",", "") or "无"
+            
+            # 使用大写标签以匹配规则设定 (CARGOS, ABONOS, OPERACIÓN)
+            base += f" | CARGOS:{cargo} | ABONOS:{abono} | OPERACIÓN:{operacion} | SALDO:{saldo}"
             referencias = [ref.strip() for ref in txn.get("referencias", []) if ref.strip()]
             if referencias:
                 base += f" | Referencia:{'; '.join(referencias)}"

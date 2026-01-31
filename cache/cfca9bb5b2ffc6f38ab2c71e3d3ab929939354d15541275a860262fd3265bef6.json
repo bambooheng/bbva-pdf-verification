@@ -1,6 +1,0 @@
-{
-  "hit": false,
-  "evidence": "执行步骤1（判断逻辑）：获取解析后Detalle de Movimientos Realizados部分的description对应的所有的值。\n已获取全部35笔交易的描述（DESCRIPCION）字段。\n\n执行校验规则：判断DESCRIPCION对应的所有的值是否包含以下任意关键词：Apuesta，médico / médic，juego。\n检查过程：逐条检查35笔交易的描述，未发现任何描述包含关键词“Apuesta”、“médico”、“médic”或“juego”。\n检查结果：所有描述均未命中关键词。\n\n决策结果：全部都没命中，输出正常。\n\n结论：根据规则MSTAR_BBVA_DTL_ANAL_ABN_REM的校验逻辑，未发现包含异常关键词的交易。",
-  "confidence": "high",
-  "notes": "规则要求检查描述中是否包含特定关键词（Apuesta，médico / médic，juego）。经核查所有35笔交易描述，均不包含这些关键词，因此判定为正常（hit=false）。"
-}

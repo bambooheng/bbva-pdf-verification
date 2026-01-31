@@ -1,6 +1,0 @@
-{
-  "hit": true,
-  "evidence": "规则ID: MSTAR_BBVA_DTL_CNT_CARGOS\n规则名称: 明细交易笔数校验_出账笔数\n\n执行步骤与结果：\n(Step 1) 从 'Comportamiento' 表格中提取 'Retiros / Cargos (-)'（出账）对应的总笔数（Total Movimientos Cargos）。\n- 数据来源：在提供的 'Comportamiento' 和 'total_movimientos' 部分，均明确列出 'Retiros / Cargos (-)' 的笔数为 12。\n- 提取结果：数值1 (来自Comportamiento) = 12。\n\n(Step 2) 遍历 'Detalle de Movimientos Realizados'（交易明细）部分的所有交易行。\n- 明细部分总笔数为 20。\n\n(Step 3) [关键过滤] 仅统计 'Cargos' 列有有效数值（非空且不为0）的行。如果某行只有 'Abono' 列有值，必须忽略。\n- 根据规则，逐行检查 'Cargo' 字段。\n- 有效 Cargos 交易明细如下（按原始顺序列出，共10笔）：\n  1. 行3: Cargo:1690.78\n  2. 行4: Cargo:500.0\n  3. 行5: Cargo:19.0\n  4. 行7: Cargo:700.0\n  5. 行12: Cargo:350.0\n  6. 行13: Cargo:520.0\n  7. 行14: Cargo:300.0\n  8. 行15: Cargo:1400.0\n  9. 行17: Cargo:2100.0\n  10. 行20: Cargo:299.0\n\n(Step 4) 计算符合条件的交易总行数。\n- 统计结果：数值2 (来自明细统计) = 10。\n\n校验规则：比较数值1和数值2是否相等。\n- 数值1 (Comportamiento 出账笔数) = 12\n- 数值2 (明细有效Cargos笔数) = 10\n- 比较结果：12 ≠ 10，两者不相等。\n\n决策结果：如果不相等，输出不一致（异常）。\n\n结论：明细中统计的有效出账（Cargos）交易笔数（10笔）与Comportamiento中报告的总出账笔数（12笔）不一致。\n\nhit值判定：根据规则，数值不相等 → 输出“不一致” → hit=true。",
-  "confidence": "high",
-  "notes": "数据中提供的参考值'其中包含有效 Cargos (出账) 的交易数: 10'与手动统计结果一致，确认了明细统计的准确性。Comportamiento中明确报告出账笔数为12，两者存在差异。"
-}
