@@ -1,0 +1,6 @@
+{
+  "hit": false,
+  "evidence": "执行步骤1：获取解析后Detalle de Movimientos Realizados部分的description对应的所有的值。\n已获取全部50笔交易的描述字段。\n执行校验规则：判断DESCRIPCION对应的所有的值是否包含以下任意关键词：Apuesta，médico / médic，juego。\n检查结果：逐条检查所有50条交易描述，未发现任何描述包含关键词'Apuesta'、'médico'、'médic'或'juego'。\n决策结果：由于全部描述均未命中任意一个关键词，因此输出正常。\n结论：规则未命中，hit=false。",
+  "confidence": "high",
+  "notes": "已严格按照判断逻辑、校验规则和决策结果执行。所有交易描述均不包含规则指定的异常关键词。"
+}

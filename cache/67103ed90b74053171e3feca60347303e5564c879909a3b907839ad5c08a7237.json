@@ -1,0 +1,6 @@
+{
+  "hit": true,
+  "evidence": "规则ID: MSTAR_BBVA_DTL_AMT_SINGLE\n规则名称: 明细交易金额校验_单笔金额\n\n执行步骤：\n1. 保持交易列表的原始顺序。\n2. 确定初始锚点(Balance_1)：第一行交易（索引1）有 'Operacion:2421.23'，将其记为 Balance_1 = 2421.23。计算起点从下一行（索引2）开始。\n3. 寻找下一个锚点(Balance_2)：向下遍历，找到下一个有 'OPERACIÓN' 或 'SALDO OPERACIÓN' 值的行。\n4. 区间核算：累加 Balance_1 (不含) 到 Balance_2 (含) 之间的所有 'CARGOS' 和 'ABONOS'。\n5. 验证公式：result = Balance_1 - Sum(Cargos) + Sum(Abonos) - Balance_2。\n6. 迭代：将 Balance_2 设为新的 Balance_1，重复步骤3-5直到末尾。\n\n详细轮次核算：\n\n轮次 1:\n- Balance_1: 2421.23 (来自索引1的Operacion)\n- 区间: 索引2 到 索引10 (索引10有Operacion:2293.23)\n- Sum(Cargos): 111.0 (索引2) + 66.0 (索引3) + 50.0 (索引4) + 50.0 (索引5) + 194.0 (索引9) + 218.0 (索引10) = 689.0\n- Sum(Abonos): 0.0 (区间内无Abonos)\n- Balance_2: 2293.23 (来自索引10的Operacion)\n- result = 2421.23 - 689.0 + 0.0 - 2293.23 = -561.0\n- 结果: result = -561.0 (不为0)\n\n由于在第一个轮次就发现 result 不为 0，根据校验规则（任意一个轮次中result值不为0，输出不一致），判定为不一致。\n\n导致异常的具体交易（轮次1区间内所有Cargos）：\n1. 索引2: Cargo:111.0\n2. 索引3: Cargo:66.0\n3. 索引4: Cargo:50.0\n4. 索引5: Cargo:50.0\n5. 索引9: Cargo:194.0\n6. 索引10: Cargo:218.0\n\n结论：\n- 根据判断逻辑和校验规则，至少存在一个轮次（轮次1）的核算结果 result 不为 0。\n- 决策结果：输出不一致（异常）。\n- 因此，hit = true。",
+  "confidence": "high",
+  "notes": "在第一个核算区间（索引1到索引10）就发现了金额不一致。计算出的 result 为 -561.0，而非 0。这表明明细交易金额的连续性存在问题，规则被命中。"
+}

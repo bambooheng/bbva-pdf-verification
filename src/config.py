@@ -23,9 +23,7 @@ class Config:
     """应用配置类"""
 
     # API Keys
-    OPENAI_API_KEY: Optional[str] = os.getenv("OPENAI_API_KEY")
     DEEPSEEK_API_KEY: Optional[str] = os.getenv("DEEPSEEK_API_KEY")
-    AUTHORPIC_API_KEY: Optional[str] = os.getenv("AUTHORPIC_API_KEY")
 
     # LLM Provider
     LLM_PROVIDER: str = os.getenv("LLM_PROVIDER", "deepseek").lower()
@@ -42,9 +40,7 @@ class Config:
     LOG_FILE: str = os.getenv("LOG_FILE", "logs/app.log")
 
     # LLM 配置
-    OPENAI_MODEL: str = os.getenv("OPENAI_MODEL", "gpt-4-turbo")
     DEEPSEEK_MODEL: str = os.getenv("DEEPSEEK_MODEL", "deepseek-chat")
-    AUTHORPIC_MODEL: str = os.getenv("AUTHORPIC_MODEL", "authorpic-model")
     MAX_RETRIES: int = int(os.getenv("MAX_RETRIES", "3"))
     MAX_PARSE_RETRIES: int = int(os.getenv("MAX_PARSE_RETRIES", "1"))
     REQUEST_TIMEOUT: int = int(os.getenv("REQUEST_TIMEOUT", "60"))
@@ -54,6 +50,14 @@ class Config:
     # 性能优化配置
     PARALLEL_PROCESSING: bool = os.getenv("PARALLEL_PROCESSING", "true").lower() == "true"
     MAX_WORKERS: int = int(os.getenv("MAX_WORKERS", "4"))
+    
+    # 缓存配置（用于确保结果一致性）
+    ENABLE_CACHE: bool = os.getenv("ENABLE_CACHE", "true").lower() == "true"
+    CACHE_DIR: str = os.getenv("CACHE_DIR", "cache")
+    LLM_TEMPERATURE: float = float(os.getenv("LLM_TEMPERATURE", "0.0"))  # 设置为0以提高确定性
+    
+    # Fallback配置（是否启用备用provider）
+    ENABLE_FALLBACK: bool = os.getenv("ENABLE_FALLBACK", "false").lower() == "true"  # 默认禁用fallback，只使用配置的provider
 
     @classmethod
     def get_api_key(cls) -> Optional[str]:
@@ -63,12 +67,9 @@ class Config:
     @classmethod
     def get_api_key_for_provider(cls, provider: str) -> Optional[str]:
         """根据指定的 provider 返回对应的 API Key"""
-        key_map = {
-            "openai": cls.OPENAI_API_KEY,
-            "deepseek": cls.DEEPSEEK_API_KEY,
-            "authorpic": cls.AUTHORPIC_API_KEY,
-        }
-        return key_map.get(provider.lower())
+        if provider.lower() == "deepseek":
+            return cls.DEEPSEEK_API_KEY
+        return None
 
     @classmethod
     def get_model_name(cls) -> str:
@@ -78,24 +79,16 @@ class Config:
     @classmethod
     def get_model_name_for_provider(cls, provider: str) -> str:
         """根据指定的 provider 返回对应的模型名称"""
-        model_map = {
-            "openai": cls.OPENAI_MODEL,
-            "deepseek": cls.DEEPSEEK_MODEL,
-            "authorpic": cls.AUTHORPIC_MODEL,
-        }
-        return model_map.get(provider.lower(), cls.OPENAI_MODEL)
+        if provider.lower() == "deepseek":
+            return cls.DEEPSEEK_MODEL
+        return cls.DEEPSEEK_MODEL  # 默认返回deepseek模型
 
     @classmethod
     def validate(cls) -> bool:
         """验证配置是否完整"""
         api_key = cls.get_api_key()
-        if (
-            not api_key
-            or api_key.startswith("sk-xxxxxx")
-            or api_key.startswith("ds-xxxxxx")
-            or api_key.startswith("ap-xxxxxx")
-        ):
-            print(f"错误: 请配置 {cls.LLM_PROVIDER.upper()}_API_KEY")
+        if not api_key or api_key.startswith("sk-xxxxxx") or api_key.startswith("ds-xxxxxx"):
+            print(f"错误: 请配置 DEEPSEEK_API_KEY")
             return False
         return True
 

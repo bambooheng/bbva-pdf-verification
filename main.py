@@ -4,6 +4,7 @@ BBVA 银行流水审计系统 - 主入口
 import sys
 import os
 import logging
+import glob
 from pathlib import Path
 from src.config import Config
 from src.audit_engine import AuditEngine
@@ -48,37 +49,52 @@ def setup_logging():
     )
 
 
-def main():
-    """主函数"""
-    configure_console_encoding()
-    # 设置日志
-    setup_logging()
-    logger = logging.getLogger(__name__)
+def detect_json_files(input_path):
+    """
+    检测输入路径中的 JSON 文件，支持多文档检测
     
-    logger.info("=" * 60)
-    logger.info("BBVA 银行流水审计系统启动")
-    logger.info("=" * 60)
-    
-    # 验证配置
-    if not Config.validate():
-        logger.error("配置验证失败，请检查 .env 文件")
-        sys.exit(1)
-    
-    try:
-        # 初始化审计引擎
-        logger.info(f"加载银行流水: {Config.INPUT_JSON_PATH}")
-        logger.info(f"加载审计规则: {Config.RULES_XLSX_PATH}")
+    Args:
+        input_path: 输入路径，可能包含通配符
         
+    Returns:
+        JSON 文件路径列表，按字母顺序排序
+    """
+    if '*' in str(input_path):
+        json_files = glob.glob(str(input_path))
+        # 按字母顺序排序，确保 part1, part2, part3 的顺序
+        json_files.sort()
+        return json_files
+    else:
+        # 单个文件路径
+        return [str(input_path)]
+
+
+def process_single_document(json_file_path, rules_path, logger):
+    """
+    处理单个 JSON 文件的审计流程
+    
+    Args:
+        json_file_path: JSON 文件路径
+        rules_path: 规则文件路径
+        logger: 日志记录器
+        
+    Returns:
+        是否成功处理
+    """
+    try:
+        logger.info(f"开始处理文档: {json_file_path}")
+        
+        # 初始化审计引擎
         engine = AuditEngine(
-            json_path=Config.INPUT_JSON_PATH,
-            excel_path=Config.RULES_XLSX_PATH
+            json_path=json_file_path,
+            excel_path=rules_path
         )
         
         # 加载数据
         logger.info("正在加载数据...")
         if not engine.load_data():
-            logger.error("数据加载失败")
-            sys.exit(1)
+            logger.error(f"文档 {json_file_path} 数据加载失败")
+            return False
         
         # 执行审计（使用并行处理）
         logger.info("开始执行审计...")
@@ -88,20 +104,35 @@ def main():
         )
         
         if not results:
-            logger.error("审计执行失败，未生成任何结果")
-            sys.exit(1)
+            logger.error(f"文档 {json_file_path} 审计执行失败，未生成任何结果")
+            return False
         
         # 获取摘要
         summary = engine.get_summary()
         logger.info(f"审计完成: 共处理 {summary['total_rules']} 条规则")
         logger.info(f"命中: {summary['hit_count']}, 未命中: {summary['not_hit_count']}, 无法判断: {summary['unknown_count']}")
         
+        # 从输入 JSON 文件路径提取文件名前缀
+        input_json_path = Path(json_file_path)
+        
+        # 获取文件名（不含扩展名）
+        input_filename = input_json_path.stem
+        # 去掉 _structured 后缀（如果存在）
+        if input_filename.endswith('_structured'):
+            input_filename = input_filename[:-11]  # 去掉 '_structured'
+        
+        # 构建输出文件路径
+        output_dir = Path(Config.OUTPUT_REPORT_PATH).parent
+        output_json_path = output_dir / f"{input_filename}_audit_report.json"
+        output_markdown_path = output_dir / f"{input_filename}_audit_report.md"
+        output_excel_path = output_dir / f"{input_filename}_audit_report.xlsx"
+        
         # 生成报告
         logger.info("正在生成报告...")
         report_generator = ReportGenerator(
-            output_json_path=Config.OUTPUT_REPORT_PATH,
-            output_markdown_path=Config.OUTPUT_MARKDOWN_PATH,
-            output_excel_path=Config.OUTPUT_EXCEL_PATH
+            output_json_path=str(output_json_path),
+            output_markdown_path=str(output_markdown_path),
+            output_excel_path=str(output_excel_path)
         )
         
         # 添加元数据
@@ -119,15 +150,77 @@ def main():
         )
         
         logger.info("=" * 60)
-        logger.info("审计报告生成完成！")
+        logger.info(f"文档 {input_filename} 审计报告生成完成！")
         logger.info(f"JSON 报告: {json_path}")
         logger.info(f"Markdown 报告: {markdown_path}")
         logger.info(f"Excel 报告: {excel_path}")
         logger.info("=" * 60)
         
+        return True
+        
     except FileNotFoundError as e:
         logger.error(f"文件未找到: {e}")
+        return False
+    except Exception as e:
+        logger.error(f"处理文档 {json_file_path} 时发生错误: {e}", exc_info=True)
+        return False
+
+
+def main():
+    """主函数"""
+    configure_console_encoding()
+    # 设置日志
+    setup_logging()
+    logger = logging.getLogger(__name__)
+    
+    logger.info("=" * 60)
+    logger.info("BBVA 银行流水审计系统启动")
+    logger.info("=" * 60)
+    
+    # 验证配置
+    if not Config.validate():
+        logger.error("配置验证失败，请检查 .env 文件")
         sys.exit(1)
+    
+    try:
+        # 检测 JSON 文件
+        json_files = detect_json_files(Config.INPUT_JSON_PATH)
+        
+        if not json_files:
+            logger.error(f"未找到匹配的 JSON 文件: {Config.INPUT_JSON_PATH}")
+            sys.exit(1)
+        
+        logger.info(f"检测到 {len(json_files)} 个 JSON 文件待处理")
+        for idx, json_file in enumerate(json_files, 1):
+            logger.info(f"  [{idx}] {json_file}")
+        
+        # 处理每个 JSON 文件
+        success_count = 0
+        failed_count = 0
+        
+        for idx, json_file in enumerate(json_files, 1):
+            logger.info("")
+            logger.info("*" * 60)
+            logger.info(f"处理进度: [{idx}/{len(json_files)}]")
+            logger.info("*" * 60)
+            
+            if process_single_document(json_file, Config.RULES_XLSX_PATH, logger):
+                success_count += 1
+            else:
+                failed_count += 1
+        
+        # 输出最终统计
+        logger.info("")
+        logger.info("=" * 60)
+        logger.info("所有文档处理完成！")
+        logger.info(f"成功: {success_count} 个文档")
+        logger.info(f"失败: {failed_count} 个文档")
+        logger.info("=" * 60)
+        
+        # 如果有失败的文档，返回非零退出码
+        if failed_count > 0:
+            sys.exit(1)
+        
     except Exception as e:
         logger.error(f"执行过程中发生错误: {e}", exc_info=True)
         sys.exit(1)

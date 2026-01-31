@@ -1,0 +1,6 @@
+{
+  "hit": true,
+  "evidence": "规则ID: MSTAR_BBVA_DTL_CNT_ABONOS\n规则名称: 明细交易笔数校验_入账笔数\n\n执行步骤与结果：\n(Step 1) 从 'Comportamiento' 表格中提取 'Depósitos / Abonos (+)'（入账）对应的总笔数（Total Movimientos Abonos）。\n- 执行结果：在提供的 'Comportamiento' 部分，'Depósitos / Abonos (+): 8  22,400.01'，因此数值1（来自Comportamiento的入账总笔数）为 8。\n\n(Step 2) 遍历 'Detalle de Movimientos Realizados'或raw_transaction_data（交易明细）部分的所有交易行。\n- 执行结果：明细部分总共有 20 行交易记录。\n\n(Step 3) [关键过滤] 仅统计 'Abonos' 列有有效数值（非空且不为0）的行。如果某行只有 'Cargo' 列有值，必须忽略。\n- 执行结果：根据规则，逐行检查明细数据中的 'Abono' 字段，统计其值为有效数值（非空且不为0）的行。符合条件的交易明细如下（按原始顺序列出）：\n1. Abono: 1200.0\n2. Abono: 1000.0\n6. Abono: 700.0\n8. Abono: 16000.0\n9. Abono: 250.0\n10. Abono: 1700.0\n11. Abono: 2100.0\n16. Abono: 600.0\n18. Abono: 800.0\n19. Abono: 0.01\n\n(Step 4) 计算符合条件的交易总行数。\n- 执行结果：共统计到 10 笔有效 Abonos 交易。因此数值2（来自明细的入账总笔数）为 10。\n\n校验规则：比较1和2是否相等。\n- 比较结果：数值1 (8) 不等于 数值2 (10)。\n\n决策结果：如果不相等，输出不一致（异常）。\n- 最终结论：入账笔数不一致，存在异常。\n\nhit 值判定理由：根据规则，两个数值不相等，决策结果为“不一致”，因此 hit=true。",
+  "confidence": "high",
+  "notes": "数据中已明确提供'其中包含有效 Abonos (入账) 的交易数: 10'，与手动统计结果一致，确认了数值2的准确性。数值1来自Comportamiento表格，明确为8。两者确实不相等。"
+}
