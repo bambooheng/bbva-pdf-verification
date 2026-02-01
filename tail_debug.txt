@@ -1,0 +1,500 @@
+﻿
+total_importe_cargos: 41916.14
+total_movimientos_cargos: 25
+total_importe_abonos: 42857.90
+total_movimientos_abonos: 23
+
+
+## 蹇呴』瀹屾垚鐨勪换鍔?
+
+1. **涓ユ牸鎸夌収"鍒ゆ柇閫昏緫"鎵ц**锛氬繀椤绘寜鐓т笂杩?鍒ゆ柇閫昏緫"涓殑姝ラ閫愭潯鎵ц锛屼笉寰楄烦杩囨垨淇敼浠讳綍姝ラ銆?
+2. **涓ユ牸鎸夌収"鏍￠獙瑙勫垯"鎵ц**锛氬繀椤绘寜鐓т笂杩?鏍￠獙瑙勫垯"杩涜姣旇緝鍜屽垽鏂紝涓嶅緱鑷绠€鍖栥€?
+3. **涓ユ牸鎸夌収"鍐崇瓥缁撴灉"鎵ц**锛氬繀椤绘寜鐓т笂杩?鍐崇瓥缁撴灉"鐨勯€昏緫杈撳嚭缁撴灉銆?
+4. 浠呬緷璧栦笂杩版暟鎹牳瀵?Comportamiento 涓?Detalle de Movimientos Realizados 鐨勭浉鍏虫暟鍊煎拰浜ゆ槗銆?
+5. 鑻ヤ负绗旀暟鏍￠獙锛氬垪鍑虹鍚堟潯浠剁殑浜ゆ槗銆傝嫢浜ゆ槗绗旀暟瓒呰繃10绗旓紝浠呴渶鍒楀嚭鍓?绗斻€佸悗5绗斿強鎵€鏈夊紓甯?涓嶇鐨勪氦鏄擄紝涓嶅繀缃楀垪鍏ㄩ儴銆?
+6. 鑻ヤ负閲戦鏍￠獙锛氬睍绀烘眰鍜岃繃绋嬨€傝嫢浜ゆ槗绗旀暟瓒呰繃10绗旓紝浠呴渶鍒楀嚭鍓?绗斻€佸悗5绗斿強鎵€鏈夊紓甯?涓嶇鐨勪氦鏄撻噾棰濓紝骞跺睍绀烘渶缁堟眰鍜岀粨鏋溿€?
+7. "鍒椾笉涓虹┖"鎸囦换鎰忛潪闆躲€侀潪绌烘暟鍊硷紙鍖呮嫭 0.01 绛夊皬棰濓級锛屼笉寰楅仐婕忋€?
+8. 鍐欐竻妤氭暟鍊?锛堟潵鑷?Comportamiento锛変笌鏁板€?锛堟潵鑷?Detalle锛夛紝璇存槑姣旇緝缁撴灉锛屽苟渚濇嵁鍐崇瓥瑙勫垯鎺ㄥ杈撳嚭銆?
+9. 杈撳嚭"涓€鑷?鈫?hit=False锛涜緭鍑?涓嶄竴鑷?鈫?hit=True锛涜嫢鏁版嵁涓嶈冻鈫?hit=null锛屽苟鍦?evidence 璇存槑鍘熷洜銆?
+10. evidence 蹇呴』鍖呭惈锛氭暟鎹潵婧愩€佸叧閿氦鏄撴槑缁嗭紙鎸夊師濮嬮『搴忥紝鍙畝鐣ワ級銆佽绠楄繃绋嬨€佹瘮杈冪粨璁轰互鍙?hit 鍒ゅ畾鐞嗙敱銆?
+11. 绂佹璋冩暣椤哄簭鎴栫寽娴嬶紱濡備俊鎭己澶卞奖鍝嶅垽鏂紝蹇呴』鍐欐槑骞惰繑鍥?hit=null銆?
+12. **鍦╡vidence涓繀椤绘槑纭鏄庯細浣犳槸濡備綍鎸夌収"鍒ゆ柇閫昏緫"鍜?鏍￠獙瑙勫垯"鎵ц鐨勶紝姣忎竴姝ョ殑鎵ц缁撴灉鏄粈涔堛€?*
+
+## 杈撳嚭鏍煎紡锛堚殸锔?涓ユ牸瑕佹眰锛氬彧鍏佽浠ヤ笅 JSON 鏍煎紡锛?
+
+**浣犲繀椤讳弗鏍兼寜鐓т互涓嬫牸寮忚緭鍑猴紝涓嶈娣诲姞浠讳綍鍏朵粬鍐呭锛?*
+
+{
+  "hit": true/false/null,
+  "evidence": "...",
+  "confidence": "high/medium/low",
+  "notes": "..."
+}
+
+**鈿狅笍 閲嶈瑕佹眰锛堝繀椤讳弗鏍奸伒瀹堬級锛?*
+1. **鍙兘杈撳嚭JSON鏍煎紡**锛氫笉鑳借緭鍑轰换浣旿SON浠ュ鐨勫唴瀹癸紙鏃犺鏄庛€佹棤Markdown銆佹棤浠ｇ爜鍧楁爣璁般€佹棤```json```銆佹棤```绛夛級銆?
+2. **鐩存帴杈撳嚭JSON瀵硅薄**锛氱洿鎺ヨ緭鍑?`{"hit": ..., "evidence": ..., "confidence": ..., "notes": ...}`锛屼笉瑕佺敤浠ｇ爜鍧楀寘瑁广€?
+3. **涓嶈娣诲姞浠讳綍鍓嶇紑鎴栧悗缂€**锛氫笉瑕佸湪JSON鍓嶅悗娣诲姞浠讳綍鏂囧瓧璇存槑銆佽В閲婃垨鏍囪銆?
+4. **evidence瀛楁**锛氬彲浣跨敤 `\n` 琛ㄧず鎹㈣锛屼絾绂佹浣跨敤Markdown/HTML鍒楄〃鏍煎紡銆?
+5. **hit鍊奸€昏緫**锛氬鏋渆vidence琛ㄧず"鐩哥瓑/涓€鑷?鍚堣"锛屽垯hit蹇呴』涓篺alse锛涜〃绀?涓嶇浉绛?涓嶄竴鑷?杩濊"锛屽垯hit蹇呴』涓簍rue銆?
+6. **鏁版嵁涓嶈冻澶勭悊**锛氳嫢璇佹嵁涓嶈冻锛岃杩斿洖hit=null锛屽苟鍦╡vidence涓啓鏄庡師鍥犮€?
+7. **蹇呴』浣跨敤涓枃**锛歟vidence鍜宯otes瀛楁鐨勫唴瀹瑰繀椤诲叏閮ㄤ娇鐢ㄤ腑鏂囪緭鍑猴紝涓嶅緱浣跨敤鑻辨枃鎴栧叾浠栬瑷€銆?
+
+**閿欒绀轰緥锛堢姝級锛?*
+```
+鏍规嵁鍒嗘瀽锛岀粨鏋滃涓嬶細
+```json
+{"hit": true, ...}
+```
+```
+
+**姝ｇ‘绀轰緥锛堝繀椤伙級锛?*
+```
+{"hit": true, "evidence": "...", "confidence": "high", "notes": ""}
+```
+
+## 杈撳嚭鍓嶈嚜妫€
+
+- 鏄惁涓ユ牸鎸夌収"鍒ゆ柇閫昏緫"涓殑姝ラ鎵ц锛?
+- 鏄惁涓ユ牸鎸夌収"鏍￠獙瑙勫垯"杩涜姣旇緝鍜屽垽鏂紵
+- 鏄惁涓ユ牸鎸夌収"鍐崇瓥缁撴灉"鐨勯€昏緫杈撳嚭缁撴灉锛?
+- 鏄惁鍒楀嚭鍏ㄩ儴鐩稿叧浜ゆ槗涓旈『搴忎笌鍘熸枃涓€鑷达紵
+- 鏄惁灞曠ず鎵€鏈夎绠楁楠や笌姣旇緝缁撴灉锛?
+- hit 鏄惁涓?evidence 鎻忚堪瀹屽叏涓€鑷达紵
+- 鑻ユ棤娉曞垽鏂紝鏄惁缁欏嚭 hit=null 骞惰鏄庡師鍥狅紵
+- **鏄惁鍦╡vidence涓槑纭鏄庝簡濡備綍鎸夌収"鍒ゆ柇閫昏緫"鍜?鏍￠獙瑙勫垯"鎵ц鐨勶紵**
+
+璇风幇鍦ㄥ紑濮嬪垎鏋愬苟杈撳嚭 JSON锛?
+PROMPT END
+
+================================================================================
+TIMESTAMP: 2026-02-01 08:45:18
+PROMPT START
+浣犳槸涓€涓弗鏍奸伒瀹堝璁¤鑼冪殑閾惰瀹¤绯荤粺锛屽繀椤诲噯纭€佸彲杩芥函銆侀浂鐚滄祴鍦板畬鎴愪换鍔°€?
+
+## 瀹¤瑙勫垯
+
+瑙勫垯ID: MSTAR_BBVA_DTL_ANAL_ABN_REM
+瑙勫垯鍚嶇О: 浜ゆ槗鏄庣粏鍒嗘瀽_寮傚父澶囨敞
+
+
+## 鈿狅笍 閲嶈锛氬繀椤讳弗鏍兼寜鐓т互涓嬪鏍搁€昏緫鎵ц
+
+**鍒ゆ柇閫昏緫锛堝繀椤讳弗鏍兼墽琛岋級**锛?
+姝ラ1锛氳幏鍙栬В鏋愬悗Detalle de Movimientos Realizados鎴杛aw_transaction_data閮ㄥ垎鐨刣escription瀵瑰簲鐨勬墍鏈夌殑鍊硷紱
+
+**鏍￠獙瑙勫垯锛堝繀椤讳弗鏍兼墽琛岋級**锛?
+鍒ゆ柇DESCRIPCION瀵瑰簲鐨勬墍鏈夌殑鍊兼槸鍚﹀寘鍚互涓嬩换鎰忓叧閿瘝锛欰puesta锛宮茅dico / m茅dic锛宩uego
+
+**鍐崇瓥缁撴灉锛堝繀椤讳弗鏍兼墽琛岋級**锛?
+鍛戒腑浠绘剰涓€涓紝杈撳嚭寮傚父锛涘叏閮ㄩ兘娌″懡涓紝杈撳嚭姝ｅ父锛?
+
+**鎵ц瑕佹眰**锛?
+- 蹇呴』涓ユ牸鎸夌収涓婅堪"鍒ゆ柇閫昏緫"涓殑姝ラ鎵ц锛屼笉寰楄烦杩囦换浣曟楠?
+- 蹇呴』涓ユ牸鎸夌収"鏍￠獙瑙勫垯"杩涜姣旇緝鍜屽垽鏂?
+- 蹇呴』涓ユ牸鎸夌収"鍐崇瓥缁撴灉"鐨勯€昏緫杈撳嚭缁撴灉
+- 濡傛灉涓婅堪閫昏緫涓湁鏄庣‘鐨勬楠よ鏄庯紝蹇呴』閫愭潯鎵ц锛屼笉寰楄嚜琛岀畝鍖栨垨淇敼
+
+
+
+**hit 鍊煎垽鏂€昏緫锛堥潪甯搁噸瑕侊紒锛?*锛?
+- hit=True 琛ㄧず瑙勫垯琚懡涓紙杩濊/涓嶄竴鑷达級
+- hit=False 琛ㄧず瑙勫垯鏈懡涓紙鍚堣/涓€鑷达級
+- 璇锋牴鎹?鍐崇瓥缁撴灉"瀛楁鐨勯€昏緫鏉ュ垽鏂?
+
+
+## 宸叉彁鍙栫殑鏁版嵁
+
+- 涓嬫柟鍐呭宸叉寜鍘熷鏂囨。鐨勯〉闈㈤『搴忓拰琛岄『搴忔暣鐞嗭紝璇风洿鎺ヤ娇鐢細
+璐︽埛鍙? 1525571050
+鎬婚〉鏁? 24
+
+=== Detalle de Movimientos Realizados锛堢粨鏋勫寲鏄庣粏锛屽凡鎸夊師濮嬮『搴忓垪鍑猴級 ===
+鎬荤瑪鏁? 48
+鍏朵腑鍖呭惈鏈夋晥 Abonos (鍏ヨ处) 鐨勪氦鏄撴暟: 23
+鍏朵腑鍖呭惈鏈夋晥 Cargos (鍑鸿处) 鐨勪氦鏄撴暟: 25
+------------------------------
+1. 椤甸潰:0 | Oper:07/AGO | Liq:07/AGO | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 2739112472 pago | CARGOS:鏃?| ABONOS:920.0 | OPERACI脫N:10735.32 | SALDO:9815.32 | Referencia:Referencia 0003330556
+2. 椤甸潰:0 | Oper:08/AGO | Liq:08/AGO | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1526195291 Dimo-Sin concepto | CARGOS:鏃?| ABONOS:200.0 | OPERACI脫N:10935.32 | SALDO:10015.32 | Referencia:Referencia 0010088102
+3. 椤甸潰:0 | Oper:10/AGO | Liq:11/AGO | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1556086301 teamo | CARGOS:鏃?| ABONOS:337.8 | OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0068478887
+4. 椤甸潰:0 | Oper:10/AGO | Liq:11/AGO | 鎻忚堪:SPEI ENVIADO BANAMEX 0405250TDCesca 00005256783864633095 MBAN01002508110079343139 Rodrigo Guadarrama | CARGOS:2453.0 | ABONOS:鏃?| OPERACI脫N:8820.12 | SALDO:9938.34 | Referencia:Referencia 0079343139 002
+5. 椤甸潰:0 | Oper:11/AGO | Liq:07/AGO | 鎻忚堪:AMAZON MEXICO RFC: ANE 140618P37 17:36 AUT: 836547 | CARGOS:920.0 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia ******1184
+6. 椤甸潰:0 | Oper:11/AGO | Liq:09/AGO | 鎻忚堪:STRIPE *UBER TRIP RFC: UPM 200220LK5 13:09 AUT: 156760 | CARGOS:76.98 | ABONOS:鏃?| OPERACI脫N:7823.14 | SALDO:7823.14 | Referencia:Referencia ******1184
+7. 椤甸潰:0 | Oper:13/AGO | Liq:13/AGO | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1556086301 majo | CARGOS:鏃?| ABONOS:1616.0 | OPERACI脫N:9439.14 | SALDO:9439.14 | Referencia:Referencia 0064961789
+8. 椤甸潰:0 | Oper:14/AGO | Liq:14/AGO | 鎻忚堪:PAGO DE NOMINA AYALA HERRERA ALFREDO | CARGOS:鏃?| ABONOS:4344.85 | OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia IN 4200371726
+9. 椤甸潰:0 | Oper:14/AGO | Liq:14/AGO | 鎻忚堪:SPEI RECIBIDOSCOTIABANK 0140825Transferencia a Ernesto 00044180256049647866 2025081440044B36L0000393423593 FLORES PEREZ JIMENA | CARGOS:鏃?| ABONOS:300.0 | OPERACI脫N:14083.99 | SALDO:8557.1 | Referencia:Referencia 0118517795 044
+10. 椤甸潰:0 | Oper:15/AGO | Liq:14/AGO | 鎻忚堪:TOTALPLAY CAT RFC: TPT 890516JP5 11:26 AUT: 672366 | CARGOS:1190.0 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia ******1184
+11. 椤甸潰:0 | Oper:15/AGO | Liq:14/AGO | 鎻忚堪:TELCEL 018001200006 RFC: VPS 100716CK9 12:28 AUT: 705926 | CARGOS:549.0 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia ******1184
+12. 椤甸潰:0 | Oper:15/AGO | Liq:14/AGO | 鎻忚堪:LIVERPOOL POR INTERNET RFC: DLI 931201MI9 11:30 AUT: 731182 | CARGOS:3787.89 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia ******1184
+13. 椤甸潰:0 | Oper:15/AGO | Liq:18/AGO | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1586538741 Transf a ERNESTO F | CARGOS:鏃?| ABONOS:320.0 | OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0025665423
+14. 椤甸潰:0 | Oper:15/AGO | Liq:18/AGO | 鎻忚堪:SPEI RECIBIDOAZTECA 4454427Gas e Internet 00127180013472002918 250818072905111344I GUADARRAMA PEREZ RODRIGO | CARGOS:鏃?| ABONOS:300.0 | OPERACI脫N:9177.1 | SALDO:8557.1 | Referencia:Referencia 0129726252 127
+15. 椤甸潰:0 | Oper:16/AGO | Liq:18/AGO | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1556086301 tiamo | CARGOS:鏃?| ABONOS:813.0 | OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0026322941
+16. 椤甸潰:0 | Oper:16/AGO | Liq:18/AGO | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1556086301 bolsa 3 | CARGOS:鏃?| ABONOS:400.0 | OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0073940797
+17. 椤甸潰:0 | Oper:16/AGO | Liq:18/AGO | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1515465135 Bolsa3 | CARGOS:400.0 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0083072472
+18. 椤甸潰:0 | Oper:16/AGO | Liq:18/AGO | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1550181555 Transf a Ernesto F | CARGOS:鏃?| ABONOS:880.0 | OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0044609841
+19. 椤甸潰:0 | Oper:16/AGO | Liq:18/AGO | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1585741650 gas internet | CARGOS:鏃?| ABONOS:320.0 | OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0095543631
+20. 椤甸潰:0 | Oper:16/AGO | Liq:18/AGO | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1556086301 Labial | CARGOS:70.0 | ABONOS:鏃?| OPERACI脫N:11120.1 | SALDO:5437.1 | Referencia:Referencia 0048669932
+21. 椤甸潰:0 | Oper:18/AGO | Liq:16/AGO | 鎻忚堪:MIT*INST CDEFIS RFC: ICD 2103223Y0 12:34 AUT: 570819 | CARGOS:3120.0 | ABONOS:鏃?| OPERACI脫N:8000.1 | SALDO:8000.1 | Referencia:Referencia ******1184
+22. 椤甸潰:0 | Oper:25/AGO | Liq:22/AGO | 鎻忚堪:MERPAGO*AGREGADOR RFC: MAG 2105031W3 16:02 AUT: 152804 | CARGOS:650.0 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia ******4427
+23. 椤甸潰:0 | Oper:25/AGO | Liq:21/AGO | 鎻忚堪:AMAZON MEXICO RFC: ANE 140618P37 22:58 AUT: 313973 | CARGOS:171.0 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia ******1184
+24. 椤甸潰:0 | Oper:25/AGO | Liq:21/AGO | 鎻忚堪:AMAZON RFC: ANE 140618P37 22:58 AUT: 314497 | CARGOS:683.1 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia ******1184
+25. 椤甸潰:0 | Oper:25/AGO | Liq:23/AGO | 鎻忚堪:AMAZON MEXICO RFC: ANE 140618P37 11:33 AUT: 969437 | CARGOS:199.0 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia ******1184
+26. 椤甸潰:0 | Oper:25/AGO | Liq:23/AGO | 鎻忚堪:AMAZON MEXICO RFC: ANE 140618P37 11:33 AUT: 971056 | CARGOS:199.0 | ABONOS:鏃?| OPERACI脫N:6098.0 | SALDO:6098.0 | Referencia:Referencia ******1184
+27. 椤甸潰:0 | Oper:29/AGO | Liq:29/AGO | 鎻忚堪:PAGO DE NOMINA AYALA HERRERA ALFREDO | CARGOS:鏃?| ABONOS:4337.25 | OPERACI脫N:10435.25 | SALDO:10435.25 | Referencia:Referencia IN 4200371726
+28. 椤甸潰:0 | Oper:30/AGO | Liq:01/SEP | 鎻忚堪:SPEI RECIBIDOHSBC 0004447Pago Tanda 00021180065153320678 HSBC336735 ANGEL HUMBERTO AGUILAR SALAS | CARGOS:鏃?| ABONOS:14000.0 | OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0105429100 021
+29. 椤甸潰:0 | Oper:30/AGO | Liq:01/SEP | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1556086301 boletos majo bad | CARGOS:鏃?| ABONOS:1622.0 | OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0071774574
+30. 椤甸潰:0 | Oper:30/AGO | Liq:01/SEP | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1556086301 papa medi tenis | CARGOS:鏃?| ABONOS:1155.0 | OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0046413277
+31. 椤甸潰:0 | Oper:30/AGO | Liq:01/SEP | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1556086301 TC ESCA | CARGOS:鏃?| ABONOS:4430.0 | OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0075727357
+32. 椤甸潰:0 | Oper:30/AGO | Liq:01/SEP | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1519393071 bad | CARGOS:鏃?| ABONOS:811.0 | OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0070746388
+33. 椤甸潰:0 | Oper:30/AGO | Liq:01/SEP | 鎻忚堪:PAGO TARJETA DE CREDITO CUENTA: BMOV | CARGOS:9793.16 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 5550806945
+34. 椤甸潰:0 | Oper:30/AGO | Liq:01/SEP | 鎻忚堪:SPEI ENVIADO BANAMEX 2307250TDC 00005256783864633095 MBAN01002509010073890935 Rodrigo Guadarrama | CARGOS:9576.0 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0073890935 002
+35. 椤甸潰:0 | Oper:30/AGO | Liq:01/SEP | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1556086301 TC COSMETICOS | CARGOS:鏃?| ABONOS:3021.0 | OPERACI脫N:16105.09 | SALDO:10435.25 | Referencia:Referencia 0021723299
+36. 椤甸潰:0 | Oper:31/AGO | Liq:01/SEP | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1586538741 Transf a ERNESTO F | CARGOS:鏃?| ABONOS:520.0 | OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0004009886
+37. 椤甸潰:0 | Oper:31/AGO | Liq:01/SEP | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1556086301 Xsuqloterico | CARGOS:610.0 | ABONOS:鏃?| OPERACI脫N:16015.09 | SALDO:10435.25 | Referencia:Referencia 0044154528
+38. 椤甸潰:0 | Oper:01/SEP | Liq:01/SEP | 鎻忚堪:MERPAGO*AGREGADOR RFC: MAG 2105031W3 14:56 AUT: 046454 | CARGOS:650.0 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia ******4427
+39. 椤甸潰:0 | Oper:01/SEP | Liq:01/SEP | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1585741650 boletos | CARGOS:鏃?| ABONOS:1860.0 | OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0012874504
+40. 椤甸潰:0 | Oper:01/SEP | Liq:01/SEP | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1519424817 kendrick2 | CARGOS:1962.0 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0009741042
+41. 椤甸潰:0 | Oper:01/SEP | Liq:01/SEP | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1507438373 Anillo | CARGOS:370.0 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0075037454
+42. 椤甸潰:0 | Oper:01/SEP | Liq:01/SEP | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1524115913 Caja | CARGOS:700.0 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0040056330
+43. 椤甸潰:0 | Oper:01/SEP | Liq:02/SEP | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1556086301 xprecioso | CARGOS:鏃?| ABONOS:250.0 | OPERACI脫N:14443.09 | SALDO:13693.09 | Referencia:Referencia 0025729751
+44. 椤甸潰:0 | Oper:02/SEP | Liq:02/SEP | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1585741650 Transf a ESAU F | CARGOS:300.0 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0096782019
+45. 椤甸潰:0 | Oper:02/SEP | Liq:01/SEP | 鎻忚堪:GASOL CENTINELA RFC: CANL531213I98 18:18 AUT: 192793 | CARGOS:500.0 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia ******4427
+46. 椤甸潰:0 | Oper:02/SEP | Liq:03/SEP | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1585741650 cambio | CARGOS:鏃?| ABONOS:100.0 | OPERACI脫N:13743.09 | SALDO:11033.09 | Referencia:Referencia 0051102647
+47. 椤甸潰:0 | Oper:03/SEP | Liq:03/SEP | 鎻忚堪:OPENAI *CHATGPT SUBSCR USD 20.00TC018.8005AUT: 387681 | CARGOS:376.01 | ABONOS:鏃?| OPERACI脫N:13367.08 | SALDO:10757.08 | Referencia:Referencia ******1184
+48. 椤甸潰:0 | Oper:04/SEP | Liq:02/SEP | 鎻忚堪:MIT*INST CDEFIS RFC: ICD 2103223Y0 22:57 AUT: 725597 | CARGOS:2610.0 | ABONOS:鏃?| OPERACI脫N:10757.08 | SALDO:10757.08 | Referencia:Referencia ******1184
+
+=== 绯荤粺鑷姩杩涜鐨勪綑棰濊繛缁€ф鏌?(Balance Check Analysis, Internal Python Calculation) ===
+鍒濆閿氱偣 (Balance_1) 鍦ㄨ 1: 10735.32
+Round 1: 琛?[1 -> 2] | Start=10735.32 - Cargos(0.00) + Abonos(0.00) = Expected(10735.32) vs Actual(10935.32) | Diff=200.00 -> FAIL
+Round 2: 琛?[2 -> 4] | Start=10935.32 - Cargos(0.00) + Abonos(337.80) = Expected(11273.12) vs Actual(8820.12) | Diff=2453.00 -> FAIL
+Round 3: 琛?[4 -> 6] | Start=8820.12 - Cargos(920.00) + Abonos(0.00) = Expected(7900.12) vs Actual(7823.14) | Diff=76.98 -> FAIL
+Round 4: 琛?[6 -> 7] | Start=7823.14 - Cargos(0.00) + Abonos(0.00) = Expected(7823.14) vs Actual(9439.14) | Diff=1616.00 -> FAIL
+Round 5: 琛?[7 -> 9] | Start=9439.14 - Cargos(0.00) + Abonos(4344.85) = Expected(13783.99) vs Actual(14083.99) | Diff=300.00 -> FAIL
+Round 6: 琛?[9 -> 14] | Start=14083.99 - Cargos(5526.89) + Abonos(320.00) = Expected(8877.10) vs Actual(9177.10) | Diff=300.00 -> FAIL
+Round 7: 琛?[14 -> 20] | Start=9177.10 - Cargos(400.00) + Abonos(2413.00) = Expected(11190.10) vs Actual(11120.10) | Diff=70.00 -> FAIL
+Round 8: 琛?[20 -> 21] | Start=11120.10 - Cargos(0.00) + Abonos(0.00) = Expected(11120.10) vs Actual(8000.10) | Diff=3120.00 -> FAIL
+Round 9: 琛?[21 -> 26] | Start=8000.10 - Cargos(1703.10) + Abonos(0.00) = Expected(6297.00) vs Actual(6098.00) | Diff=199.00 -> FAIL
+Round 10: 琛?[26 -> 27] | Start=6098.00 - Cargos(0.00) + Abonos(0.00) = Expected(6098.00) vs Actual(10435.25) | Diff=4337.25 -> FAIL
+Round 11: 琛?[27 -> 35] | Start=10435.25 - Cargos(19369.16) + Abonos(22018.00) = Expected(13084.09) vs Actual(16105.09) | Diff=3021.00 -> FAIL
+Round 12: 琛?[35 -> 37] | Start=16105.09 - Cargos(0.00) + Abonos(520.00) = Expected(16625.09) vs Actual(16015.09) | Diff=610.00 -> FAIL
+Round 13: 琛?[37 -> 43] | Start=16015.09 - Cargos(3682.00) + Abonos(1860.00) = Expected(14193.09) vs Actual(14443.09) | Diff=250.00 -> FAIL
+Round 14: 琛?[43 -> 46] | Start=14443.09 - Cargos(800.00) + Abonos(0.00) = Expected(13643.09) vs Actual(13743.09) | Diff=100.00 -> FAIL
+Round 15: 琛?[46 -> 47] | Start=13743.09 - Cargos(0.00) + Abonos(0.00) = Expected(13743.09) vs Actual(13367.08) | Diff=376.01 -> FAIL
+Round 16: 琛?[47 -> 48] | Start=13367.08 - Cargos(0.00) + Abonos(0.00) = Expected(13367.08) vs Actual(10757.08) | Diff=2610.00 -> FAIL
+>> 缁撹(Conclusion): 瀛樺湪鏍￠獙澶辫触鐨勫尯闂?(FAIL DETECTED). result!=0
+
+=== 瀹㈡埛淇℃伅 ===
+
+Periodo: DEL 05/08/2025 AL 04/09/2025, Fecha de Corte: 04/09/2025, No. de Cuenta: 1525571050, No. de Cliente: 01246776, R.F.C: FOPE9908085G9, No. Cuenta CLABE: 012 180 01525571050 1, Client Name: ERNESTO FLORES PEREZ, Client Address: PTO GUAYMAS 25 1
+CLZD SAN JUAN DE ARAGON Y CAMI
+GUSTAVO A MADERO
+CIUDAD DE MEXICO
+MEXICO
+CP 07920
+
+=== Comportamiento ===
+
+Saldo Anterior: 9,815.32
+Saldo Final: 10,757.08
+Dep贸sitos / Abonos (+): 23  42,857.90
+Retiros / Cargos (-): 25  41,916.14
+Saldo Promedio M铆nimo Mensual: 0.00
+
+=== informacion_financiera ===
+
+Rendimiento: {'Saldo Promedio': '8,522.19', 'D铆as del Periodo': '31', 'Tasa Bruta Anual %': '0.000', 'Saldo Promedio Gravable': '0.00', 'Intereses a Favor (+)': '0.00', 'ISR Retenido (-)': '0.00'}
+Comisiones: {'Cheques pagados': '0  0.00', 'Manejo de Cuenta': '0.00'}
+Total Comisiones: {'Total Comisiones': '0.00', 'Cargos Objetados': '0  0.00', 'Abonos Objetados': '0  0.00'}
+
+=== otros_productos ===
+
+Otros productos incluidos en el estado de cuenta (inversiones): [{'Contrato': 'N/A', 'Producto': 'N/A N/A', 'Tasa de Inter茅s anual': 'N/A', 'GAT Nominal': 'N/A', 'GAT Real': 'N/A', 'Total de comisiones': 'N/A'}]
+Total de Apartados: 01
+Saldo Global: $ 10,000.00
+
+=== total_movimientos ===
+
+total_importe_cargos: 41916.14
+total_movimientos_cargos: 25
+total_importe_abonos: 42857.90
+total_movimientos_abonos: 23
+
+
+## 蹇呴』瀹屾垚鐨勪换鍔?
+
+1. **涓ユ牸鎸夌収"鍒ゆ柇閫昏緫"鎵ц**锛氬繀椤绘寜鐓т笂杩?鍒ゆ柇閫昏緫"涓殑姝ラ閫愭潯鎵ц锛屼笉寰楄烦杩囨垨淇敼浠讳綍姝ラ銆?
+2. **涓ユ牸鎸夌収"鏍￠獙瑙勫垯"鎵ц**锛氬繀椤绘寜鐓т笂杩?鏍￠獙瑙勫垯"杩涜姣旇緝鍜屽垽鏂紝涓嶅緱鑷绠€鍖栥€?
+3. **涓ユ牸鎸夌収"鍐崇瓥缁撴灉"鎵ц**锛氬繀椤绘寜鐓т笂杩?鍐崇瓥缁撴灉"鐨勯€昏緫杈撳嚭缁撴灉銆?
+4. 浠呬緷璧栦笂杩版暟鎹牳瀵?Comportamiento 涓?Detalle de Movimientos Realizados 鐨勭浉鍏虫暟鍊煎拰浜ゆ槗銆?
+5. 鑻ヤ负绗旀暟鏍￠獙锛氬垪鍑虹鍚堟潯浠剁殑浜ゆ槗銆傝嫢浜ゆ槗绗旀暟瓒呰繃10绗旓紝浠呴渶鍒楀嚭鍓?绗斻€佸悗5绗斿強鎵€鏈夊紓甯?涓嶇鐨勪氦鏄擄紝涓嶅繀缃楀垪鍏ㄩ儴銆?
+6. 鑻ヤ负閲戦鏍￠獙锛氬睍绀烘眰鍜岃繃绋嬨€傝嫢浜ゆ槗绗旀暟瓒呰繃10绗旓紝浠呴渶鍒楀嚭鍓?绗斻€佸悗5绗斿強鎵€鏈夊紓甯?涓嶇鐨勪氦鏄撻噾棰濓紝骞跺睍绀烘渶缁堟眰鍜岀粨鏋溿€?
+7. "鍒椾笉涓虹┖"鎸囦换鎰忛潪闆躲€侀潪绌烘暟鍊硷紙鍖呮嫭 0.01 绛夊皬棰濓級锛屼笉寰楅仐婕忋€?
+8. 鍐欐竻妤氭暟鍊?锛堟潵鑷?Comportamiento锛変笌鏁板€?锛堟潵鑷?Detalle锛夛紝璇存槑姣旇緝缁撴灉锛屽苟渚濇嵁鍐崇瓥瑙勫垯鎺ㄥ杈撳嚭銆?
+9. 杈撳嚭"涓€鑷?鈫?hit=False锛涜緭鍑?涓嶄竴鑷?鈫?hit=True锛涜嫢鏁版嵁涓嶈冻鈫?hit=null锛屽苟鍦?evidence 璇存槑鍘熷洜銆?
+10. evidence 蹇呴』鍖呭惈锛氭暟鎹潵婧愩€佸叧閿氦鏄撴槑缁嗭紙鎸夊師濮嬮『搴忥紝鍙畝鐣ワ級銆佽绠楄繃绋嬨€佹瘮杈冪粨璁轰互鍙?hit 鍒ゅ畾鐞嗙敱銆?
+11. 绂佹璋冩暣椤哄簭鎴栫寽娴嬶紱濡備俊鎭己澶卞奖鍝嶅垽鏂紝蹇呴』鍐欐槑骞惰繑鍥?hit=null銆?
+12. **鍦╡vidence涓繀椤绘槑纭鏄庯細浣犳槸濡備綍鎸夌収"鍒ゆ柇閫昏緫"鍜?鏍￠獙瑙勫垯"鎵ц鐨勶紝姣忎竴姝ョ殑鎵ц缁撴灉鏄粈涔堛€?*
+
+## 杈撳嚭鏍煎紡锛堚殸锔?涓ユ牸瑕佹眰锛氬彧鍏佽浠ヤ笅 JSON 鏍煎紡锛?
+
+**浣犲繀椤讳弗鏍兼寜鐓т互涓嬫牸寮忚緭鍑猴紝涓嶈娣诲姞浠讳綍鍏朵粬鍐呭锛?*
+
+{
+  "hit": true/false/null,
+  "evidence": "...",
+  "confidence": "high/medium/low",
+  "notes": "..."
+}
+
+**鈿狅笍 閲嶈瑕佹眰锛堝繀椤讳弗鏍奸伒瀹堬級锛?*
+1. **鍙兘杈撳嚭JSON鏍煎紡**锛氫笉鑳借緭鍑轰换浣旿SON浠ュ鐨勫唴瀹癸紙鏃犺鏄庛€佹棤Markdown銆佹棤浠ｇ爜鍧楁爣璁般€佹棤```json```銆佹棤```绛夛級銆?
+2. **鐩存帴杈撳嚭JSON瀵硅薄**锛氱洿鎺ヨ緭鍑?`{"hit": ..., "evidence": ..., "confidence": ..., "notes": ...}`锛屼笉瑕佺敤浠ｇ爜鍧楀寘瑁广€?
+3. **涓嶈娣诲姞浠讳綍鍓嶇紑鎴栧悗缂€**锛氫笉瑕佸湪JSON鍓嶅悗娣诲姞浠讳綍鏂囧瓧璇存槑銆佽В閲婃垨鏍囪銆?
+4. **evidence瀛楁**锛氬彲浣跨敤 `\n` 琛ㄧず鎹㈣锛屼絾绂佹浣跨敤Markdown/HTML鍒楄〃鏍煎紡銆?
+5. **hit鍊奸€昏緫**锛氬鏋渆vidence琛ㄧず"鐩哥瓑/涓€鑷?鍚堣"锛屽垯hit蹇呴』涓篺alse锛涜〃绀?涓嶇浉绛?涓嶄竴鑷?杩濊"锛屽垯hit蹇呴』涓簍rue銆?
+6. **鏁版嵁涓嶈冻澶勭悊**锛氳嫢璇佹嵁涓嶈冻锛岃杩斿洖hit=null锛屽苟鍦╡vidence涓啓鏄庡師鍥犮€?
+7. **蹇呴』浣跨敤涓枃**锛歟vidence鍜宯otes瀛楁鐨勫唴瀹瑰繀椤诲叏閮ㄤ娇鐢ㄤ腑鏂囪緭鍑猴紝涓嶅緱浣跨敤鑻辨枃鎴栧叾浠栬瑷€銆?
+
+**閿欒绀轰緥锛堢姝級锛?*
+```
+鏍规嵁鍒嗘瀽锛岀粨鏋滃涓嬶細
+```json
+{"hit": true, ...}
+```
+```
+
+**姝ｇ‘绀轰緥锛堝繀椤伙級锛?*
+```
+{"hit": true, "evidence": "...", "confidence": "high", "notes": ""}
+```
+
+## 杈撳嚭鍓嶈嚜妫€
+
+- 鏄惁涓ユ牸鎸夌収"鍒ゆ柇閫昏緫"涓殑姝ラ鎵ц锛?
+- 鏄惁涓ユ牸鎸夌収"鏍￠獙瑙勫垯"杩涜姣旇緝鍜屽垽鏂紵
+- 鏄惁涓ユ牸鎸夌収"鍐崇瓥缁撴灉"鐨勯€昏緫杈撳嚭缁撴灉锛?
+- 鏄惁鍒楀嚭鍏ㄩ儴鐩稿叧浜ゆ槗涓旈『搴忎笌鍘熸枃涓€鑷达紵
+- 鏄惁灞曠ず鎵€鏈夎绠楁楠や笌姣旇緝缁撴灉锛?
+- hit 鏄惁涓?evidence 鎻忚堪瀹屽叏涓€鑷达紵
+- 鑻ユ棤娉曞垽鏂紝鏄惁缁欏嚭 hit=null 骞惰鏄庡師鍥狅紵
+- **鏄惁鍦╡vidence涓槑纭鏄庝簡濡備綍鎸夌収"鍒ゆ柇閫昏緫"鍜?鏍￠獙瑙勫垯"鎵ц鐨勶紵**
+
+璇风幇鍦ㄥ紑濮嬪垎鏋愬苟杈撳嚭 JSON锛?
+PROMPT END
+
+================================================================================
+TIMESTAMP: 2026-02-01 08:45:21
+PROMPT START
+浣犳槸涓€涓弗鏍奸伒瀹堝璁¤鑼冪殑閾惰瀹¤绯荤粺锛屽繀椤诲噯纭€佸彲杩芥函銆侀浂鐚滄祴鍦板畬鎴愪换鍔°€?
+
+## 瀹¤瑙勫垯
+
+瑙勫垯ID: MSTAR_BBVA_TIME_CHK_SPECIAL
+瑙勫垯鍚嶇О: 浜ゆ槗鏃堕棿鏍￠獙_鐗规畩鏃堕棿娈典氦鏄?
+
+
+## 鈿狅笍 閲嶈锛氬繀椤讳弗鏍兼寜鐓т互涓嬪鏍搁€昏緫鎵ц
+
+**鍒ゆ柇閫昏緫锛堝繀椤讳弗鏍兼墽琛岋級**锛?
+姝ラ1锛?渚濇鑾峰彇瑙ｆ瀽鍚嶥etalle de Movimientos Realizados鎴杛aw_transaction_data閮ㄥ垎鐨勬瘡涓€鏉¤褰曠殑description锛屽description鍐呭涓?RETIRO CAJERO AUTOMATICO JUN21 11:25 BBVA 9340 FOLIO:8584"锛屽垯鎻愬彇鍑虹殑鏃堕棿"11:25"锛?4灏忔椂鍒讹級锛涘鏋渄escription鍐呭涓病鏈夋椂闂达紝鍒欒烦杩囪璁板綍杩涘叆涓嬩竴鏉★紝鐩村埌鎵€鏈夌殑璁板綍閮介亶鍘嗗畬锛?
+姝ラ2锛氬皢鑾峰彇鍒扮殑鎵€鏈夌殑鏃堕棿鏀惧埌涓€涓泦鍚堜腑锛堟病鏈夊氨涓虹┖锛夛紱
+姝ラ3锛氱粺璁¤幏鍙栫殑鏃堕棿涓浜?鐐?5鐐规€讳氦鏄撶瑪鏁帮紙鍖呮嫭2鐐瑰拰5鐐癸紙24灏忔椂鍒讹級锛夛紝璁颁负count锛?
+
+**鏍￠獙瑙勫垯锛堝繀椤讳弗鏍兼墽琛岋級**锛?
+count鏄惁澶т簬10
+
+**鍐崇瓥缁撴灉锛堝繀椤讳弗鏍兼墽琛岋級**锛?
+濡傛灉count>10锛岃緭鍑轰氦鏄撴椂闂村紓甯革紱count<=10锛岃緭鍑烘甯?
+
+**鎵ц瑕佹眰**锛?
+- 蹇呴』涓ユ牸鎸夌収涓婅堪"鍒ゆ柇閫昏緫"涓殑姝ラ鎵ц锛屼笉寰楄烦杩囦换浣曟楠?
+- 蹇呴』涓ユ牸鎸夌収"鏍￠獙瑙勫垯"杩涜姣旇緝鍜屽垽鏂?
+- 蹇呴』涓ユ牸鎸夌収"鍐崇瓥缁撴灉"鐨勯€昏緫杈撳嚭缁撴灉
+- 濡傛灉涓婅堪閫昏緫涓湁鏄庣‘鐨勬楠よ鏄庯紝蹇呴』閫愭潯鎵ц锛屼笉寰楄嚜琛岀畝鍖栨垨淇敼
+
+
+
+**hit 鍊煎垽鏂€昏緫锛堥潪甯搁噸瑕侊紒锛?*锛?
+- hit=True 琛ㄧず瑙勫垯琚懡涓紙杩濊/涓嶄竴鑷达級
+- hit=False 琛ㄧず瑙勫垯鏈懡涓紙鍚堣/涓€鑷达級
+- 璇锋牴鎹?鍐崇瓥缁撴灉"瀛楁鐨勯€昏緫鏉ュ垽鏂?
+
+
+## 宸叉彁鍙栫殑鏁版嵁
+
+- 涓嬫柟鍐呭宸叉寜鍘熷鏂囨。鐨勯〉闈㈤『搴忓拰琛岄『搴忔暣鐞嗭紝璇风洿鎺ヤ娇鐢細
+璐︽埛鍙? 1525571050
+鎬婚〉鏁? 24
+
+=== Detalle de Movimientos Realizados锛堢粨鏋勫寲鏄庣粏锛屽凡鎸夊師濮嬮『搴忓垪鍑猴級 ===
+鎬荤瑪鏁? 48
+鍏朵腑鍖呭惈鏈夋晥 Abonos (鍏ヨ处) 鐨勪氦鏄撴暟: 23
+鍏朵腑鍖呭惈鏈夋晥 Cargos (鍑鸿处) 鐨勪氦鏄撴暟: 25
+------------------------------
+1. 椤甸潰:0 | Oper:07/AGO | Liq:07/AGO | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 2739112472 pago | CARGOS:鏃?| ABONOS:920.0 | OPERACI脫N:10735.32 | SALDO:9815.32 | Referencia:Referencia 0003330556
+2. 椤甸潰:0 | Oper:08/AGO | Liq:08/AGO | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1526195291 Dimo-Sin concepto | CARGOS:鏃?| ABONOS:200.0 | OPERACI脫N:10935.32 | SALDO:10015.32 | Referencia:Referencia 0010088102
+3. 椤甸潰:0 | Oper:10/AGO | Liq:11/AGO | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1556086301 teamo | CARGOS:鏃?| ABONOS:337.8 | OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0068478887
+4. 椤甸潰:0 | Oper:10/AGO | Liq:11/AGO | 鎻忚堪:SPEI ENVIADO BANAMEX 0405250TDCesca 00005256783864633095 MBAN01002508110079343139 Rodrigo Guadarrama | CARGOS:2453.0 | ABONOS:鏃?| OPERACI脫N:8820.12 | SALDO:9938.34 | Referencia:Referencia 0079343139 002
+5. 椤甸潰:0 | Oper:11/AGO | Liq:07/AGO | 鎻忚堪:AMAZON MEXICO RFC: ANE 140618P37 17:36 AUT: 836547 | CARGOS:920.0 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia ******1184
+6. 椤甸潰:0 | Oper:11/AGO | Liq:09/AGO | 鎻忚堪:STRIPE *UBER TRIP RFC: UPM 200220LK5 13:09 AUT: 156760 | CARGOS:76.98 | ABONOS:鏃?| OPERACI脫N:7823.14 | SALDO:7823.14 | Referencia:Referencia ******1184
+7. 椤甸潰:0 | Oper:13/AGO | Liq:13/AGO | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1556086301 majo | CARGOS:鏃?| ABONOS:1616.0 | OPERACI脫N:9439.14 | SALDO:9439.14 | Referencia:Referencia 0064961789
+8. 椤甸潰:0 | Oper:14/AGO | Liq:14/AGO | 鎻忚堪:PAGO DE NOMINA AYALA HERRERA ALFREDO | CARGOS:鏃?| ABONOS:4344.85 | OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia IN 4200371726
+9. 椤甸潰:0 | Oper:14/AGO | Liq:14/AGO | 鎻忚堪:SPEI RECIBIDOSCOTIABANK 0140825Transferencia a Ernesto 00044180256049647866 2025081440044B36L0000393423593 FLORES PEREZ JIMENA | CARGOS:鏃?| ABONOS:300.0 | OPERACI脫N:14083.99 | SALDO:8557.1 | Referencia:Referencia 0118517795 044
+10. 椤甸潰:0 | Oper:15/AGO | Liq:14/AGO | 鎻忚堪:TOTALPLAY CAT RFC: TPT 890516JP5 11:26 AUT: 672366 | CARGOS:1190.0 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia ******1184
+11. 椤甸潰:0 | Oper:15/AGO | Liq:14/AGO | 鎻忚堪:TELCEL 018001200006 RFC: VPS 100716CK9 12:28 AUT: 705926 | CARGOS:549.0 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia ******1184
+12. 椤甸潰:0 | Oper:15/AGO | Liq:14/AGO | 鎻忚堪:LIVERPOOL POR INTERNET RFC: DLI 931201MI9 11:30 AUT: 731182 | CARGOS:3787.89 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia ******1184
+13. 椤甸潰:0 | Oper:15/AGO | Liq:18/AGO | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1586538741 Transf a ERNESTO F | CARGOS:鏃?| ABONOS:320.0 | OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0025665423
+14. 椤甸潰:0 | Oper:15/AGO | Liq:18/AGO | 鎻忚堪:SPEI RECIBIDOAZTECA 4454427Gas e Internet 00127180013472002918 250818072905111344I GUADARRAMA PEREZ RODRIGO | CARGOS:鏃?| ABONOS:300.0 | OPERACI脫N:9177.1 | SALDO:8557.1 | Referencia:Referencia 0129726252 127
+15. 椤甸潰:0 | Oper:16/AGO | Liq:18/AGO | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1556086301 tiamo | CARGOS:鏃?| ABONOS:813.0 | OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0026322941
+16. 椤甸潰:0 | Oper:16/AGO | Liq:18/AGO | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1556086301 bolsa 3 | CARGOS:鏃?| ABONOS:400.0 | OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0073940797
+17. 椤甸潰:0 | Oper:16/AGO | Liq:18/AGO | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1515465135 Bolsa3 | CARGOS:400.0 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0083072472
+18. 椤甸潰:0 | Oper:16/AGO | Liq:18/AGO | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1550181555 Transf a Ernesto F | CARGOS:鏃?| ABONOS:880.0 | OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0044609841
+19. 椤甸潰:0 | Oper:16/AGO | Liq:18/AGO | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1585741650 gas internet | CARGOS:鏃?| ABONOS:320.0 | OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0095543631
+20. 椤甸潰:0 | Oper:16/AGO | Liq:18/AGO | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1556086301 Labial | CARGOS:70.0 | ABONOS:鏃?| OPERACI脫N:11120.1 | SALDO:5437.1 | Referencia:Referencia 0048669932
+21. 椤甸潰:0 | Oper:18/AGO | Liq:16/AGO | 鎻忚堪:MIT*INST CDEFIS RFC: ICD 2103223Y0 12:34 AUT: 570819 | CARGOS:3120.0 | ABONOS:鏃?| OPERACI脫N:8000.1 | SALDO:8000.1 | Referencia:Referencia ******1184
+22. 椤甸潰:0 | Oper:25/AGO | Liq:22/AGO | 鎻忚堪:MERPAGO*AGREGADOR RFC: MAG 2105031W3 16:02 AUT: 152804 | CARGOS:650.0 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia ******4427
+23. 椤甸潰:0 | Oper:25/AGO | Liq:21/AGO | 鎻忚堪:AMAZON MEXICO RFC: ANE 140618P37 22:58 AUT: 313973 | CARGOS:171.0 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia ******1184
+24. 椤甸潰:0 | Oper:25/AGO | Liq:21/AGO | 鎻忚堪:AMAZON RFC: ANE 140618P37 22:58 AUT: 314497 | CARGOS:683.1 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia ******1184
+25. 椤甸潰:0 | Oper:25/AGO | Liq:23/AGO | 鎻忚堪:AMAZON MEXICO RFC: ANE 140618P37 11:33 AUT: 969437 | CARGOS:199.0 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia ******1184
+26. 椤甸潰:0 | Oper:25/AGO | Liq:23/AGO | 鎻忚堪:AMAZON MEXICO RFC: ANE 140618P37 11:33 AUT: 971056 | CARGOS:199.0 | ABONOS:鏃?| OPERACI脫N:6098.0 | SALDO:6098.0 | Referencia:Referencia ******1184
+27. 椤甸潰:0 | Oper:29/AGO | Liq:29/AGO | 鎻忚堪:PAGO DE NOMINA AYALA HERRERA ALFREDO | CARGOS:鏃?| ABONOS:4337.25 | OPERACI脫N:10435.25 | SALDO:10435.25 | Referencia:Referencia IN 4200371726
+28. 椤甸潰:0 | Oper:30/AGO | Liq:01/SEP | 鎻忚堪:SPEI RECIBIDOHSBC 0004447Pago Tanda 00021180065153320678 HSBC336735 ANGEL HUMBERTO AGUILAR SALAS | CARGOS:鏃?| ABONOS:14000.0 | OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0105429100 021
+29. 椤甸潰:0 | Oper:30/AGO | Liq:01/SEP | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1556086301 boletos majo bad | CARGOS:鏃?| ABONOS:1622.0 | OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0071774574
+30. 椤甸潰:0 | Oper:30/AGO | Liq:01/SEP | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1556086301 papa medi tenis | CARGOS:鏃?| ABONOS:1155.0 | OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0046413277
+31. 椤甸潰:0 | Oper:30/AGO | Liq:01/SEP | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1556086301 TC ESCA | CARGOS:鏃?| ABONOS:4430.0 | OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0075727357
+32. 椤甸潰:0 | Oper:30/AGO | Liq:01/SEP | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1519393071 bad | CARGOS:鏃?| ABONOS:811.0 | OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0070746388
+33. 椤甸潰:0 | Oper:30/AGO | Liq:01/SEP | 鎻忚堪:PAGO TARJETA DE CREDITO CUENTA: BMOV | CARGOS:9793.16 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 5550806945
+34. 椤甸潰:0 | Oper:30/AGO | Liq:01/SEP | 鎻忚堪:SPEI ENVIADO BANAMEX 2307250TDC 00005256783864633095 MBAN01002509010073890935 Rodrigo Guadarrama | CARGOS:9576.0 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0073890935 002
+35. 椤甸潰:0 | Oper:30/AGO | Liq:01/SEP | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1556086301 TC COSMETICOS | CARGOS:鏃?| ABONOS:3021.0 | OPERACI脫N:16105.09 | SALDO:10435.25 | Referencia:Referencia 0021723299
+36. 椤甸潰:0 | Oper:31/AGO | Liq:01/SEP | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1586538741 Transf a ERNESTO F | CARGOS:鏃?| ABONOS:520.0 | OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0004009886
+37. 椤甸潰:0 | Oper:31/AGO | Liq:01/SEP | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1556086301 Xsuqloterico | CARGOS:610.0 | ABONOS:鏃?| OPERACI脫N:16015.09 | SALDO:10435.25 | Referencia:Referencia 0044154528
+38. 椤甸潰:0 | Oper:01/SEP | Liq:01/SEP | 鎻忚堪:MERPAGO*AGREGADOR RFC: MAG 2105031W3 14:56 AUT: 046454 | CARGOS:650.0 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia ******4427
+39. 椤甸潰:0 | Oper:01/SEP | Liq:01/SEP | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1585741650 boletos | CARGOS:鏃?| ABONOS:1860.0 | OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0012874504
+40. 椤甸潰:0 | Oper:01/SEP | Liq:01/SEP | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1519424817 kendrick2 | CARGOS:1962.0 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0009741042
+41. 椤甸潰:0 | Oper:01/SEP | Liq:01/SEP | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1507438373 Anillo | CARGOS:370.0 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0075037454
+42. 椤甸潰:0 | Oper:01/SEP | Liq:01/SEP | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1524115913 Caja | CARGOS:700.0 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0040056330
+43. 椤甸潰:0 | Oper:01/SEP | Liq:02/SEP | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1556086301 xprecioso | CARGOS:鏃?| ABONOS:250.0 | OPERACI脫N:14443.09 | SALDO:13693.09 | Referencia:Referencia 0025729751
+44. 椤甸潰:0 | Oper:02/SEP | Liq:02/SEP | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1585741650 Transf a ESAU F | CARGOS:300.0 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia 0096782019
+45. 椤甸潰:0 | Oper:02/SEP | Liq:01/SEP | 鎻忚堪:GASOL CENTINELA RFC: CANL531213I98 18:18 AUT: 192793 | CARGOS:500.0 | ABONOS:鏃?| OPERACI脫N:鏃?| SALDO:鏃?| Referencia:Referencia ******4427
+46. 椤甸潰:0 | Oper:02/SEP | Liq:03/SEP | 鎻忚堪:PAGO CUENTA DE TERCERO BNET 1585741650 cambio | CARGOS:鏃?| ABONOS:100.0 | OPERACI脫N:13743.09 | SALDO:11033.09 | Referencia:Referencia 0051102647
+47. 椤甸潰:0 | Oper:03/SEP | Liq:03/SEP | 鎻忚堪:OPENAI *CHATGPT SUBSCR USD 20.00TC018.8005AUT: 387681 | CARGOS:376.01 | ABONOS:鏃?| OPERACI脫N:13367.08 | SALDO:10757.08 | Referencia:Referencia ******1184
+48. 椤甸潰:0 | Oper:04/SEP | Liq:02/SEP | 鎻忚堪:MIT*INST CDEFIS RFC: ICD 2103223Y0 22:57 AUT: 725597 | CARGOS:2610.0 | ABONOS:鏃?| OPERACI脫N:10757.08 | SALDO:10757.08 | Referencia:Referencia ******1184
+
+=== 绯荤粺鑷姩杩涜鐨勪綑棰濊繛缁€ф鏌?(Balance Check Analysis, Internal Python Calculation) ===
+鍒濆閿氱偣 (Balance_1) 鍦ㄨ 1: 10735.32
+Round 1: 琛?[1 -> 2] | Start=10735.32 - Cargos(0.00) + Abonos(0.00) = Expected(10735.32) vs Actual(10935.32) | Diff=200.00 -> FAIL
+Round 2: 琛?[2 -> 4] | Start=10935.32 - Cargos(0.00) + Abonos(337.80) = Expected(11273.12) vs Actual(8820.12) | Diff=2453.00 -> FAIL
+Round 3: 琛?[4 -> 6] | Start=8820.12 - Cargos(920.00) + Abonos(0.00) = Expected(7900.12) vs Actual(7823.14) | Diff=76.98 -> FAIL
+Round 4: 琛?[6 -> 7] | Start=7823.14 - Cargos(0.00) + Abonos(0.00) = Expected(7823.14) vs Actual(9439.14) | Diff=1616.00 -> FAIL
+Round 5: 琛?[7 -> 9] | Start=9439.14 - Cargos(0.00) + Abonos(4344.85) = Expected(13783.99) vs Actual(14083.99) | Diff=300.00 -> FAIL
+Round 6: 琛?[9 -> 14] | Start=14083.99 - Cargos(5526.89) + Abonos(320.00) = Expected(8877.10) vs Actual(9177.10) | Diff=300.00 -> FAIL
+Round 7: 琛?[14 -> 20] | Start=9177.10 - Cargos(400.00) + Abonos(2413.00) = Expected(11190.10) vs Actual(11120.10) | Diff=70.00 -> FAIL
+Round 8: 琛?[20 -> 21] | Start=11120.10 - Cargos(0.00) + Abonos(0.00) = Expected(11120.10) vs Actual(8000.10) | Diff=3120.00 -> FAIL
+Round 9: 琛?[21 -> 26] | Start=8000.10 - Cargos(1703.10) + Abonos(0.00) = Expected(6297.00) vs Actual(6098.00) | Diff=199.00 -> FAIL
+Round 10: 琛?[26 -> 27] | Start=6098.00 - Cargos(0.00) + Abonos(0.00) = Expected(6098.00) vs Actual(10435.25) | Diff=4337.25 -> FAIL
+Round 11: 琛?[27 -> 35] | Start=10435.25 - Cargos(19369.16) + Abonos(22018.00) = Expected(13084.09) vs Actual(16105.09) | Diff=3021.00 -> FAIL
+Round 12: 琛?[35 -> 37] | Start=16105.09 - Cargos(0.00) + Abonos(520.00) = Expected(16625.09) vs Actual(16015.09) | Diff=610.00 -> FAIL
+Round 13: 琛?[37 -> 43] | Start=16015.09 - Cargos(3682.00) + Abonos(1860.00) = Expected(14193.09) vs Actual(14443.09) | Diff=250.00 -> FAIL
+Round 14: 琛?[43 -> 46] | Start=14443.09 - Cargos(800.00) + Abonos(0.00) = Expected(13643.09) vs Actual(13743.09) | Diff=100.00 -> FAIL
+Round 15: 琛?[46 -> 47] | Start=13743.09 - Cargos(0.00) + Abonos(0.00) = Expected(13743.09) vs Actual(13367.08) | Diff=376.01 -> FAIL
+Round 16: 琛?[47 -> 48] | Start=13367.08 - Cargos(0.00) + Abonos(0.00) = Expected(13367.08) vs Actual(10757.08) | Diff=2610.00 -> FAIL
+>> 缁撹(Conclusion): 瀛樺湪鏍￠獙澶辫触鐨勫尯闂?(FAIL DETECTED). result!=0
+
+=== 瀹㈡埛淇℃伅 ===
+
+Periodo: DEL 05/08/2025 AL 04/09/2025, Fecha de Corte: 04/09/2025, No. de Cuenta: 1525571050, No. de Cliente: 01246776, R.F.C: FOPE9908085G9, No. Cuenta CLABE: 012 180 01525571050 1, Client Name: ERNESTO FLORES PEREZ, Client Address: PTO GUAYMAS 25 1
+CLZD SAN JUAN DE ARAGON Y CAMI
+GUSTAVO A MADERO
+CIUDAD DE MEXICO
+MEXICO
+CP 07920
+
+=== Comportamiento ===
+
+Saldo Anterior: 9,815.32
+Saldo Final: 10,757.08
+Dep贸sitos / Abonos (+): 23  42,857.90
+Retiros / Cargos (-): 25  41,916.14
+Saldo Promedio M铆nimo Mensual: 0.00
+
+=== informacion_financiera ===
+
+Rendimiento: {'Saldo Promedio': '8,522.19', 'D铆as del Periodo': '31', 'Tasa Bruta Anual %': '0.000', 'Saldo Promedio Gravable': '0.00', 'Intereses a Favor (+)': '0.00', 'ISR Retenido (-)': '0.00'}
+Comisiones: {'Cheques pagados': '0  0.00', 'Manejo de Cuenta': '0.00'}
+Total Comisiones: {'Total Comisiones': '0.00', 'Cargos Objetados': '0  0.00', 'Abonos Objetados': '0  0.00'}
+
+=== otros_productos ===
+
+Otros productos incluidos en el estado de cuenta (inversiones): [{'Contrato': 'N/A', 'Producto': 'N/A N/A', 'Tasa de Inter茅s anual': 'N/A', 'GAT Nominal': 'N/A', 'GAT Real': 'N/A', 'Total de comisiones': 'N/A'}]
+Total de Apartados: 01
+Saldo Global: $ 10,000.00
+
+=== total_movimientos ===
+
+total_importe_cargos: 41916.14
+total_movimientos_cargos: 25
+total_importe_abonos: 42857.90
+total_movimientos_abonos: 23
+
+
+## 蹇呴』瀹屾垚鐨勪换鍔?
+
+1. **涓ユ牸鎸夌収"鍒ゆ柇閫昏緫"鎵ц**锛氬繀椤绘寜鐓т笂杩?鍒ゆ柇閫昏緫"涓殑姝ラ閫愭潯鎵ц锛屼笉寰楄烦杩囨垨淇敼浠讳綍姝ラ銆?
+2. **涓ユ牸鎸夌収"鏍￠獙瑙勫垯"鎵ц**锛氬繀椤绘寜鐓т笂杩?鏍￠獙瑙勫垯"杩涜姣旇緝鍜屽垽鏂紝涓嶅緱鑷绠€鍖栥€?
+3. **涓ユ牸鎸夌収"鍐崇瓥缁撴灉"鎵ц**锛氬繀椤绘寜鐓т笂杩?鍐崇瓥缁撴灉"鐨勯€昏緫杈撳嚭缁撴灉銆?
+4. 浠呬緷璧栦笂杩版暟鎹牳瀵?Comportamiento 涓?Detalle de Movimientos Realizados 鐨勭浉鍏虫暟鍊煎拰浜ゆ槗銆?
+5. 鑻ヤ负绗旀暟鏍￠獙锛氬垪鍑虹鍚堟潯浠剁殑浜ゆ槗銆傝嫢浜ゆ槗绗旀暟瓒呰繃10绗旓紝浠呴渶鍒楀嚭鍓?绗斻€佸悗5绗斿強鎵€鏈夊紓甯?涓嶇鐨勪氦鏄擄紝涓嶅繀缃楀垪鍏ㄩ儴銆?
+6. 鑻ヤ负閲戦鏍￠獙锛氬睍绀烘眰鍜岃繃绋嬨€傝嫢浜ゆ槗绗旀暟瓒呰繃10绗旓紝浠呴渶鍒楀嚭鍓?绗斻€佸悗5绗斿強鎵€鏈夊紓甯?涓嶇鐨勪氦鏄撻噾棰濓紝骞跺睍绀烘渶缁堟眰鍜岀粨鏋溿€?
+7. "鍒椾笉涓虹┖"鎸囦换鎰忛潪闆躲€侀潪绌烘暟鍊硷紙鍖呮嫭 0.01 绛夊皬棰濓級锛屼笉寰楅仐婕忋€?
+8. 鍐欐竻妤氭暟鍊?锛堟潵鑷?Comportamiento锛変笌鏁板€?锛堟潵鑷?Detalle锛夛紝璇存槑姣旇緝缁撴灉锛屽苟渚濇嵁鍐崇瓥瑙勫垯鎺ㄥ杈撳嚭銆?
+9. 杈撳嚭"涓€鑷?鈫?hit=False锛涜緭鍑?涓嶄竴鑷?鈫?hit=True锛涜嫢鏁版嵁涓嶈冻鈫?hit=null锛屽苟鍦?evidence 璇存槑鍘熷洜銆?
+10. evidence 蹇呴』鍖呭惈锛氭暟鎹潵婧愩€佸叧閿氦鏄撴槑缁嗭紙鎸夊師濮嬮『搴忥紝鍙畝鐣ワ級銆佽绠楄繃绋嬨€佹瘮杈冪粨璁轰互鍙?hit 鍒ゅ畾鐞嗙敱銆?
+11. 绂佹璋冩暣椤哄簭鎴栫寽娴嬶紱濡備俊鎭己澶卞奖鍝嶅垽鏂紝蹇呴』鍐欐槑骞惰繑鍥?hit=null銆?
+12. **鍦╡vidence涓繀椤绘槑纭鏄庯細浣犳槸濡備綍鎸夌収"鍒ゆ柇閫昏緫"鍜?鏍￠獙瑙勫垯"鎵ц鐨勶紝姣忎竴姝ョ殑鎵ц缁撴灉鏄粈涔堛€?*
+
+## 杈撳嚭鏍煎紡锛堚殸锔?涓ユ牸瑕佹眰锛氬彧鍏佽浠ヤ笅 JSON 鏍煎紡锛?
+
+**浣犲繀椤讳弗鏍兼寜鐓т互涓嬫牸寮忚緭鍑猴紝涓嶈娣诲姞浠讳綍鍏朵粬鍐呭锛?*
+
+{
+  "hit": true/false/null,
+  "evidence": "...",
+  "confidence": "high/medium/low",
+  "notes": "..."
+}
+
+**鈿狅笍 閲嶈瑕佹眰锛堝繀椤讳弗鏍奸伒瀹堬級锛?*
+1. **鍙兘杈撳嚭JSON鏍煎紡**锛氫笉鑳借緭鍑轰换浣旿SON浠ュ鐨勫唴瀹癸紙鏃犺鏄庛€佹棤Markdown銆佹棤浠ｇ爜鍧楁爣璁般€佹棤```json```銆佹棤```绛夛級銆?
+2. **鐩存帴杈撳嚭JSON瀵硅薄**锛氱洿鎺ヨ緭鍑?`{"hit": ..., "evidence": ..., "confidence": ..., "notes": ...}`锛屼笉瑕佺敤浠ｇ爜鍧楀寘瑁广€?
+3. **涓嶈娣诲姞浠讳綍鍓嶇紑鎴栧悗缂€**锛氫笉瑕佸湪JSON鍓嶅悗娣诲姞浠讳綍鏂囧瓧璇存槑銆佽В閲婃垨鏍囪銆?
+4. **evidence瀛楁**锛氬彲浣跨敤 `\n` 琛ㄧず鎹㈣锛屼絾绂佹浣跨敤Markdown/HTML鍒楄〃鏍煎紡銆?
+5. **hit鍊奸€昏緫**锛氬鏋渆vidence琛ㄧず"鐩哥瓑/涓€鑷?鍚堣"锛屽垯hit蹇呴』涓篺alse锛涜〃绀?涓嶇浉绛?涓嶄竴鑷?杩濊"锛屽垯hit蹇呴』涓簍rue銆?
+6. **鏁版嵁涓嶈冻澶勭悊**锛氳嫢璇佹嵁涓嶈冻锛岃杩斿洖hit=null锛屽苟鍦╡vidence涓啓鏄庡師鍥犮€?
+7. **蹇呴』浣跨敤涓枃**锛歟vidence鍜宯otes瀛楁鐨勫唴瀹瑰繀椤诲叏閮ㄤ娇鐢ㄤ腑鏂囪緭鍑猴紝涓嶅緱浣跨敤鑻辨枃鎴栧叾浠栬瑷€銆?
+
+**閿欒绀轰緥锛堢姝級锛?*
+```
+鏍规嵁鍒嗘瀽锛岀粨鏋滃涓嬶細
+```json
+{"hit": true, ...}
+```
+```
+
+**姝ｇ‘绀轰緥锛堝繀椤伙級锛?*
+```
+{"hit": true, "evidence": "...", "confidence": "high", "notes": ""}
+```
+
+## 杈撳嚭鍓嶈嚜妫€
+
+- 鏄惁涓ユ牸鎸夌収"鍒ゆ柇閫昏緫"涓殑姝ラ鎵ц锛?
+- 鏄惁涓ユ牸鎸夌収"鏍￠獙瑙勫垯"杩涜姣旇緝鍜屽垽鏂紵
+- 鏄惁涓ユ牸鎸夌収"鍐崇瓥缁撴灉"鐨勯€昏緫杈撳嚭缁撴灉锛?
+- 鏄惁鍒楀嚭鍏ㄩ儴鐩稿叧浜ゆ槗涓旈『搴忎笌鍘熸枃涓€鑷达紵
+- 鏄惁灞曠ず鎵€鏈夎绠楁楠や笌姣旇緝缁撴灉锛?
+- hit 鏄惁涓?evidence 鎻忚堪瀹屽叏涓€鑷达紵
+- 鑻ユ棤娉曞垽鏂紝鏄惁缁欏嚭 hit=null 骞惰鏄庡師鍥狅紵
+- **鏄惁鍦╡vidence涓槑纭鏄庝簡濡備綍鎸夌収"鍒ゆ柇閫昏緫"鍜?鏍￠獙瑙勫垯"鎵ц鐨勶紵**
+
+璇风幇鍦ㄥ紑濮嬪垎鏋愬苟杈撳嚭 JSON锛?
+PROMPT END

@@ -257,7 +257,18 @@ class DataLoader:
         if need_detalle:
             detalle_transactions = self.extract_detalle_transactions(data)
             if detalle_transactions:
-                formatted_detalle = self.format_detalle_transactions(detalle_transactions)
+                # 尝试提取期初余额 (Summary Saldo Anterior) 以支持第一行无锚点的情况
+                initial_balance = None
+                try:
+                    if 'structured_data' in data:
+                        summ = data.get('structured_data', {}).get('account_summary', {}).get('comportamiento', {})
+                        val = summ.get('Saldo Anterior') or summ.get('saldo_anterior')
+                        if val:
+                             initial_balance = float(str(val).replace(',', '').replace('$', '').strip())
+                except Exception:
+                    pass
+
+                formatted_detalle = self.format_detalle_transactions(detalle_transactions, initial_balance=initial_balance)
                 if formatted_detalle:
                     text_parts.append("=== Detalle de Movimientos Realizados（结构化明细，已按原始顺序列出） ===")
                     text_parts.append(formatted_detalle)
@@ -735,7 +746,7 @@ class DataLoader:
         
         return []
     
-    def format_detalle_transactions(self, transactions: List[Dict[str, Any]]) -> str:
+    def format_detalle_transactions(self, transactions: List[Dict[str, Any]], initial_balance: Optional[float] = None) -> str:
         """
         格式化 Detalle 交易明细，生成适合放入提示词的文本
         """
@@ -771,7 +782,136 @@ class DataLoader:
                 base += f" | Referencia:{'; '.join(referencias)}"
             lines.append(base)
             
+        # 添加 Python 端预计算的余额连续性检查报告，辅助 LLM 进行 MSTAR_BBVA_DTL_AMT_SINGLE 规则判定
+        try:
+            analysis_report = self._analyze_balance_continuity(transactions, initial_balance)
+            lines.append(analysis_report)
+        except Exception as e:
+            logger.error(f"生成余额连续性检查报告时出错: {e}")
+            
         return "\n".join(lines)
+
+    def _analyze_balance_continuity(self, transactions: List[Dict[str, Any]], initial_balance: Optional[float] = None) -> str:
+        """
+        Python 端预计算余额连续性，解决 LLM 在长算术链中的幻觉问题
+        """
+        report = []
+        report.append("\n=== 系统自动进行的余额连续性检查 (Balance Check Analysis, Internal Python Calculation) ===")
+        
+        balance_1 = None
+        balance_1_idx = -1
+        
+        def to_float(val):
+            if not val: return 0.0
+            if isinstance(val, (float, int)): return float(val)
+            try: 
+                return float(str(val).replace(",", "").replace("$", "").strip())
+            except: 
+                return 0.0
+
+        def has_val(val):
+            if val is None: return False
+            s = str(val).strip()
+            return s and s not in ["", "无", "None"]
+
+        # 1. 寻找初始锚点
+        current_calc_start_idx = 0
+        
+        # 优先检查第一行是否具备锚点
+        first_txn_op = transactions[0].get("operacion") if transactions else None
+        if has_val(first_txn_op):
+            balance_1 = to_float(first_txn_op)
+            balance_1_idx = 0
+            current_calc_start_idx = 1
+            report.append(f"初始锚点 (Balance_1) 在行 1: {balance_1}")
+        elif initial_balance is not None:
+            # 第一行无锚点，尝试使用期初余额
+            balance_1 = initial_balance
+            balance_1_idx = -1  # 虚拟索引表示 Summary
+            current_calc_start_idx = 0 # 从第一行开始计算
+            report.append(f"初始锚点 (Balance_1) 使用 Saldo Anterior: {balance_1}")
+        else:
+            # 否则向下寻找第一个锚点
+            for idx, txn in enumerate(transactions): 
+                op = txn.get("operacion")
+                if has_val(op):
+                    balance_1 = to_float(op)
+                    balance_1_idx = idx
+                    current_calc_start_idx = idx + 1 
+                    report.append(f"初始锚点 (Balance_1) 在行 {idx+1}: {balance_1}")
+                    break
+        
+        if balance_1 is None:
+             report.append("警告: 未找到初始锚点 (Balance_1)，无法执行连续性检查。")
+             return "\n".join(report)
+
+        # 2. 迭代检查后续区间
+        all_passed = True
+        round_num = 1
+        
+        i = current_calc_start_idx
+        while i < len(transactions):
+            balance_2 = None
+            balance_2_idx = -1
+            sum_cargos = 0.0
+            sum_abonos = 0.0
+            
+            # 向下累加直到找到下一个锚点
+            j = i
+            while j < len(transactions):
+                txn = transactions[j]
+                op = txn.get("operacion")
+                
+                # 检查是否为锚点
+                if has_val(op):
+                    balance_2 = to_float(op)
+                    balance_2_idx = j
+                    
+                    # 关键修正：根据规则 "Balance_1 (不含) 到 Balance_2 (含)"
+                    # 必须包含当前锚点行(End Row)的交易金额
+                    sum_cargos += to_float(txn.get("cargo"))
+                    sum_abonos += to_float(txn.get("abono"))
+                    
+                    break 
+                
+                # 累加非锚点行
+                sum_cargos += to_float(txn.get("cargo"))
+                sum_abonos += to_float(txn.get("abono"))
+                j += 1
+            
+            if balance_2 is not None:
+                # 执行核算公式: Bal1 - Cargo + Abono = Bal2 ?
+                expected_bal2 = balance_1 - sum_cargos + sum_abonos
+                diff = abs(expected_bal2 - balance_2)
+                
+                # 允许 0.05 的浮点误差
+                is_pass = diff < 0.05
+                status = "PASS" if is_pass else "FAIL"
+                if not is_pass: all_passed = False
+                
+                # 格式化输出
+                check_str = (f"Round {round_num}: 行 [{balance_1_idx+1} -> {balance_2_idx+1}] | "
+                             f"Start={balance_1:.2f} - Cargos({sum_cargos:.2f}) + Abonos({sum_abonos:.2f}) "
+                             f"= Expected({expected_bal2:.2f}) vs Actual({balance_2:.2f}) | "
+                             f"Diff={diff:.2f} -> {status}")
+                report.append(check_str)
+                
+                # 更新状态
+                balance_1 = balance_2
+                balance_1_idx = balance_2_idx
+                i = j + 1 # 下一轮从 anchor 之后开始
+                round_num += 1
+            else:
+                # 扫描到末尾没找到下一个 anchor
+                # report.append(f"扫描结束。剩余 {len(transactions)-i} 行未找到结尾锚点。")
+                break
+                
+        if all_passed:
+            report.append(">> 结论(Conclusion): 所有区间校验通过 (All Passed). result=0.0")
+        else:
+            report.append(">> 结论(Conclusion): 存在校验失败的区间 (FAIL DETECTED). result!=0")
+            
+        return "\n".join(report)
 
     @staticmethod
     def _has_effective_amount(value: Optional[str]) -> bool:

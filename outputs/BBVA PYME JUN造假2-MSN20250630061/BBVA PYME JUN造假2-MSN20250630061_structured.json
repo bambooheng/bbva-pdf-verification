@@ -1,0 +1,785 @@
+{
+  "metadata": {
+    "document_type": "BBVA_STATEMENT",
+    "bank": "BBVA Mexico",
+    "account_number": "0119973087",
+    "total_pages": 9,
+    "language": "es",
+    "period": {
+      "start": "2025-06-01",
+      "end": "2025-06-30"
+    }
+  },
+  "structured_data": {
+    "account_summary": {
+      "customer_info": {
+        "Periodo": "DEL 01/06/2025 AL 30/06/2025",
+        "Fecha de Corte": "30/06/2025",
+        "No. de Cuenta": "0119973087",
+        "No. de Cliente": "D4261268",
+        "R.F.C": "ZBS221213313",
+        "No. Cuenta CLABE": "012650001199730877",
+        "Client Name": "ZION BISERVICIOS DE SEGURIDAD PRIVADA S DE RL DE CV",
+        "Client Address": "AV MARTIRES 120\nALAMOS VISTA HERMOSA\nPUEBLA\nPUE\nMEXICO\nCP\n72320"
+      },
+      "pages_info": [
+        {
+          "page_index": "1",
+          "No. de Cuenta": "0119973087",
+          "No. de Cliente": "D4261268",
+          "PAGINA": "1 / 9"
+        },
+        {
+          "page_index": "2",
+          "PAGINA": "2 / 9"
+        },
+        {
+          "page_index": "3",
+          "PAGINA": "3 / 9"
+        },
+        {
+          "page_index": "4",
+          "PAGINA": "4 / 9"
+        },
+        {
+          "page_index": "5",
+          "PAGINA": "5 / 9"
+        },
+        {
+          "page_index": "6",
+          "PAGINA": "6 / 9"
+        },
+        {
+          "page_index": "7",
+          "PAGINA": "7 / 9"
+        },
+        {
+          "page_index": "8",
+          "PAGINA": "8 / 9"
+        },
+        {
+          "page_index": "9",
+          "PAGINA": "9 / 9"
+        }
+      ],
+      "informacion_financiera": {
+        "Rendimiento": {
+          "Saldo Promedio": "65,160.59",
+          "Días del Periodo": "30",
+          "Tasa Bruta Anual %": "0.000",
+          "Saldo Promedio Gravable": "65,160.59",
+          "Intereses a Favor (+)": "0.00",
+          "ISR Retenido (-)": "0.00"
+        },
+        "Comisiones": {
+          "Cheques pagados": "5  100.00",
+          "Manejo de Cuenta": "0.00"
+        },
+        "Total Comisiones": {
+          "Total Comisiones": "170.00",
+          "Cargos Objetados": "0  0.00",
+          "Abonos Objetados": "0  0.00"
+        }
+      },
+      "comportamiento": {
+        "Saldo Final": "37,399.50",
+        "Depósitos / Abonos (+)": "23  582,153.85",
+        "Retiros / Cargos (-)": "40  627,480.46"
+      },
+      "raw_transaction_data": {
+        "source_file": "BBVA PYME JUN造假2-MSN20250630061",
+        "document_type": "A",
+        "total_pages": 9,
+        "total_rows": 63,
+        "sessions": 0,
+        "pages": [
+          {
+            "page": 0,
+            "rows": [
+              {
+                "fecha_oper": "02/JUN",
+                "fecha_liq": "01/JUN",
+                "descripcion": "CA7 EMISION LIBRAMIE CHQ DEL 01MAY25 AL 31MAY25",
+                "referencia": "",
+                "cargos": 60.0,
+                "abonos": 0.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "02/JUN",
+                "fecha_liq": "01/JUN",
+                "descripcion": "CB1 IVA COM.CH PAGADO 16%",
+                "referencia": "",
+                "cargos": 9.6,
+                "abonos": 0.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "02/JUN",
+                "fecha_liq": "02/JUN",
+                "descripcion": "W02 DEPOSITO DE TERCERO FACT564 ZION SEG PRIV BMRCASH Ref. REFBNTC00439932",
+                "referencia": "",
+                "cargos": 0.0,
+                "abonos": 17400.06,
+                "saldo_operacion": 100056.57,
+                "saldo_liquidacion": 100056.57
+              },
+              {
+                "fecha_oper": "03/JUN",
+                "fecha_liq": "03/JUN",
+                "descripcion": "T20 SPEI RECIBIDOSANTANDER 6804136567 Ref. 0142883868 014 00014882655084016271 20250603400140BET0000468041360 FIBRA A LA CASA SA DE CV",
+                "referencia": "",
+                "cargos": 0.0,
+                "abonos": 47050.18,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "03/JUN",
+                "fecha_liq": "03/JUN",
+                "descripcion": "T17 SPEI ENVIADO BAJIO 003062503062025 Ref. 0049743253 030 00030100900040412181 BNET01002506030049743253 TECNOLOGIA MOVALA",
+                "referencia": "",
+                "cargos": 62220.0,
+                "abonos": 0.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "03/JUN",
+                "fecha_liq": "03/JUN",
+                "descripcion": "T17 SPEI ENVIADO SCOTIABANK 003062503062025 Ref. 0049824691 044 00044650036043020524 BNET01002506030049824691 GERARDO GARCIA ESPINOZA",
+                "referencia": "",
+                "cargos": 2000.0,
+                "abonos": 0.0,
+                "saldo_operacion": 82886.75,
+                "saldo_liquidacion": 82886.75
+              },
+              {
+                "fecha_oper": "04/JUN",
+                "fecha_liq": "04/JUN",
+                "descripcion": "P14 EFECTIVALE S DE RL D REF:1000000PD00918728133 CIE:1077074 Ref. GUIA:1598588",
+                "referencia": "",
+                "cargos": 3159.38,
+                "abonos": 0.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "04/JUN",
+                "fecha_liq": "04/JUN",
+                "descripcion": "CA9 CHEQUE PAGADO NO. . PAGO EN EFECTIVO Ref. 87",
+                "referencia": "",
+                "cargos": 40000.0,
+                "abonos": 0.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "04/JUN",
+                "fecha_liq": "04/JUN",
+                "descripcion": "T20 SPEI RECIBIDOBAJIO 5519260ONE PUEBLA ANGELOPOLIS PERIFER Ref. 0148281855 030 00030650900013995693 BB551926020643 PERIONE SA DE CV",
+                "referencia": "",
+                "cargos": 0.0,
+                "abonos": 15481.0,
+                "saldo_operacion": 55208.37,
+                "saldo_liquidacion": 55208.37
+              },
+              {
+                "fecha_oper": "05/JUN",
+                "fecha_liq": "05/JUN",
+                "descripcion": "S39 SERV BANCA INTERNET Ref. OPS SERV BCA IN",
+                "referencia": "",
+                "cargos": 110.0,
+                "abonos": 0.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "05/JUN",
+                "fecha_liq": "05/JUN",
+                "descripcion": "S40 IVA COM SERV BCA INTERNET Ref. IVA COM SERV BC",
+                "referencia": "",
+                "cargos": 17.6,
+                "abonos": 0.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "05/JUN",
+                "fecha_liq": "05/JUN",
+                "descripcion": "CA9 CHEQUE PAGADO NO. . PAGO EN EFECTIVO Ref. 88",
+                "referencia": "",
+                "cargos": 20000.0,
+                "abonos": 0.0,
+                "saldo_operacion": 35080.77,
+                "saldo_liquidacion": 35080.77
+              },
+              {
+                "fecha_oper": "06/JUN",
+                "fecha_liq": "06/JUN",
+                "descripcion": "P14 EFECTIVALE S DE RL D REF:1000000PD00919642890 CIE:1077074 Ref. GUIA:2912240",
+                "referencia": "",
+                "cargos": 1116.0,
+                "abonos": 0.0,
+                "saldo_operacion": 33964.77,
+                "saldo_liquidacion": 33964.77
+              },
+              {
+                "fecha_oper": "10/JUN",
+                "fecha_liq": "10/JUN",
+                "descripcion": "N06 PAGO CUENTA DE TERCERO BNET 1530181701 10062025 Ref. 0079365011",
+                "referencia": "",
+                "cargos": 234.0,
+                "abonos": 0.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "10/JUN",
+                "fecha_liq": "10/JUN",
+                "descripcion": "T17 SPEI ENVIADO SCOTIABANK 010062510062025 Ref. 0026480540 044 00044650036043020524 BNET01002506100026480540 GERARDO GARCIA ESPINOZA",
+                "referencia": "",
+                "cargos": 216.0,
+                "abonos": 0.0,
+                "saldo_operacion": 33514.77,
+                "saldo_liquidacion": 33514.77
+              },
+              {
+                "fecha_oper": "11/JUN",
+                "fecha_liq": "11/JUN",
+                "descripcion": "W02 DEPOSITO DE TERCERO AGRI STAR MEXICO BMRCASH Ref. REFBNTC00752932",
+                "referencia": "",
+                "cargos": 0.0,
+                "abonos": 10053.26,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "11/JUN",
+                "fecha_liq": "11/JUN",
+                "descripcion": "P14 EFECTIVALE S DE RL D REF:1000000PD00920651592 CIE:1077074 Ref. GUIA:4996900",
+                "referencia": "",
+                "cargos": 3159.38,
+                "abonos": 0.0,
+                "saldo_operacion": 40408.65,
+                "saldo_liquidacion": 40408.65
+              },
+              {
+                "fecha_oper": "12/JUN",
+                "fecha_liq": "12/JUN",
+                "descripcion": "T17 SPEI ENVIADO HSBC 0120625REPARACION DE RADIOS Ref. 0026851918 021 00021650040190789060 BNET01002506120026851918 COMERCIALIZADORA CKF",
+                "referencia": "",
+                "cargos": 2076.4,
+                "abonos": 0.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "12/JUN",
+                "fecha_liq": "12/JUN",
+                "descripcion": "P14 TOTAL PLAY REF:00008000002004349071 CIE:1278800 Ref. GUIA:5246217",
+                "referencia": "",
+                "cargos": 635.0,
+                "abonos": 0.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "12/JUN",
+                "fecha_liq": "12/JUN",
+                "descripcion": "N06 PAGO CUENTA DE TERCERO BNET 0448672687 F 581 Ref. 0059050044",
+                "referencia": "",
+                "cargos": 0.0,
+                "abonos": 17400.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "12/JUN",
+                "fecha_liq": "12/JUN",
+                "descripcion": "T20 SPEI RECIBIDOBANAMEX 0722691JEFE DE SEGURIDAD PRIVADA INTR Ref. 0187565898 002 00002180006945240368 19765D0B5A9C414C GRUPO POSADAS SA B DE CV",
+                "referencia": "",
+                "cargos": 0.0,
+                "abonos": 92961.37,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "12/JUN",
+                "fecha_liq": "12/JUN",
+                "descripcion": "T20 SPEI RECIBIDOBANAMEX 0722749JEFE DE SEGURIDAD PRIVADA INTR Ref. 0187565905 002 00002180006945240368 19765D0B8727AB52 GRUPO POSADAS SA B DE CV",
+                "referencia": "",
+                "cargos": 0.0,
+                "abonos": 37591.49,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "12/JUN",
+                "fecha_liq": "12/JUN",
+                "descripcion": "X01 IMSS/INF/AFORE VIA ELECT. PAGO SIPARE Z3031320107 202504 964423 Ref. 163B145114",
+                "referencia": "",
+                "cargos": 84889.11,
+                "abonos": 0.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "12/JUN",
+                "fecha_liq": "12/JUN",
+                "descripcion": "T17 SPEI ENVIADO SCOTIABANK 012062512062025 Ref. 0027038033 044 00044650036043020524 BNET01002506120027038033 GERARDO GARCIA ESPINOZA",
+                "referencia": "",
+                "cargos": 6000.0,
+                "abonos": 0.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "12/JUN",
+                "fecha_liq": "12/JUN",
+                "descripcion": "T17 SPEI ENVIADO HSBC 1206202ADELANTOUNIFORMES Ref. 0027040063 021",
+                "referencia": "",
+                "cargos": 5918.9,
+                "abonos": 0.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "12/JUN",
+                "fecha_liq": "12/JUN",
+                "descripcion": "T22 SPEI DEVUELTOHSBC 1206202ADELANTOUNIFORMES Ref. 0027040063 021",
+                "referencia": "",
+                "cargos": 0.0,
+                "abonos": 5918.9,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "12/JUN",
+                "fecha_liq": "12/JUN",
+                "descripcion": "N06 PAGO CUENTA DE TERCERO BNET 0488548900 ANTICIPO UNIFORMES Ref. 0082886038",
+                "referencia": "",
+                "cargos": 5918.9,
+                "abonos": 0.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "12/JUN",
+                "fecha_liq": "12/JUN",
+                "descripcion": "T17 SPEI ENVIADO AZTECA 012062512062025 Ref. 0027054991 127 00004027665813428977 BNET01002506120027054991 ERICK R TECUAPETLA BARRERA",
+                "referencia": "",
+                "cargos": 1000.0,
+                "abonos": 0.0,
+                "saldo_operacion": 87842.1,
+                "saldo_liquidacion": 87842.1
+              },
+              {
+                "fecha_oper": "13/JUN",
+                "fecha_liq": "13/JUN",
+                "descripcion": "T20 SPEI RECIBIDOBANAMEX 0958253ZION BISERVICIOS DE SEGURIDAD Ref. 0194038550 002 00002180075500135386 1976ACFA8AE4B6E2 INMOBILIARIA QUINTA FRANCIA SA DE",
+                "referencia": "",
+                "cargos": 0.0,
+                "abonos": 9628.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "13/JUN",
+                "fecha_liq": "13/JUN",
+                "descripcion": "T20 SPEI RECIBIDOBANORTE 0000554FACTURA EEE956CA Ref. 0194529532 072 00072650001370209086 8846APR2202506134154443217 SERVICIO DE MANTENIMIENTO CENTRO COMERCI",
+                "referencia": "",
+                "cargos": 0.0,
+                "abonos": 15080.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "13/JUN",
+                "fecha_liq": "13/JUN",
+                "descripcion": "P14 EFECTIVALE S DE RL D REF:1000000PD00921464236 CIE:1077074 Ref. GUIA:6059659",
+                "referencia": "",
+                "cargos": 2116.0,
+                "abonos": 0.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "13/JUN",
+                "fecha_liq": "13/JUN",
+                "descripcion": "P14 TELCEL REF:00000000707325306249 CIE:0182251 Ref. GUIA:6067030",
+                "referencia": "",
+                "cargos": 4771.97,
+                "abonos": 0.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "13/JUN",
+                "fecha_liq": "13/JUN",
+                "descripcion": "N06 PAGO CUENTA DE TERCERO BNET 1524367819 13062025 Ref. 0073907035",
+                "referencia": "",
+                "cargos": 5150.0,
+                "abonos": 0.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "13/JUN",
+                "fecha_liq": "13/JUN",
+                "descripcion": "N06 PAGO CUENTA DE TERCERO BNET 1530181701 13062025 Ref. 0034104011",
+                "referencia": "",
+                "cargos": 4000.0,
+                "abonos": 0.0,
+                "saldo_operacion": 96512.13,
+                "saldo_liquidacion": 96512.13
+              },
+              {
+                "fecha_oper": "16/JUN",
+                "fecha_liq": "16/JUN",
+                "descripcion": "T20 SPEI RECIBIDOSANTANDER 6049727PAGO FACT 582 SCHOLAE Ref. 0111285935 014 00014650655100404892 20250616400140BET0000460497270 SCHOLAE EDUCACION SIGNIFICATIVA SC",
+                "referencia": "",
+                "cargos": 0.0,
+                "abonos": 27840.06,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "16/JUN",
+                "fecha_liq": "16/JUN",
+                "descripcion": "CA9 CHEQUE PAGADO NO. . PAGO EN EFECTIVO Ref. 89",
+                "referencia": "",
+                "cargos": 44000.0,
+                "abonos": 0.0,
+                "saldo_operacion": 80352.19,
+                "saldo_liquidacion": 80352.19
+              },
+              {
+                "fecha_oper": "17/JUN",
+                "fecha_liq": "17/JUN",
+                "descripcion": "T20 SPEI RECIBIDOBANAMEX 1885065COMERCIAL CITY FRESKO S DE RL Ref. 0115260101 002 00002180002345330377 1977EBE67565E7E5 COMERCIAL CITY FRESKO S DE RL DE C",
+                "referencia": "",
+                "cargos": 0.0,
+                "abonos": 95192.73,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "17/JUN",
+                "fecha_liq": "17/JUN",
+                "descripcion": "TJ3 SITH21213539 FIDEICOMISO F/1596 1832077 Ref. 181590189257840",
+                "referencia": "",
+                "cargos": 0.0,
+                "abonos": 30569.87,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "17/JUN",
+                "fecha_liq": "17/JUN",
+                "descripcion": "T17 SPEI ENVIADO SCOTIABANK 017062517062025 Ref. 0028380682 044 00044650036043020524 BNET01002506170028380682 GERARDO GARCIA ESPINOZA",
+                "referencia": "",
+                "cargos": 4000.0,
+                "abonos": 0.0,
+                "saldo_operacion": 202114.79,
+                "saldo_liquidacion": 202114.79
+              },
+              {
+                "fecha_oper": "18/JUN",
+                "fecha_liq": "18/JUN",
+                "descripcion": "T17 SPEI ENVIADO BANKAOOL 018062518062025 Ref. 0028527108 147 00147180000000604247 BNET01002506180028527108 ALTA COMERCIALIZADORA Y PROVEEDORA",
+                "referencia": "",
+                "cargos": 62306.0,
+                "abonos": 0.0,
+                "saldo_operacion": 139808.79,
+                "saldo_liquidacion": 139808.79
+              },
+              {
+                "fecha_oper": "19/JUN",
+                "fecha_liq": "19/JUN",
+                "descripcion": "T20 SPEI RECIBIDOBANAMEX 01906251PUSR ZION FACT518 Ref. 0125359213 002 00002180701186951177 085903691200317058 GRUPO HOTELERO SCN SA DE CV",
+                "referencia": "",
+                "cargos": 0.0,
+                "abonos": 15142.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "19/JUN",
+                "fecha_liq": "19/JUN",
+                "descripcion": "P14 EFECTIVALE S DE RL D REF:1000000PD00922681792 CIE:1077074 Ref. GUIA:9169941",
+                "referencia": "",
+                "cargos": 3159.38,
+                "abonos": 0.0,
+                "saldo_operacion": 151791.41,
+                "saldo_liquidacion": 151791.41
+              },
+              {
+                "fecha_oper": "20/JUN",
+                "fecha_liq": "20/JUN",
+                "descripcion": "T20 SPEI RECIBIDOBANORTE 0000561FACTURA 5991902F Ref. 0131691245 072 00072650001370209086 8846APR2202506204176476907 SERVICIO DE MANTENIMIENTO CENTRO COMERCI",
+                "referencia": "",
+                "cargos": 0.0,
+                "abonos": 15080.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "20/JUN",
+                "fecha_liq": "20/JUN",
+                "descripcion": "CA9 CHEQUE PAGADO NO. . PAGO EN EFECTIVO Ref. 90",
+                "referencia": "",
+                "cargos": 133000.0,
+                "abonos": 0.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "20/JUN",
+                "fecha_liq": "20/JUN",
+                "descripcion": "W02 DEPOSITO DE TERCERO FACT 583 BMRCASH Ref. REFBNTC00937126",
+                "referencia": "",
+                "cargos": 0.0,
+                "abonos": 10053.26,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "20/JUN",
+                "fecha_liq": "20/JUN",
+                "descripcion": "N06 PAGO CUENTA DE TERCERO BNET 1507837483 20062025 Ref. 0026614016",
+                "referencia": "",
+                "cargos": 4000.0,
+                "abonos": 0.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "20/JUN",
+                "fecha_liq": "20/JUN",
+                "descripcion": "T17 SPEI ENVIADO AZTECA 020062520062025 Ref. 0029262190 127 00004027665876864100 BNET01002506200029262190 ROBERTO RODRIGUEZ ROMANO",
+                "referencia": "",
+                "cargos": 4200.0,
+                "abonos": 0.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "20/JUN",
+                "fecha_liq": "20/JUN",
+                "descripcion": "N06 PAGO CUENTA DE TERCERO BNET 1524367819 20062025 Ref. 0029501041",
+                "referencia": "",
+                "cargos": 2200.0,
+                "abonos": 0.0,
+                "saldo_operacion": 33524.67,
+                "saldo_liquidacion": 33524.67
+              },
+              {
+                "fecha_oper": "24/JUN",
+                "fecha_liq": "24/JUN",
+                "descripcion": "T20 SPEI RECIBIDOBAJIO",
+                "referencia": "",
+                "cargos": 0.0,
+                "abonos": 15350.35,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "24/JUN",
+                "fecha_liq": "24/JUN",
+                "descripcion": "P14 EFECTIVALE S DE RL D REF:1000000PD00923803043 CIE:1077074 Ref. GUIA:1346446",
+                "referencia": "",
+                "cargos": 3159.38,
+                "abonos": 0.0,
+                "saldo_operacion": 45715.64,
+                "saldo_liquidacion": 45715.64
+              },
+              {
+                "fecha_oper": "25/JUN",
+                "fecha_liq": "25/JUN",
+                "descripcion": "T20 SPEI RECIBIDOBAJIO 1243713FACT 586 Ref. 0153647658 030 00030650900007519014 BB1243713020743 COMERCIALIZADORA ARVIEN SA DE",
+                "referencia": "",
+                "cargos": 0.0,
+                "abonos": 34800.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "25/JUN",
+                "fecha_liq": "25/JUN",
+                "descripcion": "N06 PAGO CUENTA DE TERCERO BNET 0488548900 UNIFROMES Ref. 0069942018",
+                "referencia": "",
+                "cargos": 5918.9,
+                "abonos": 0.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "25/JUN",
+                "fecha_liq": "25/JUN",
+                "descripcion": "T20 SPEI RECIBIDOBANAMEX 0582984ZION BISERVICIOS DE SEGURIDAD Ref. 0154427363 002 00002180075500135386 197A8905DC810D4C INMOBILIARIA QUINTA FRANCIA SA DE",
+                "referencia": "",
+                "cargos": 0.0,
+                "abonos": 9628.0,
+                "saldo_operacion": 84224.74,
+                "saldo_liquidacion": 84224.74
+              },
+              {
+                "fecha_oper": "26/JUN",
+                "fecha_liq": "26/JUN",
+                "descripcion": "N06 PAGO CUENTA DE TERCERO BNET 0448672687 F 587 Ref. 0097305095",
+                "referencia": "",
+                "cargos": 0.0,
+                "abonos": 17400.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "26/JUN",
+                "fecha_liq": "26/JUN",
+                "descripcion": "N06 PAGO CUENTA DE TERCERO BNET 1524367819 20062025 Ref. 0073673010",
+                "referencia": "",
+                "cargos": 3750.0,
+                "abonos": 0.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "26/JUN",
+                "fecha_liq": "26/JUN",
+                "descripcion": "X01 IMSS/INF/AFORE VIA ELECT. PAGO SIPARE Z3031320107 202505 441526 Ref. 177B165047",
+                "referencia": "",
+                "cargos": 42149.18,
+                "abonos": 0.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "26/JUN",
+                "fecha_liq": "26/JUN",
+                "descripcion": "T17 SPEI ENVIADO SCOTIABANK 026062526062025 Ref. 0030562203 044 00044650036043020524 BNET01002506260030562203 GERARDO GARCIA ESPINOZA",
+                "referencia": "",
+                "cargos": 4000.0,
+                "abonos": 0.0,
+                "saldo_operacion": 51725.56,
+                "saldo_liquidacion": 51725.56
+              },
+              {
+                "fecha_oper": "27/JUN",
+                "fecha_liq": "27/JUN",
+                "descripcion": "CA9 CHEQUE PAGADO NO. . PAGO EN EFECTIVO Ref. 91",
+                "referencia": "",
+                "cargos": 51000.0,
+                "abonos": 0.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "27/JUN",
+                "fecha_liq": "27/JUN",
+                "descripcion": "W02 DEPOSITO DE TERCERO FACT 584 ZION SEG PRIV BMRCASH Ref. REFBNTC00439932",
+                "referencia": "",
+                "cargos": 0.0,
+                "abonos": 17400.06,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "27/JUN",
+                "fecha_liq": "27/JUN",
+                "descripcion": "N06 PAGO CUENTA DE TERCERO BNET 0118787263 SERV VIGILANCIA JU Ref. 0047987037",
+                "referencia": "",
+                "cargos": 0.0,
+                "abonos": 10053.26,
+                "saldo_operacion": 28178.88,
+                "saldo_liquidacion": 28178.88
+              },
+              {
+                "fecha_oper": "30/JUN",
+                "fecha_liq": "30/JUN",
+                "descripcion": "P14 EFECTIVALE S DE RL D REF:1000000PD00925406452 CIE:1077074 Ref. GUIA:3722907",
+                "referencia": "",
+                "cargos": 3159.38,
+                "abonos": 0.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "30/JUN",
+                "fecha_liq": "30/JUN",
+                "descripcion": "T20 SPEI RECIBIDOBANORTE 0000580FACTURA 1E75EF9C Ref. 0181254776 072 00072650001370209086 8846APR2202506304206406147 SERVICIO DE MANTENIMIENTO CENTRO COMERCI",
+                "referencia": "",
+                "cargos": 0.0,
+                "abonos": 15080.0,
+                "saldo_operacion": 0.0,
+                "saldo_liquidacion": 0.0
+              },
+              {
+                "fecha_oper": "30/JUN",
+                "fecha_liq": "30/JUN",
+                "descripcion": "N06 PAGO CUENTA DE TERCERO BNET 1524367819 30062025 Ref. 0005166010",
+                "referencia": "",
+                "cargos": 2700.0,
+                "abonos": 0.0,
+                "saldo_operacion": 37399.5,
+                "saldo_liquidacion": 37399.5
+              }
+            ]
+          }
+        ]
+      },
+      "total_movimientos": {
+        "total_importe_cargos": "627480.46",
+        "total_movimientos_cargos": 40,
+        "total_importe_abonos": "582153.85",
+        "total_movimientos_abonos": 23
+      },
+      "cuadro_resumen": [
+        {
+          "Concepto": "Saldo Inicial",
+          "Cantidad": "82,726.11",
+          "Porcentaje": "13.18%",
+          "Columna": "A"
+        },
+        {
+          "Concepto": "Depósitos / Abonos (+)",
+          "Cantidad": "582,153.85",
+          "Porcentaje": "92.77%",
+          "Columna": "B"
+        },
+        {
+          "Concepto": "Comisiones (-)",
+          "Cantidad": "-170.00",
+          "Porcentaje": "-0.02%",
+          "Columna": "C"
+        },
+        {
+          "Concepto": "Intereses a favor (+)",
+          "Cantidad": "0.00",
+          "Porcentaje": "0.00%",
+          "Columna": "D"
+        },
+        {
+          "Concepto": "Retiros efectivo (-)",
+          "Cantidad": "0.00",
+          "Porcentaje": "0.00%",
+          "Columna": "E"
+        },
+        {
+          "Concepto": "Otros cargos (-)",
+          "Cantidad": "-627,480.46",
+          "Porcentaje": "-100.00%",
+          "Columna": "F"
+        },
+        {
+          "Concepto": "Saldo Final",
+          "Cantidad": "37,399.50",
+          "Porcentaje": "5.96%",
+          "Columna": "G"
+        }
+      ]
+    }
+  }
+}

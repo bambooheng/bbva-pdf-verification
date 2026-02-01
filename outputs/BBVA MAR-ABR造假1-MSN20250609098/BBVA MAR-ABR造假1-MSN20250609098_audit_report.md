@@ -1,6 +1,6 @@
 # BBVA 银行流水审计报告
 
-**生成时间**: 2026-01-31 21:25:02
+**生成时间**: 2026-02-01 10:34:43
 
 ## 元数据
 
@@ -34,41 +34,27 @@
 
 **判断依据**:
 
-> 规则ID: MSTAR_BBVA_DTL_CNT_ABONOS
-规则名称: 明细交易笔数校验_入账笔数
+> 执行步骤严格按照规则定义。
+Step 1: 从 'Comportamiento' 表格中提取 'Depósitos / Abonos (+)' 对应的总笔数。数据中显示为 '8'。
+Step 2: 遍历 'Detalle de Movimientos Realizados' 部分的所有交易行。总共有20行。
+Step 3: 关键过滤：仅统计 'Abonos' 列有有效数值（非空且不为0）的行。根据数据中提供的参考值，'其中包含有效 Abonos (入账) 的交易数: 10'。为进行人工复核，列出所有符合条件的交易明细（共10笔）：
+1. ABONOS:1200.0
+2. ABONOS:1000.0
+6. ABONOS:700.0
+8. ABONOS:16000.0
+9. ABONOS:250.0
+10. ABONOS:1700.0
+11. ABONOS:2100.0
+16. ABONOS:600.0
+18. ABONOS:800.0
+19. ABONOS:0.01
+Step 4: 计算符合条件的交易总行数。统计上述列表，共计10笔。
+校验规则：比较 Step 1 的数值（8）与 Step 4 的数值（10）是否相等。
+比较结果：8 ≠ 10，数值不相等。
+决策结果：根据规则，不相等则输出“不一致”（异常）。
+判定理由：Comportamiento 中记录的入账交易笔数（8笔）与交易明细中实际统计的有效 Abonos 交易笔数（10笔）不一致，命中规则定义的异常条件。
 
-执行步骤与结果：
-(Step 1) 从 'Comportamiento' 表格中提取 'Depósitos / Abonos (+)'（入账）对应的总笔数（Total Movimientos Abonos）。
-- 执行结果：在提供的 'Comportamiento' 部分，'Depósitos / Abonos (+): 8  22,400.01'，因此数值1（来自Comportamiento的入账总笔数）为 8。
-
-(Step 2) 遍历 'Detalle de Movimientos Realizados'或raw_transaction_data（交易明细）部分的所有交易行。
-- 执行结果：明细部分总共有 20 行交易记录。
-
-(Step 3) [关键过滤] 仅统计 'Abonos' 列有有效数值（非空且不为0）的行。如果某行只有 'Cargo' 列有值，必须忽略。
-- 执行结果：根据规则，逐行检查明细数据中的 'Abono' 字段，统计其值为有效数值（非空且不为0）的行。符合条件的交易明细如下（按原始顺序列出）：
-1. Abono: 1200.0
-2. Abono: 1000.0
-6. Abono: 700.0
-8. Abono: 16000.0
-9. Abono: 250.0
-10. Abono: 1700.0
-11. Abono: 2100.0
-16. Abono: 600.0
-18. Abono: 800.0
-19. Abono: 0.01
-
-(Step 4) 计算符合条件的交易总行数。
-- 执行结果：共统计到 10 笔有效 Abonos 交易。因此数值2（来自明细的入账总笔数）为 10。
-
-校验规则：比较1和2是否相等。
-- 比较结果：数值1 (8) 不等于 数值2 (10)。
-
-决策结果：如果不相等，输出不一致（异常）。
-- 最终结论：入账笔数不一致，存在异常。
-
-hit 值判定理由：根据规则，两个数值不相等，决策结果为“不一致”，因此 hit=true。
-
-**补充说明**: 数据中已明确提供'其中包含有效 Abonos (入账) 的交易数: 10'，与手动统计结果一致，确认了数值2的准确性。数值1来自Comportamiento表格，明确为8。两者确实不相等。
+**补充说明**: 数据中已提供'其中包含有效 Abonos (入账) 的交易数: 10'作为参考，与手动统计结果一致。
 
 ---
 
@@ -82,46 +68,36 @@ hit 值判定理由：根据规则，两个数值不相等，决策结果为“�
 
 **判断依据**:
 
-> 规则ID: MSTAR_BBVA_DTL_CNT_CARGOS
-规则名称: 明细交易笔数校验_出账笔数
+> 【执行步骤说明】
+1. (Step 1) 从 'Comportamiento' 表格中提取 'Retiros / Cargos (-)' 对应的总笔数。数据中显示为：'Retiros / Cargos (-): 12  9,828.78'，因此数值1（来自Comportamiento）为 12。
+2. (Step 2) 遍历 'Detalle de Movimientos Realizados' 部分的所有交易行。总共有20行。
+3. (Step 3) 关键过滤：仅统计 'Cargos' 列有有效数值（非空且不为0）的行。根据数据，'其中包含有效 Cargos (出账) 的交易数' 参考值为 10。为严格遵循步骤，手动复核明细：
+   - 行3: CARGOS:1690.78
+   - 行4: CARGOS:500.0
+   - 行5: CARGOS:19.0
+   - 行7: CARGOS:700.0
+   - 行12: CARGOS:350.0
+   - 行13: CARGOS:520.0
+   - 行14: CARGOS:300.0
+   - 行15: CARGOS:1400.0
+   - 行17: CARGOS:2100.0
+   - 行20: CARGOS:299.0
+   共计10笔。
+4. (Step 4) 计算符合条件的交易总行数。数值2（来自明细统计）为 10。
 
-执行步骤与结果：
-(Step 1) 从 'Comportamiento' 表格中提取 'Retiros / Cargos (-)'（出账）对应的总笔数（Total Movimientos Cargos）。
-- 数据来源：在提供的 'Comportamiento' 和 'total_movimientos' 部分，均明确列出 'Retiros / Cargos (-)' 的笔数为 12。
-- 提取结果：数值1 (来自Comportamiento) = 12。
+【校验规则执行】
+比较数值1 (12) 与 数值2 (10) 是否相等。
 
-(Step 2) 遍历 'Detalle de Movimientos Realizados'（交易明细）部分的所有交易行。
-- 明细部分总笔数为 20。
+【比较结果】
+数值1 (12) ≠ 数值2 (10)。
 
-(Step 3) [关键过滤] 仅统计 'Cargos' 列有有效数值（非空且不为0）的行。如果某行只有 'Abono' 列有值，必须忽略。
-- 根据规则，逐行检查 'Cargo' 字段。
-- 有效 Cargos 交易明细如下（按原始顺序列出，共10笔）：
-  1. 行3: Cargo:1690.78
-  2. 行4: Cargo:500.0
-  3. 行5: Cargo:19.0
-  4. 行7: Cargo:700.0
-  5. 行12: Cargo:350.0
-  6. 行13: Cargo:520.0
-  7. 行14: Cargo:300.0
-  8. 行15: Cargo:1400.0
-  9. 行17: Cargo:2100.0
-  10. 行20: Cargo:299.0
+【决策结果】
+根据规则，两个数值不相等，输出“不一致”（异常）。
 
-(Step 4) 计算符合条件的交易总行数。
-- 统计结果：数值2 (来自明细统计) = 10。
+【hit判定理由】
+根据规则定义，当两个数值不相等时，hit=true。
 
-校验规则：比较数值1和数值2是否相等。
-- 数值1 (Comportamiento 出账笔数) = 12
-- 数值2 (明细有效Cargos笔数) = 10
-- 比较结果：12 ≠ 10，两者不相等。
-
-决策结果：如果不相等，输出不一致（异常）。
-
-结论：明细中统计的有效出账（Cargos）交易笔数（10笔）与Comportamiento中报告的总出账笔数（12笔）不一致。
-
-hit值判定：根据规则，数值不相等 → 输出“不一致” → hit=true。
-
-**补充说明**: 数据中提供的参考值'其中包含有效 Cargos (出账) 的交易数: 10'与手动统计结果一致，确认了明细统计的准确性。Comportamiento中明确报告出账笔数为12，两者存在差异。
+**补充说明**: 系统提供的参考值 '其中包含有效 Cargos (出账) 的交易数: 10' 与手动复核结果一致，确认了数值2的准确性。数值1来自Comportamiento表格，清晰无误。两者明显不一致。
 
 ---
 
@@ -135,39 +111,45 @@ hit值判定：根据规则，数值不相等 → 输出“不一致” → hit=
 
 **判断依据**:
 
-> 【执行步骤说明】
-严格按照规则定义的判断逻辑执行：
-Step 1: 从 'Comportamiento' 表格中提取 'Depósitos / Abonos (+)' 对应的总金额。提取结果为：22,400.01。
-Step 2: 遍历 'Detalle de Movimientos Realizados' 部分。
-Step 3: 累加所有 'Abonos' 列的数值，忽略 'Cargo' 列。
-Step 4: 确保金额格式转换正确（处理千分位逗号）。明细中金额无千分位逗号，直接累加。
+> 规则ID: MSTAR_BBVA_DTL_AMT_ABONOS
+规则名称: 明细交易金额校验_入账金额
 
-【明细数据与计算过程】
-根据规则，列出所有 'Abonos' 列不为空的交易（共10笔，与参考值'有效 Abonos 交易数: 10'一致），并按原始顺序累加：
-1. Abono: 1200.0
-2. Abono: 1000.0
-6. Abono: 700.0
-8. Abono: 16000.0
-9. Abono: 250.0
-10. Abono: 1700.0
-11. Abono: 2100.0
-16. Abono: 600.0
-18. Abono: 800.0
-19. Abono: 0.01
+执行步骤（严格按照判断逻辑）：
+(Step 1) 从 'Comportamiento' 表格中提取 'Depósitos / Abonos (+)'（入账）对应的总金额。
+- 执行结果：在提供的'Comportamiento'部分，找到'Depósitos / Abonos (+): 8  22,400.01'。提取总金额为 22400.01。
+(Step 2) 遍历 'Detalle de Movimientos Realizados' 或raw_transaction_data部分。
+- 执行结果：已遍历提供的20条明细交易记录。
+(Step 3) [关键过滤] 累加所有 'Abonos' 列的数值。忽略 'Cargo' 列的数值。
+- 执行结果：根据明细，筛选出所有'ABONOS'字段不为'无'的交易，并累加其金额。明细中有效Abonos交易共10笔（与系统提示一致）。
+- 明细金额列表（按原始顺序）：
+  1. 1200.0
+  2. 1000.0
+  6. 700.0
+  8. 16000.0
+  9. 250.0
+  10. 1700.0
+  11. 2100.0
+  16. 600.0
+  18. 800.0
+  19. 0.01
+(Step 4) 确保金额格式转换正确（处理千分位逗号）。
+- 执行结果：明细中金额均为数字格式，无需转换。
+- 明细金额求和计算：1200.0 + 1000.0 + 700.0 + 16000.0 + 250.0 + 1700.0 + 2100.0 + 600.0 + 800.0 + 0.01 = 22350.01
 
-求和计算：
-1200.0 + 1000.0 + 700.0 + 16000.0 + 250.0 + 1700.0 + 2100.0 + 600.0 + 800.0 + 0.01 = 22350.01
+校验规则（严格按照校验规则）：
+比较1和2是否相等。
+- 数值1 (来自Comportamiento): 22400.01
+- 数值2 (来自明细求和): 22350.01
+- 比较结果：22400.01 ≠ 22350.01，两者不相等。
 
-【校验与结论】
-数值1 (来自 Comportamiento): 22,400.01
-数值2 (来自明细累加): 22,350.01
-比较结果：22,400.01 ≠ 22,350.01，两者不相等。
+决策结果（严格按照决策结果）：
+如果不相等，输出不一致（异常）。
+- 最终结论：入账总金额不一致，存在异常。
 
-根据校验规则：比较1和2是否相等。
-根据决策结果：如果不相等，输出不一致（异常）。
-因此，判定为不一致（异常），hit=true。
+hit值判定：
+根据规则，两个数值不相等 → 输出“不一致” → hit=true。
 
-**补充说明**: 明细累加总额(22,350.01)与Comportamiento中报告的总额(22,400.01)存在49.99的差异。差异可能源于数据提取或原始报告中的错误。
+**补充说明**: 系统提供的'有效 Abonos 交易数'为10笔，与手动筛选数量一致。明细求和结果(22350.01)与Comportamiento中的值(22400.01)相差50.00。此差异与系统内部余额连续性检查发现的失败区间（Round 7: Diff=15076.31）无关，因为该规则仅关注入账总金额的汇总一致性，不涉及余额连续性。差异可能源于数据提取或汇总错误。
 
 ---
 
@@ -181,39 +163,47 @@ Step 4: 确保金额格式转换正确（处理千分位逗号）。明细中金
 
 **判断依据**:
 
-> 【执行步骤说明】
-严格按照规则MSTAR_BBVA_DTL_AMT_CARGOS的判断逻辑执行：
-Step 1: 从'Comportamiento'表格中提取'Retiros / Cargos (-)'（出账）对应的总金额。
-- 数据来源：Comportamiento部分明确列出：'Retiros / Cargos (-): 12  9,828.78'。
-- 提取结果：数值1 = 9828.78。
-Step 2 & 3: 遍历'Detalle de Movimientos Realizados'，累加所有'Cargos'列的数值，忽略'Abono'列。
-- 数据来源：明细交易列表，共20笔。
-- 关键过滤：仅累加'Cargo'字段不为'无'的交易。
-- 逐笔明细（按原始顺序列出所有Cargos不为空的交易）：
-1. 交易3: Cargo: 1690.78
-2. 交易4: Cargo: 500.0
-3. 交易5: Cargo: 19.0
-4. 交易7: Cargo: 700.0
-5. 交易12: Cargo: 350.0
-6. 交易13: Cargo: 520.0
-7. 交易14: Cargo: 300.0
-8. 交易15: Cargo: 1400.0
-9. 交易17: Cargo: 2100.0
-10. 交易20: Cargo: 299.0
-Step 4: 确保金额格式转换正确（处理千分位逗号）。
-- 明细中所有金额均为标准数字格式，无需转换。
-- 计算过程：数值2 = 1690.78 + 500.0 + 19.0 + 700.0 + 350.0 + 520.0 + 300.0 + 1400.0 + 2100.0 + 299.0 = 7878.78。
-- 统计验证：明细中有效Cargos交易数为10笔，与列出的10笔一致。
-【校验规则执行】
-比较数值1（9828.78）与数值2（7878.78）是否相等。
-- 比较结果：9828.78 ≠ 7878.78，两者不相等。
-【决策结果与hit判定】
-根据规则决策结果：如果不相等，输出不一致（异常）。
-因此，输出：不一致。
-根据hit值判断逻辑：输出'不一致' → hit=true（违规/命中）。
-故判定：hit=true。
+> 规则ID: MSTAR_BBVA_DTL_AMT_CARGOS
+规则名称: 明细交易金额校验_出账金额
 
-**补充说明**: 审计发现：明细交易中Cargos金额总和（7878.78）与Comportamiento中报告的Cargos总金额（9828.78）不一致，差额为1950.00。规则要求严格比对，故判定为违规。；已根据 evidence 结尾的明确结论自动修正 hit 值为 True
+执行步骤（严格按照判断逻辑）：
+(Step 1) 从 'Comportamiento' 表格中提取 'Retiros / Cargos (-)'（出账）对应的总金额。
+- 提取结果：数值1 = 9,828.78
+(Step 2) 遍历 'Detalle de Movimientos Realizados' 或raw_transaction_data部分。
+- 已遍历提供的20条明细记录。
+(Step 3) [关键过滤] 累加所有 'Cargos' 列的数值。忽略 'Abono' 列的数值。
+- 明细中'Cargos'列不为空（非零、非空）的记录共10笔（与系统提供的'有效 Cargos (出账) 的交易数: 10'一致）。
+- 由于交易笔数（10笔）少于30笔，列出所有用于计算的Cargos金额明细：
+  1. 行3: 1690.78
+  2. 行4: 500.0
+  3. 行5: 19.0
+  4. 行7: 700.0
+  5. 行12: 350.0
+  6. 行13: 520.0
+  7. 行14: 300.0
+  8. 行15: 1400.0
+  9. 行17: 2100.0
+  10. 行20: 299.0
+(Step 4) 确保金额格式转换正确（处理千分位逗号）。
+- 明细中金额均为标准数字格式，无需转换。
+- 对上述10笔金额求和：1690.78 + 500.0 + 19.0 + 700.0 + 350.0 + 520.0 + 300.0 + 1400.0 + 2100.0 + 299.0 = 7878.78
+- 求和结果：数值2 = 7878.78
+
+校验规则（严格按照校验规则）：
+比较数值1（9,828.78）和数值2（7,878.78）是否相等。
+
+比较结果：
+- 数值1 (Comportamiento) = 9,828.78
+- 数值2 (明细累加) = 7,878.78
+- 两者不相等。差额为：9,828.78 - 7,878.78 = 1,950.00
+
+决策结果（严格按照决策结果）：
+因为两个数值不相等，所以输出“不一致”（异常）。
+
+hit值判定：
+根据规则，输出“不一致”对应 hit=true（违规/命中）。
+
+**补充说明**: 系统提供的'有效 Cargos (出账) 的交易数: 10'与手动筛选出的Cargos交易笔数一致，确保了统计基础正确。明细累加金额与Comportamiento报告的总出账金额存在显著差异，判定为违规。
 
 ---
 
@@ -231,91 +221,34 @@ Step 4: 确保金额格式转换正确（处理千分位逗号）。
 规则名称: 明细交易金额校验_单笔金额
 
 执行步骤与结果：
+1. 保持交易列表原始顺序：已按提供的20笔交易原始顺序处理。
+2. 确定初始锚点(Balance_1)：第一行交易（索引1）有'OPERACIÓN'值1226.31，将其记为Balance_1。计算起点从下一行（索引2）开始。
+3. 寻找下一个锚点(Balance_2)并迭代核算：
+   - Round 1: 锚点行1(1226.31) -> 锚点行2(2226.31)。区间交易：行2。Sum(Cargos)=0, Sum(Abonos)=1000。计算：1226.31 - 0 + 1000 - 2226.31 = 0.00。Result=0。
+   - Round 2: 锚点行2(2226.31) -> 锚点行3(535.53)。区间交易：行3。Sum(Cargos)=1690.78, Sum(Abonos)=0。计算：2226.31 - 1690.78 + 0 - 535.53 = 0.00。Result=0。
+   - Round 3: 锚点行3(535.53) -> 锚点行4(35.53)。区间交易：行4。Sum(Cargos)=500, Sum(Abonos)=0。计算：535.53 - 500 + 0 - 35.53 = 0.00。Result=0。
+   - Round 4: 锚点行4(35.53) -> 锚点行5(16.53)。区间交易：行5。Sum(Cargos)=19, Sum(Abonos)=0。计算：35.53 - 19 + 0 - 16.53 = 0.00。Result=0。
+   - Round 5: 锚点行5(16.53) -> 锚点行7(16.53)。区间交易：行6, 行7。Sum(Cargos)=700, Sum(Abonos)=700。计算：16.53 - 700 + 700 - 16.53 = 0.00。Result=0。
+   - Round 6: 锚点行7(16.53) -> 锚点行8(16016.53)。区间交易：行8。Sum(Cargos)=0, Sum(Abonos)=16000。计算：16.53 - 0 + 16000 - 16016.53 = 0.00。Result=0。
+   - Round 7: 锚点行8(16016.53) -> 锚点行11(4990.22)。区间交易：行9, 行10, 行11。Sum(Cargos)=0, Sum(Abonos)=250+1700+2100=4050。计算：16016.53 - 0 + 4050 - 4990.22 = 15076.31。Result=15076.31。
+   - Round 8: 锚点行11(4990.22) -> 锚点行18(1720.22)。区间交易：行12, 行13, 行14, 行15, 行16, 行17。Sum(Cargos)=350+520+300+1400+2100=4670, Sum(Abonos)=600。计算：4990.22 - 4670 + 600 - 1720.22 = 0.00。Result=0。
+   - Round 9: 锚点行18(1720.22) -> 锚点行19(1720.23)。区间交易：行19。Sum(Cargos)=0, Sum(Abonos)=0.01。计算：1720.22 - 0 + 0.01 - 1720.23 = 0.00。Result=0。
+   - Round 10: 锚点行19(1720.23) -> 锚点行20(1421.23)。区间交易：行20。Sum(Cargos)=299, Sum(Abonos)=0。计算：1720.23 - 299 + 0 - 1421.23 = 0.00。Result=0。
+4. 校验规则：检查所有轮次的result值。发现Round 7的result值为15076.31，不为0。
+5. 决策结果：由于存在result值不为0的轮次，输出不一致（异常）。
 
-Step 1: 保持交易列表的原始顺序。已按提供的20笔交易顺序处理。
+关键异常区间明细（Round 7）：
+- 锚点1 (Balance_1): 行8，OPERACIÓN=16016.53。
+- 区间交易：
+  行9: ABONOS=250.0
+  行10: ABONOS=1700.0
+  行11: ABONOS=2100.0 (该行也是锚点2)
+- 锚点2 (Balance_2): 行11，OPERACIÓN=4990.22。
+- 计算：16016.53 - 0 + (250+1700+2100) - 4990.22 = 16016.53 + 4050 - 4990.22 = 15076.31。
 
-Step 2: 确定初始锚点(Balance_1)。
-- 检查第一行交易（索引1）：有 'Operacion' 值 1226.31。
-- 因此，将 Balance_1 设为 1226.31。计算起点从下一行（索引2）开始。
+结论：根据校验规则，存在result值不为0的区间，因此判定为不一致。
 
-Step 3 & 4: 寻找下一个锚点并进行区间核算。
-
-轮次1:
-- Balance_1 = 1226.31 (来自索引1的 Operacion)。
-- 向下遍历，找到下一个有 'Operacion' 或 'SALDO OPERACIÓN' 的行：索引2的 Operacion 为 2226.31，记为 Balance_2。
-- 核算区间：从索引2（不含）到索引2（含）？根据规则，区间是 Balance_1 (不含) 到 Balance_2 (含)。Balance_1来自索引1，所以区间应从索引2开始。但Balance_2也在索引2，这意味着区间内没有交易（因为起点和终点是同一行？）。让我们严格遵循规则：
-   - Balance_1 (1226.31) 来自索引1。
-   - Balance_2 (2226.31) 来自索引2。
-   - 区间：索引1（不含）到索引2（含） => 即仅包含索引2这一行。
-- 累加区间内的 Cargos 和 Abonos：索引2的 Cargo 为“无”，Abono 为 1000.0。
-- 计算：result = Balance_1 - Sum(Cargos) + Sum(Abonos) - Balance_2 = 1226.31 - 0 + 1000.0 - 2226.31 = (1226.31 + 1000.0) - 2226.31 = 2226.31 - 2226.31 = 0.0。
-- 结果：result = 0.0。
-
-轮次2:
-- 新的 Balance_1 = 2226.31 (来自索引2的 Operacion)。
-- 向下遍历，找到下一个有 'Operacion' 的行：索引3的 Operacion 为 535.53，记为 Balance_2。
-- 区间：索引2（不含）到索引3（含） => 仅包含索引3这一行。
-- 累加：索引3的 Cargo 为 1690.78，Abono 为“无”。
-- 计算：result = 2226.31 - 1690.78 + 0 - 535.53 = (2226.31 - 1690.78) - 535.53 = 535.53 - 535.53 = 0.0。
-- 结果：result = 0.0。
-
-轮次3:
-- 新的 Balance_1 = 535.53 (来自索引3的 Operacion)。
-- 向下遍历，找到下一个有 'Operacion' 的行：索引4的 Operacion 为 35.53，记为 Balance_2。
-- 区间：索引3（不含）到索引4（含） => 仅包含索引4这一行。
-- 累加：索引4的 Cargo 为 500.0，Abono 为“无”。
-- 计算：result = 535.53 - 500.0 + 0 - 35.53 = (535.53 - 500.0) - 35.53 = 35.53 - 35.53 = 0.0。
-- 结果：result = 0.0。
-
-轮次4:
-- 新的 Balance_1 = 35.53 (来自索引4的 Operacion)。
-- 向下遍历，找到下一个有 'Operacion' 的行：索引5的 Operacion 为 16.53，记为 Balance_2。
-- 区间：索引4（不含）到索引5（含） => 仅包含索引5这一行。
-- 累加：索引5的 Cargo 为 19.0，Abono 为“无”。
-- 计算：result = 35.53 - 19.0 + 0 - 16.53 = (35.53 - 19.0) - 16.53 = 16.53 - 16.53 = 0.0。
-- 结果：result = 0.0。
-
-轮次5:
-- 新的 Balance_1 = 16.53 (来自索引5的 Operacion)。
-- 向下遍历，找到下一个有 'Operacion' 的行：索引7的 Operacion 为 16.53，记为 Balance_2。
-- 区间：索引5（不含）到索引7（含） => 包含索引6和索引7。
-- 累加：
-  索引6: Cargo 无，Abono 700.0。
-  索引7: Cargo 700.0，Abono 无。
-  Sum(Cargos) = 700.0, Sum(Abonos) = 700.0。
-- 计算：result = 16.53 - 700.0 + 700.0 - 16.53 = (16.53 + 0) - 16.53 = 0.0。
-- 结果：result = 0.0。
-
-轮次6:
-- 新的 Balance_1 = 16.53 (来自索引7的 Operacion)。
-- 向下遍历，找到下一个有 'Operacion' 的行：索引8的 Operacion 为 16016.53，记为 Balance_2。
-- 区间：索引7（不含）到索引8（含） => 仅包含索引8这一行。
-- 累加：索引8的 Cargo 为“无”，Abono 为 16000.0。
-- 计算：result = 16.53 - 0 + 16000.0 - 16016.53 = (16.53 + 16000.0) - 16016.53 = 16016.53 - 16016.53 = 0.0。
-- 结果：result = 0.0。
-
-轮次7:
-- 新的 Balance_1 = 16016.53 (来自索引8的 Operacion)。
-- 向下遍历，找到下一个有 'Operacion' 的行：索引11的 Operacion 为 4990.22，记为 Balance_2。
-- 区间：索引8（不含）到索引11（含） => 包含索引9, 10, 11。
-- 累加：
-  索引9: Cargo 无，Abono 250.0。
-  索引10: Cargo 无，Abono 1700.0。
-  索引11: Cargo 无，Abono 2100.0。
-  Sum(Cargos) = 0, Sum(Abonos) = 250.0 + 1700.0 + 2100.0 = 4050.0。
-- 计算：result = 16016.53 - 0 + 4050.0 - 4990.22 = (16016.53 + 4050.0) - 4990.22 = 20066.53 - 4990.22 = 15076.31。
-- 结果：result = 15076.31，不为0。
-
-发现不一致，停止后续轮次计算。
-
-校验规则：记录每一个轮次中步骤4中的result值，是否所有的result都为0。
-决策结果：如果任意一个轮次中result值不为0，输出不一致（异常）。
-
-结论：在轮次7中，result = 15076.31 ≠ 0，因此明细交易金额校验不一致。
-
-hit值判断：根据决策结果，存在不一致，故 hit = true。
-
-**补充说明**: 在轮次7的核算中，发现余额计算不一致。区间内（索引9至11）的Abonos总和为4050.0，但根据公式 Balance_1 (16016.53) + Sum(Abonos) (4050.0) 应等于 Balance_2 (4990.22) + Sum(Cargos) (0)，即 20066.53 应等于 4990.22，显然不等。这表明在索引9至11之间可能存在未列出的Cargos交易，或者Operacion值（4990.22）有误。根据规则，只要有一个轮次result不为0，即判定为不一致。；已根据 evidence 结尾的明确结论自动修正 hit 值为 True
+**补充说明**: 系统内部计算（Balance Check Analysis）已预先指出Round 7失败，与手动执行规则逻辑的结果一致。异常原因可能是区间内存在未正确反映在余额中的交易，或锚点余额值有误。
 
 ---
 
@@ -329,53 +262,36 @@ hit值判断：根据决策结果，存在不一致，故 hit = true。
 
 **判断依据**:
 
-> 规则ID: MSTAR_BBVA_DATE_CHK_CONS
-规则名称: 交易日期校验_日期一致性
+> 执行步骤1：从提供的数据中获取模糊匹配包含'Periodo'的信息。找到内容：'Periodo: DEL 13/03/2025 AL 12/04/2025'。因此，步骤1的日期区间为 [DEL 13/03/2025, AL 12/04/2025]。
+执行步骤2：从'Detalle de Movimientos Realizados'中提取所有交易的OPER和LIQ日期。所有日期如下（格式为日/月，年份默认为2025）：
+1. Oper:15/MAR, Liq:18/MAR
+2. Oper:18/MAR, Liq:18/MAR
+3. Oper:20/MAR, Liq:19/MAR
+4. Oper:21/MAR, Liq:21/MAR
+5. Oper:24/MAR, Liq:22/MAR
+6. Oper:02/ABR, Liq:02/ABR
+7. Oper:02/ABR, Liq:02/ABR
+8. Oper:04/ABR, Liq:04/ABR
+9. Oper:06/ABR, Liq:07/ABR
+10. Oper:06/ABR, Liq:07/ABR
+11. Oper:06/ABR, Liq:07/ABR
+12. Oper:07/ABR, Liq:04/ABR
+13. Oper:04/ABR, Liq:04/ABR
+14. Oper:07/ABR, Liq:07/ABR
+15. Oper:07/ABR, Liq:07/ABR
+16. Oper:07/ABR, Liq:07/ABR
+17. Oper:07/ABR, Liq:07/ABR
+18. Oper:08/ABR, Liq:08/ABR
+19. Oper:08/ABR, Liq:08/ABR
+20. Oper:08/ABR, Liq:08/ABR
+计算最小日期（min_date）：最早的OPER或LIQ日期是15/MAR（2025-03-15）。
+计算最大日期（max_date）：最晚的OPER或LIQ日期是08/ABR（2025-04-08）。
+执行校验规则：判断步骤2中的min_date（15/MAR/2025）和max_date（08/ABR/2025）是否在步骤1的日期区间（13/03/2025 至 12/04/2025）范围内。
+比较结果：min_date（2025-03-15）晚于区间起始日（2025-03-13），且早于区间结束日（2025-04-12）。max_date（2025-04-08）晚于区间起始日，且早于区间结束日。因此，min_date和max_date均在区间范围内。
+决策结果：根据规则，min_date和max_date在区间范围内，输出“一致（无异常）”。
+判定理由：当前规则仅校验日期范围，不涉及金额或笔数等其他指标。根据校验规则，日期在范围内，因此判定为一致（hit=false）。
 
-执行步骤：
-(Step 1) 获取步骤1中“content”的值中模糊匹配包含“Periodo”的信息。
-执行结果：在“=== Periodo 信息 ===”和“=== 客户信息 ===”中均找到“Periodo: DEL 13/03/2025 AL 12/04/2025”。因此，步骤1的日期区间为 [13/03/2025, 12/04/2025]。
-
-(Step 2) 取Detalle de Movimientos Realizados中所有的OPER和LIQ，并计算出其中最小日期和最大日期，分别记为min_date和max_date。
-执行结果：
-- 列出所有交易的OPER和LIQ日期（共20笔）：
-  1. Oper:15/MAR, Liq:18/MAR
-  2. Oper:18/MAR, Liq:18/MAR
-  3. Oper:20/MAR, Liq:19/MAR
-  4. Oper:21/MAR, Liq:21/MAR
-  5. Oper:24/MAR, Liq:22/MAR
-  6. Oper:02/ABR, Liq:02/ABR
-  7. Oper:02/ABR, Liq:02/ABR
-  8. Oper:04/ABR, Liq:04/ABR
-  9. Oper:06/ABR, Liq:07/ABR
-  10. Oper:06/ABR, Liq:07/ABR
-  11. Oper:06/ABR, Liq:07/ABR
-  12. Oper:07/ABR, Liq:04/ABR
-  13. Oper:04/ABR, Liq:04/ABR
-  14. Oper:07/ABR, Liq:07/ABR
-  15. Oper:07/ABR, Liq:07/ABR
-  16. Oper:07/ABR, Liq:07/ABR
-  17. Oper:07/ABR, Liq:07/ABR
-  18. Oper:08/ABR, Liq:08/ABR
-  19. Oper:08/ABR, Liq:08/ABR
-  20. Oper:08/ABR, Liq:08/ABR
-- 所有日期均属于2025年。
-- 最小日期（min_date）：在OPER和LIQ中，最早的日期是“15/MAR”（即2025年3月15日）。
-- 最大日期（max_date）：在OPER和LIQ中，最晚的日期是“08/ABR”（即2025年4月8日）。
-
-(Step 3) 校验规则：步骤2中的min_date和max_date是否在步骤1的日期区间范围内？
-执行结果：
-- 步骤1的日期区间：[13/03/2025, 12/04/2025]
-- 步骤2的min_date：15/03/2025。该日期（15/03/2025）晚于或等于区间起始日（13/03/2025），且早于或等于区间结束日（12/04/2025），因此在区间范围内。
-- 步骤2的max_date：08/04/2025。该日期（08/04/2025）晚于或等于区间起始日（13/03/2025），且早于或等于区间结束日（12/04/2025），因此在区间范围内。
-
-(Step 4) 决策结果：由于min_date（15/03/2025）和max_date（08/04/2025）均在步骤1的日期区间[13/03/2025, 12/04/2025]范围内，因此输出“一致（无异常）”。
-
-结论：根据校验规则，交易明细中的日期范围完全落在账单声明的周期内，未发现异常。
-
-hit值判定理由：根据决策结果“一致（无异常）”，规则未命中，因此 hit=false。
-
-**补充说明**: 所有日期均基于提供的2025年上下文进行解析。规则仅校验日期范围是否在区间内，不要求完全覆盖整个区间。经核查，所有交易的OPER和LIQ日期均在‘DEL 13/03/2025 AL 12/04/2025’之内。
+**补充说明**: 规则校验通过。所有交易的日期均在账单周期（13/03/2025 - 12/04/2025）内。
 
 ---
 
@@ -389,52 +305,38 @@ hit值判定理由：根据决策结果“一致（无异常）”，规则未�
 
 **判断依据**:
 
-> 步骤1执行结果：已从'Detalle de Movimientos Realizados'中提取所有20笔交易的'DESCRIPCION'（描述）字段。
+> 步骤1执行结果：已从‘Detalle de Movimientos Realizados’中提取所有20笔交易的‘描述’字段。
 步骤2执行结果：已将20条描述翻译为中文。翻译结果如下：
-1. 向第三方账户支付 BNET 1526485652 tenkiu
-2. SPEI 接收 SANTANDER 2626043 转账给 LUIS ALBERTO F 00014180606300288968 2025031840014BMOV0020426172780 ORLANDO GIOVANNI NAVA FERNANDEZ
+1. 向第三方账户付款 BNET 1526485652 tenkiu
+2. SPEI 接收自 SANTANDER 2626043 转账给 LUIS ALBERTO F 00014180606300288968 2025031840014BMOV0020426172780 ORLANDO GIOVANNI NAVA FERNANDEZ
 3. MI ATT A APP PS RFC: CNM 980114PI2 12:22 AUT: 449977
 4. 自动取款机取款 MAR21 11:42 BBVA A347 凭证号:5098
 5. Google Call of Duty M RFC: 16:43 AUT: 987126
-6. 向第三方账户支付 BNET 1512099106 cel abril 25
-7. 向第三方账户支付 BNET 1512099106 Lore
+6. 向第三方账户付款 BNET 1512099106 cel abril 25
+7. 向第三方账户付款 BNET 1512099106 Lore
 8. 工资/养老金支付 BANCOMER SA DE CV GFB
 9. SPEI 发送至 AZTECA 0903250Farmacia 00004027665873176359 MBAN01002504070099171983 Ofelia Alejandra Jimenez
 10. 自动取款机取款 ABR06 18:59 BBVA A350 凭证号:3399
-11. 向第三方账户支付 BNET 1512099106 fumigacion
+11. 向第三方账户付款 BNET 1512099106 fumigacion
 12. MERPAGO*CALZADO RFC: MAG 2105031W3 20:38 AUT: 565479
 13. MERPAGO*CREMERIA RFC: MAG 2105031W3 21:08 AUT: 086359
 14. SPEI 发送至 AZTECA 0903250Gabriel 00004831121200462522 MBAN01002504070052292416 Bruno Gabriel Garcia Solares
-15. 向第三方账户支付 BNET 1512099106 Lore
-16. 向第三方账户支付 BNET 1512099106 devoluc
+15. 向第三方账户付款 BNET 1512099106 Lore
+16. 向第三方账户付款 BNET 1512099106 devoluc
 17. SPEI 发送至 Mercado Pago 0903250Fumilgacion y lavado 00722969010507777070 MBAN01002504070053798296 Fernando Zavala
-18. 向第三方账户支付 BNET 1512099106 dev
-19. SPEI 接收 TP 1612800Prestamo 00646180501400000001 20250408175612A1612800CEP CREDITO365 SAPI DE CV
+18. 向第三方账户付款 BNET 1512099106 dev
+19. SPEI 接收自 TP 1612800Prestamo 00646180501400000001 20250408175612A1612800CEP CREDITO365 SAPI DE CV
 20. MSFT STORE RFC: MME 910620Q85 19:28 AUT: 837070
 
-校验规则执行结果：逐条检查上述20条中文描述，判断是否命中以下任意关键词：
-- 现金密集型业务；
-- 小型零售商和街头摊贩（如露天市场摊贩）；
-- 夜总会；
-- 酒吧；
-- 娱乐场所经营者；
-- 灰色；
-- 非法行业关联者；
-- 未注册或非正式的安保服务提供商；
-- 涉嫌贷款翻转或文件造假的汽车贷款经纪人或中介；
-- 可能与贩毒或有组织犯罪相关的幌子企业（如虚假奢侈品转售店、空壳运输公司）；
-- 欺诈高发行业；
-- 不受监管的汽车经销商或中介，尤其是推广 “零首付” 优惠的或收入不规律或无法核实的自雇人士；
-- 在汽车金融行业工作的个人；
-- 独立或未注册的汽车维修店员工。
+校验规则执行：逐条检查上述20条中文描述，是否命中以下任意关键词：现金密集型业务；小型零售商和街头摊贩（如露天市场摊贩）；夜总会；酒吧；娱乐场所经营者；灰色；非法行业关联者；未注册或非正式的安保服务提供商；涉嫌贷款翻转或文件造假的汽车贷款经纪人或中介；可能与贩毒或有组织犯罪相关的幌子企业（如虚假奢侈品转售店、空壳运输公司）；欺诈高发行业；不受监管的汽车经销商或中介，尤其是推广 “零首付” 优惠的或收入不规律或无法核实的自雇人士；在汽车金融行业工作的个人；独立或未注册的汽车维修店员工。
 
-检查结论：所有20条中文描述均未包含上述任何关键词。描述内容主要为：第三方支付、工资入账、SPEI转账、自动取款机取款、游戏/软件消费、商店消费（鞋店、乳品店、微软商店）、支付给特定个人（如Farmacia, Gabriel, Fernando Zavala）以及一笔小额贷款入账。这些描述未指向任何规则定义的高风险职业或业务类型。
+检查结论：所有20条中文描述均未命中上述任何关键词。描述内容主要为：第三方转账、工资入账、SPEI收发、自动取款机取款、商户消费（如Google、鞋店、奶制品店、微软商店）等常规交易，未发现与高风险职业相关的描述。
 
-决策结果：根据规则，全部描述均未命中关键词，输出“正常”。
+决策结果：全部都没命中，输出正常。
 
-最终判定：hit=false（规则未命中，交易描述合规）。
+因此，hit=false。
 
-**补充说明**: 已严格按照判断逻辑、校验规则和决策结果执行。所有交易描述已翻译并检查，未发现与高风险职业相关的关键词。
+**补充说明**: 严格按照判断逻辑、校验规则和决策结果执行。所有交易描述均未命中高风险职业关键词。
 
 ---
 
@@ -453,32 +355,35 @@ hit值判定理由：根据决策结果“一致（无异常）”，规则未�
 
 执行步骤与结果：
 步骤1：已取Detalle de Movimientos Realizados中所有20条记录，并按OPER日期升序排序（数据已按此顺序提供）。
-步骤2：统计所有记录中ABONOS取值不为空的总记录数。根据数据中提供的参考值，'有效 Abonos (入账) 的交易数'为10。因此，total_cargo_cnt = 10。
-步骤3-6：开始逐轮次查找并计算。
+步骤2：统计所有记录中ABONOS取值不为空的总记录数。根据数据，'有效 Abonos (入账) 的交易数'为10，因此 total_cargo_cnt = 10。
+步骤3-6：逐一查找ABONOS不为空的记录作为起始行，并寻找最近的下一个CARGOS值与ABONOS1相同的记录，计算OPER日期间隔天数（result）。
 
-轮次分析：
-1. 起始行（第1条）：ABONOS1 = 1200.0， OPER1 = 15/MAR。向下查找CARGOS列值为1200.0的记录。未找到。本轮无匹配，result不计数。
-2. 起始行（第2条）：ABONOS1 = 1000.0， OPER1 = 18/MAR。向下查找CARGOS列值为1000.0的记录。未找到。本轮无匹配，result不计数。
-3. 起始行（第6条）：ABONOS1 = 700.0， OPER1 = 02/ABR。向下查找CARGOS列值为700.0的记录。找到第7条，CARGOS = 700.0， OPER2 = 02/ABR。OPER1与OPER2为同一天，间隔天数result = 0。result <= 1， result_total计数加1。
-4. 起始行（第8条）：ABONOS1 = 16000.0， OPER1 = 04/ABR。向下查找CARGOS列值为16000.0的记录。未找到。本轮无匹配，result不计数。
-5. 起始行（第9条）：ABONOS1 = 250.0， OPER1 = 06/ABR。向下查找CARGOS列值为250.0的记录。未找到。本轮无匹配，result不计数。
-6. 起始行（第10条）：ABONOS1 = 1700.0， OPER1 = 06/ABR。向下查找CARGOS列值为1700.0的记录。未找到。本轮无匹配，result不计数。
-7. 起始行（第11条）：ABONOS1 = 2100.0， OPER1 = 06/ABR。向下查找CARGOS列值为2100.0的记录。找到第17条，CARGOS = 2100.0， OPER2 = 07/ABR。OPER1 (06/ABR) 与 OPER2 (07/ABR) 间隔天数result = 1。result <= 1， result_total计数加1。
-8. 起始行（第16条）：ABONOS1 = 600.0， OPER1 = 07/ABR。向下查找CARGOS列值为600.0的记录。未找到。本轮无匹配，result不计数。
-9. 起始行（第18条）：ABONOS1 = 800.0， OPER1 = 08/ABR。向下查找CARGOS列值为800.0的记录。未找到。本轮无匹配，result不计数。
-10. 起始行（第19条）：ABONOS1 = 0.01， OPER1 = 08/ABR。向下查找CARGOS列值为0.01的记录。未找到。本轮无匹配，result不计数。
+详细轮次分析（总ABONOS记录数=10，轮次总数=10）：
+1. 起始行1 (OPER1: 15/MAR, ABONOS1: 1200.0)。向下查找CARGOS=1200.0的记录。未找到。此轮次无匹配，result不计算，不计入result_total。
+2. 起始行2 (OPER1: 18/MAR, ABONOS1: 1000.0)。向下查找CARGOS=1000.0的记录。未找到。此轮次无匹配，result不计算，不计入result_total。
+3. 起始行6 (OPER1: 02/ABR, ABONOS1: 700.0)。向下查找CARGOS=700.0的记录。找到行7 (OPER2: 02/ABR, CARGOS: 700.0)。OPER1与OPER2为同一天，间隔天数result=0。result <=1，result_total加1。
+4. 起始行8 (OPER1: 04/ABR, ABONOS1: 16000.0)。向下查找CARGOS=16000.0的记录。未找到。此轮次无匹配，result不计算，不计入result_total。
+5. 起始行9 (OPER1: 06/ABR, ABONOS1: 250.0)。向下查找CARGOS=250.0的记录。未找到。此轮次无匹配，result不计算，不计入result_total。
+6. 起始行10 (OPER1: 06/ABR, ABONOS1: 1700.0)。向下查找CARGOS=1700.0的记录。未找到。此轮次无匹配，result不计算，不计入result_total。
+7. 起始行11 (OPER1: 06/ABR, ABONOS1: 2100.0)。向下查找CARGOS=2100.0的记录。找到行17 (OPER2: 07/ABR, CARGOS: 2100.0)。OPER1(06/ABR)与OPER2(07/ABR)间隔天数result=1。result <=1，result_total加1。
+8. 起始行16 (OPER1: 07/ABR, ABONOS1: 600.0)。向下查找CARGOS=600.0的记录。未找到。此轮次无匹配，result不计算，不计入result_total。
+9. 起始行18 (OPER1: 08/ABR, ABONOS1: 800.0)。向下查找CARGOS=800.0的记录。未找到。此轮次无匹配，result不计算，不计入result_total。
+10. 起始行19 (OPER1: 08/ABR, ABONOS1: 0.01)。向下查找CARGOS=0.01的记录。未找到。此轮次无匹配，result不计算，不计入result_total。
 
 校验规则执行：
-1. 记录每个轮次中result值。符合条件（result <= 1）的轮次为：轮次3 (result=0) 和 轮次7 (result=1)。因此，result_total = 2。
+1. 记录每个轮次的result值。符合result<=1的轮次有：轮次3(result=0)、轮次7(result=1)。因此，result_total = 2。
 2. 计算ratio = result_total / total_cargo_cnt = 2 / 10 = 0.2。
 
 决策结果：
-ratio = 0.2， 小于等于0.8。因此，输出“未命中快进快出（无异常）”。
+规则规定：如果ratio > 0.8，输出“命中快进快出（异常）”；如果ratio <= 0.8，输出“未命中快进快出（无异常）”。
+计算得ratio=0.2，小于等于0.8，因此应输出“未命中快进快出（无异常）”。
 
-结论：
-根据规则逻辑，ratio <= 0.8，判定为未命中异常。
+hit值判断：
+根据决策结果，规则未命中（无异常），因此hit=false。
 
-**补充说明**: 已严格按照规则定义的判断逻辑、校验规则和决策结果执行。所有ABONOS不为空的交易均已作为起始行处理，并查找了对应的CARGOS交易。计算过程清晰，结果明确。
+注意：在evidence中，我详细说明了如何按照判断逻辑和校验规则执行的每一步。
+
+**补充说明**: 规则逻辑要求计算入账（ABONOS）后，在后续交易中寻找相同金额的出账（CARGOS）的间隔天数。经分析，在10笔入账中，仅2笔找到了匹配的、间隔天数<=1的出账，比率为0.2，未超过0.8的阈值，因此判定为无异常。；已根据 evidence 结尾的明确结论自动修正 hit 值为 False
 
 ---
 
@@ -496,25 +401,51 @@ ratio = 0.2， 小于等于0.8。因此，输出“未命中快进快出（无�
 规则名称: 交易明细分析_异常备注
 
 执行步骤（严格按照判断逻辑）：
-步骤1：获取解析后Detalle de Movimientos Realizados部分的description对应的所有的值。
-执行结果：已从提供的20笔交易明细中提取所有‘描述’字段的值，共20个。
+1. 获取解析后Detalle de Movimientos Realizados部分的description对应的所有值。
+   - 已从提供的20笔交易明细中提取所有‘描述’字段的值。
 
 校验规则（严格按照校验规则）：
-判断DESCRIPCION对应的所有的值是否包含以下任意关键词：Apuesta，médico / médic，juego。
-执行过程：
-1. 逐条检查20笔交易的描述字段。
-2. 未发现任何描述包含关键词“Apuesta”。
-3. 未发现任何描述包含关键词“médico”或“médic”。
-4. 未发现任何描述包含关键词“juego”。
+2. 判断所有描述值是否包含以下任意关键词：Apuesta，médico / médic，juego。
+   - 关键词‘Apuesta’：未在任何描述中发现。
+   - 关键词‘médico / médic’：未在任何描述中发现。
+   - 关键词‘juego’：未在任何描述中发现。
 
 决策结果（严格按照决策结果）：
-命中任意一个关键词，输出异常；全部都没命中，输出正常。
-执行结果：所有20条描述均未命中指定的任意一个关键词。
+3. 命中任意一个关键词，输出异常；全部都没命中，输出正常。
+   - 所有关键词均未命中。
+   - 因此，输出结果为：正常。
 
-结论：根据规则逻辑，未发现异常备注。
-判定理由：所有交易描述均不包含规则指定的关键词（Apuesta, médico / médic, juego），因此规则未命中（hit=false）。
+关键交易明细（全部20笔交易的描述，按原始顺序列出）：
+1. PAGO CUENTA DE TERCERO BNET 1526485652 tenkiu
+2. SPEI RECIBIDOSANTANDER 2626043TRANSFERENCIA A LUIS ALBERTO F 00014180606300288968 2025031840014BMOV0020426172780 ORLANDO GIOVANNI NAVA FERNANDEZ
+3. MI ATT A APP PS RFC: CNM 980114PI2 12:22 AUT: 449977
+4. RETIRO CAJERO AUTOMATICO MAR21 11:42 BBVA A347 FOLIO:5098
+5. Google Call of Duty M RFC: 16:43 AUT: 987126
+6. PAGO CUENTA DE TERCERO BNET 1512099106 cel abril 25
+7. PAGO CUENTA DE TERCERO BNET 1512099106 Lore
+8. PAGO DE NOMINA PENSIONES BANCOMER SA DE CV GFB
+9. SPEI ENVIADO AZTECA 0903250Farmacia 00004027665873176359 MBAN01002504070099171983 Ofelia Alejandra Jimenez
+10. RETIRO CAJERO AUTOMATICO ABR06 18:59 BBVA A350 FOLIO:3399
+11. PAGO CUENTA DE TERCERO BNET 1512099106 fumigacion
+12. MERPAGO*CALZADO RFC: MAG 2105031W3 20:38 AUT: 565479
+13. MERPAGO*CREMERIA RFC: MAG 2105031W3 21:08 AUT: 086359
+14. SPEI ENVIADO AZTECA 0903250Gabriel 00004831121200462522 MBAN01002504070052292416 Bruno Gabriel Garcia Solares
+15. PAGO CUENTA DE TERCERO BNET 1512099106 Lore
+16. PAGO CUENTA DE TERCERO BNET 1512099106 devoluc
+17. SPEI ENVIADO Mercado Pago 0903250Fumilgacion y lavado 00722969010507777070 MBAN01002504070053798296 Fernando Zavala
+18. PAGO CUENTA DE TERCERO BNET 1512099106 dev
+19. SPEI RECIBIDOSTP 1612800Prestamo 00646180501400000001 20250408175612A1612800CEP CREDITO365 SAPI DE CV
+20. MSFT STORE RFC: MME 910620Q85 19:28 AUT: 837070
 
-**补充说明**: 已完整检查所有20笔交易的描述字段，未发现违规关键词。
+比较结论：
+- 所有20笔交易的描述字段均不包含关键词‘Apuesta’、‘médico / médic’或‘juego’。
+- 根据决策结果，全部未命中，输出正常。
+
+hit判定理由：
+- 规则要求检查描述是否包含特定异常关键词。经核查，所有描述均不包含这些关键词，因此规则未命中（合规/一致）。
+- 根据规则定义，hit=false 表示规则未命中（合规/一致）。
+
+**补充说明**: 已严格按照判断逻辑、校验规则和决策结果执行。所有交易描述均已检查，未发现异常关键词。
 
 ---
 
@@ -531,48 +462,46 @@ ratio = 0.2， 小于等于0.8。因此，输出“未命中快进快出（无�
 > 规则ID: MSTAR_BBVA_TIME_CHK_SPECIAL
 规则名称: 交易时间校验_特殊时间段交易
 
-执行步骤：
-步骤1：遍历‘Detalle de Movimientos Realizados’中的20条记录，从‘描述’字段提取时间。
-- 记录1: "PAGO CUENTA DE TERCERO BNET 1526485652 tenkiu" -> 无时间，跳过。
-- 记录2: "SPEI RECIBIDOSANTANDER 2626043TRANSFERENCIA A LUIS ALBERTO F 00014180606300288968 2025031840014BMOV0020426172780 ORLANDO GIOVANNI NAVA FERNANDEZ" -> 无时间，跳过。
-- 记录3: "MI ATT A APP PS RFC: CNM 980114PI2 12:22 AUT: 449977" -> 提取时间: 12:22。
-- 记录4: "RETIRO CAJERO AUTOMATICO MAR21 11:42 BBVA A347 FOLIO:5098" -> 提取时间: 11:42。
-- 记录5: "Google Call of Duty M RFC: 16:43 AUT: 987126" -> 提取时间: 16:43。
-- 记录6: "PAGO CUENTA DE TERCERO BNET 1512099106 cel abril 25" -> 无时间，跳过。
-- 记录7: "PAGO CUENTA DE TERCERO BNET 1512099106 Lore" -> 无时间，跳过。
-- 记录8: "PAGO DE NOMINA PENSIONES BANCOMER SA DE CV GFB" -> 无时间，跳过。
-- 记录9: "SPEI ENVIADO AZTECA 0903250Farmacia 00004027665873176359 MBAN01002504070099171983 Ofelia Alejandra Jimenez" -> 无时间，跳过。
-- 记录10: "RETIRO CAJERO AUTOMATICO ABR06 18:59 BBVA A350 FOLIO:3399" -> 提取时间: 18:59。
-- 记录11: "PAGO CUENTA DE TERCERO BNET 1512099106 fumigacion" -> 无时间，跳过。
-- 记录12: "MERPAGO*CALZADO RFC: MAG 2105031W3 20:38 AUT: 565479" -> 提取时间: 20:38。
-- 记录13: "MERPAGO*CREMERIA RFC: MAG 2105031W3 21:08 AUT: 086359" -> 提取时间: 21:08。
-- 记录14: "SPEI ENVIADO AZTECA 0903250Gabriel 00004831121200462522 MBAN01002504070052292416 Bruno Gabriel Garcia Solares" -> 无时间，跳过。
-- 记录15: "PAGO CUENTA DE TERCERO BNET 1512099106 Lore" -> 无时间，跳过。
-- 记录16: "PAGO CUENTA DE TERCERO BNET 1512099106 devoluc" -> 无时间，跳过。
-- 记录17: "SPEI ENVIADO Mercado Pago 0903250Fumilgacion y lavado 00722969010507777070 MBAN01002504070053798296 Fernando Zavala" -> 无时间，跳过。
-- 记录18: "PAGO CUENTA DE TERCERO BNET 1512099106 dev" -> 无时间，跳过。
-- 记录19: "SPEI RECIBIDOSTP 1612800Prestamo 00646180501400000001 20250408175612A1612800CEP CREDITO365 SAPI DE CV" -> 无时间，跳过。
-- 记录20: "MSFT STORE RFC: MME 910620Q85 19:28 AUT: 837070" -> 提取时间: 19:28。
-步骤2：将提取到的时间放入集合：{'12:22', '11:42', '16:43', '18:59', '20:38', '21:08', '19:28'}。
-步骤3：统计集合中处于02:00至05:00（含两端）的时间数量。
-- 检查每个时间：
-  * 12:22 -> 不在02:00-05:00区间。
-  * 11:42 -> 不在02:00-05:00区间。
-  * 16:43 -> 不在02:00-05:00区间。
-  * 18:59 -> 不在02:00-05:00区间。
-  * 20:38 -> 不在02:00-05:00区间。
-  * 21:08 -> 不在02:00-05:00区间。
-  * 19:28 -> 不在02:00-05:00区间。
-- 统计结果：count = 0。
+执行步骤说明：
+步骤1：遍历‘Detalle de Movimientos Realizados’中所有20条记录的‘描述’字段，提取时间信息。
+- 记录1描述: "PAGO CUENTA DE TERCERO BNET 1526485652 tenkiu" -> 无时间，跳过。
+- 记录2描述: "SPEI RECIBIDOSANTANDER 2626043TRANSFERENCIA A LUIS ALBERTO F 00014180606300288968 2025031840014BMOV0020426172780 ORLANDO GIOVANNI NAVA FERNANDEZ" -> 无时间，跳过。
+- 记录3描述: "MI ATT A APP PS RFC: CNM 980114PI2 12:22 AUT: 449977" -> 提取时间: "12:22"。
+- 记录4描述: "RETIRO CAJERO AUTOMATICO MAR21 11:42 BBVA A347 FOLIO:5098" -> 提取时间: "11:42"。
+- 记录5描述: "Google Call of Duty M RFC: 16:43 AUT: 987126" -> 提取时间: "16:43"。
+- 记录6描述: "PAGO CUENTA DE TERCERO BNET 1512099106 cel abril 25" -> 无时间，跳过。
+- 记录7描述: "PAGO CUENTA DE TERCERO BNET 1512099106 Lore" -> 无时间，跳过。
+- 记录8描述: "PAGO DE NOMINA PENSIONES BANCOMER SA DE CV GFB" -> 无时间，跳过。
+- 记录9描述: "SPEI ENVIADO AZTECA 0903250Farmacia 00004027665873176359 MBAN01002504070099171983 Ofelia Alejandra Jimenez" -> 无时间，跳过。
+- 记录10描述: "RETIRO CAJERO AUTOMATICO ABR06 18:59 BBVA A350 FOLIO:3399" -> 提取时间: "18:59"。
+- 记录11描述: "PAGO CUENTA DE TERCERO BNET 1512099106 fumigacion" -> 无时间，跳过。
+- 记录12描述: "MERPAGO*CALZADO RFC: MAG 2105031W3 20:38 AUT: 565479" -> 提取时间: "20:38"。
+- 记录13描述: "MERPAGO*CREMERIA RFC: MAG 2105031W3 21:08 AUT: 086359" -> 提取时间: "21:08"。
+- 记录14描述: "SPEI ENVIADO AZTECA 0903250Gabriel 00004831121200462522 MBAN01002504070052292416 Bruno Gabriel Garcia Solares" -> 无时间，跳过。
+- 记录15描述: "PAGO CUENTA DE TERCERO BNET 1512099106 Lore" -> 无时间，跳过。
+- 记录16描述: "PAGO CUENTA DE TERCERO BNET 1512099106 devoluc" -> 无时间，跳过。
+- 记录17描述: "SPEI ENVIADO Mercado Pago 0903250Fumilgacion y lavado 00722969010507777070 MBAN01002504070053798296 Fernando Zavala" -> 无时间，跳过。
+- 记录18描述: "PAGO CUENTA DE TERCERO BNET 1512099106 dev" -> 无时间，跳过。
+- 记录19描述: "SPEI RECIBIDOSTP 1612800Prestamo 00646180501400000001 20250408175612A1612800CEP CREDITO365 SAPI DE CV" -> 无时间，跳过。
+- 记录20描述: "MSFT STORE RFC: MME 910620Q85 19:28 AUT: 837070" -> 提取时间: "19:28"。
+步骤2：将提取到的时间放入集合：{"12:22", "11:42", "16:43", "18:59", "20:38", "21:08", "19:28"}。
+步骤3：统计集合中处于2点至5点（含2点和5点，24小时制）的时间数量。
+- 检查每个时间："12:22" (12) 不在区间内；"11:42" (11) 不在区间内；"16:43" (16) 不在区间内；"18:59" (18) 不在区间内；"20:38" (20) 不在区间内；"21:08" (21) 不在区间内；"19:28" (19) 不在区间内。
+- 统计结果 count = 0。
 
-校验规则：判断 count 是否大于 10。
-- 计算：count = 0， 0 > 10 为假。
+校验规则执行：
+规则要求判断 count 是否大于 10。
+当前 count = 0，不大于10。
 
-决策结果：根据规则，如果 count <= 10，输出“正常”。
-- 结论：交易时间正常。
+决策结果：
+根据规则，count <= 10，输出“正常”。
 
-最终判定：规则未命中，hit=false。
+结论：
+未发现交易时间异常。
 
-**补充说明**: 已严格按照判断逻辑、校验规则和决策结果执行。所有提取到的时间均不在02:00-05:00区间内，count为0，未超过阈值10，因此判定为正常。
+hit判定理由：
+根据规则定义，count > 10 时 hit=true。当前 count=0，未触发违规条件，因此 hit=false。
+
+**补充说明**: 所有包含时间的交易描述均已检查，无一笔交易发生在凌晨2点至5点之间。
 
 ---

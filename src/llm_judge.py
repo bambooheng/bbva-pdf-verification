@@ -336,15 +336,15 @@ class LLMJudge:
             判断结果字典，包含 hit, evidence, confidence, notes
         """
         # --- DEBUG INSTRUMENTATION ---
-        # try:
-        #     with open("prompt_debug.txt", "a", encoding="utf-8") as f:
-        #         f.write("\n" + "="*80 + "\n")
-        #         f.write(f"TIMESTAMP: {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}\n")
-        #         f.write("PROMPT START\n")
-        #         f.write(prompt)
-        #         f.write("\nPROMPT END\n")
-        # except Exception as e:
-        #     logger.warning(f"Failed to write prompt debug log: {e}")
+        try:
+            with open("prompt_debug.txt", "a", encoding="utf-8") as f:
+                f.write("\n" + "="*80 + "\n")
+                f.write(f"TIMESTAMP: {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}\n")
+                f.write("PROMPT START\n")
+                f.write(prompt)
+                f.write("\nPROMPT END\n")
+        except Exception as e:
+            logger.warning(f"Failed to write prompt debug log: {e}")
         # -----------------------------
 
         # 只使用 DeepSeek provider
@@ -1029,14 +1029,15 @@ class LLMJudge:
             evidence = result.get('evidence', '').lower()
             hit_value = result.get('hit')
             
-            # 为了避免误判，我们将重点检查 evidence 的末尾部分（最后500个字符）
+            # 为了避免误判，我们将重点检查 evidence 的末尾部分（最后2000个字符）
             # 因为结论通常在最后，而前面的分析可能会引用规则定义（其中包含相反的关键词）
-            evidence_end = evidence[-500:] if len(evidence) > 500 else evidence
+            evidence_end = evidence[-2000:] if len(evidence) > 2000 else evidence
             
             # 1. 检查 evidence 末尾是否明确说明了 hit 值 (使用正则匹配更灵活的表达)
             # 匹配模式如: "hit=false", "hit = false", "hit值为false", "hit应为false", "hit is false" 等
-            hit_false_regex = r'hit\s*(?:=|:|是|为|应为|should be|is)\s*false'
-            hit_true_regex = r'hit\s*(?:=|:|是|为|应为|should be|is)\s*true'
+            # 增加对全角符号的支持
+            hit_false_regex = r'hit\s*(?:=|:|是|为|应为|should be|is|＝|：)\s*false'
+            hit_true_regex = r'hit\s*(?:=|:|是|为|应为|should be|is|＝|：)\s*true'
             
             found_explicit_judge = False
             
@@ -1056,32 +1057,44 @@ class LLMJudge:
             
             # 2. 如果没有明确的 hit 值声明，检查结论性的描述（仅在末尾部分查找）
             if not found_explicit_judge:
-                # 定义结论性模式
-                consistent_patterns = ['结论：一致', '结论:一致', '结论：无异常', '结论:无异常', '判定：一致', '判定:一致', '结果：一致', '结果:一致', '最终判断：一致', '最终判断:一致', '最终结论：一致']
-                inconsistent_patterns = ['结论：不一致', '结论:不一致', '结论：异常', '结论:异常', '判定：不一致', '判定:不一致', '结果：不一致', '结果:不一致', '最终判断：不一致', '最终判断:不一致', '最终结论：不一致']
+                # 策略：扫描所有结论性关键词，以最后一个出现的为准（解决引用规则时的干扰）
+                # 优先级：完整词组 > 后缀匹配
                 
-                is_consistent = any(p in evidence_end for p in consistent_patterns)
-                is_inconsistent = any(p in evidence_end for p in inconsistent_patterns)
+                # 定义关键词模式
+                # False: 未命中, 无异常, 合规, 一致, 正常
+                # True:  不一致, 违规, 命中, 异常
                 
-                # 如果没有找到明确结论词，尝试简单的关键词，但要排除反义词
-                if not is_consistent and not is_inconsistent:
-                    # 只有在没有"不一致"的情况下，"一致"才有效
-                    if '一致' in evidence_end and '不一致' not in evidence_end:
-                        is_consistent = True
-                    # 只有在没有"一致"（除非是"不一致"的一部分）的情况下，"不一致"才有效
-                    elif '不一致' in evidence_end and evidence_end.count('一致') == evidence_end.count('不一致'):
-                        is_inconsistent = True
+                # 正则表达式 (增强对否定式异常的检查)
+                # 否定前缀: 未发现, 未见, 没有, 不存在, 无, 非 (限制长度30以免跨句)
+                # 使用非捕获组和明确的分组
+                keyword_pattern = r'((?:未发现|未见|没有|不存在|无|非).{0,30}异常|未命中|无异常|不一致|不合规|违规|(?<!不)合规|(?<!不)一致|(?<!不)正常|(?<!未)命中|(?<!无)异常)'
                 
-                if is_consistent:
-                    if hit_value is not False:
-                        logger.warning(f"[警告] 检测到不一致：evidence 结尾结论为'一致'，但 JSON 中 hit={hit_value}，已自动修正为 False")
-                        result['hit'] = False
-                        result['notes'] = result.get('notes', '') + "；已根据 evidence 结尾的'一致'结论自动修正 hit 值为 False"
-                elif is_inconsistent:
-                    if hit_value is not True:
-                        logger.warning(f"[警告] 检测到不一致：evidence 结尾结论为'不一致'，但 JSON 中 hit={hit_value}，已自动修正为 True")
-                        result['hit'] = True
-                        result['notes'] = result.get('notes', '') + "；已根据 evidence 结尾的'不一致'结论自动修正 hit 值为 True"
+                matches = re.findall(keyword_pattern, evidence_end)
+                
+                if matches:
+                    last_match = matches[-1]
+                    
+                    # 判别最后关键词的极性
+                    is_true_keyword = False
+                    # 初步判定：包含违规词
+                    if any(k in last_match for k in ['不一致', '不合规', '违规', '命中', '异常']):
+                         is_true_keyword = True
+                         # 排除特例：如果匹配到了否定式前缀 (如 '未发现...异常', '未命中')
+                         # 注意 check 的是提取出来的 last_match 字符串
+                         if re.match(r'^(?:未命中|无异常|未发现|未见|没有|不存在|无|非)', last_match):
+                             is_true_keyword = False
+                    
+                    if is_true_keyword:
+                         if hit_value is not True:
+                            logger.warning(f"[警告] 检测到不一致：evidence 最终结论倾向为违规('{last_match}')，但 hit={hit_value}，修正为 True")
+                            result['hit'] = True
+                            result['notes'] = result.get('notes', '') + f"；已根据最终结论'{last_match}'自动修正 hit=True"
+                    else:
+                         # False Keyword
+                         if hit_value is not False:
+                            logger.warning(f"[警告] 检测到不一致：evidence 最终结论倾向为合规('{last_match}')，但 hit={hit_value}，修正为 False")
+                            result['hit'] = False
+                            result['notes'] = result.get('notes', '') + f"；已根据最终结论'{last_match}'自动修正 hit=False"
             
             return result
         
